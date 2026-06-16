@@ -1,7 +1,23 @@
 (function () {
-  const CACHE_KEY = 'tone-home-weather-v4';
-  const CACHE_TTL = 30 * 60 * 1000;
-  const LOCATION = { latitude: 31.2304, longitude: 121.4737, place: '\u4e0a\u6d77' };
+  const DEFAULT_CONFIG = {
+    display_place: '\u5929\u6c14',
+    query_place: '',
+    match_admin1: '',
+    latitude: null,
+    longitude: null,
+    cache_minutes: 30
+  };
+  const CONFIG = Object.assign({}, DEFAULT_CONFIG, window.TONE_HOME_WEATHER || {});
+  const hasConfiguredLatitude = CONFIG.latitude !== null && CONFIG.latitude !== undefined && CONFIG.latitude !== '';
+  const hasConfiguredLongitude = CONFIG.longitude !== null && CONFIG.longitude !== undefined && CONFIG.longitude !== '';
+  const configuredLatitude = Number(CONFIG.latitude);
+  const configuredLongitude = Number(CONFIG.longitude);
+  const DISPLAY_PLACE = CONFIG.display_place || CONFIG.place || DEFAULT_CONFIG.display_place;
+  const QUERY_PLACE = CONFIG.query_place || CONFIG.place || CONFIG.display_place || '';
+  const MATCH_ADMIN1 = CONFIG.match_admin1 || '';
+  const CACHE_KEY = 'tone-home-weather-v9-' + encodeURIComponent(DISPLAY_PLACE + '|' + QUERY_PLACE + '|' + MATCH_ADMIN1);
+  const cacheMinutes = Number(CONFIG.cache_minutes);
+  const CACHE_TTL = (Number.isFinite(cacheMinutes) && cacheMinutes > 0 ? cacheMinutes : DEFAULT_CONFIG.cache_minutes) * 60 * 1000;
   const WEATHER_LABELS = {
     'clear-day': '\u6674',
     'partly-cloudy-day': '\u591a\u4e91',
@@ -43,11 +59,11 @@
   }
 
   function loadingState() {
-    return { loading: true, place: LOCATION.place };
+    return { loading: true, place: DISPLAY_PLACE };
   }
 
   function errorState() {
-    return { error: true, place: LOCATION.place };
+    return { error: true, place: DISPLAY_PLACE };
   }
 
   function readCache() {
@@ -64,10 +80,34 @@
     } catch (error) {}
   }
 
-  function fetchWeather() {
+  function resolveLocation() {
+    if (hasConfiguredLatitude && hasConfiguredLongitude && Number.isFinite(configuredLatitude) && Number.isFinite(configuredLongitude)) {
+      return Promise.resolve({ latitude: configuredLatitude, longitude: configuredLongitude, place: DISPLAY_PLACE });
+    }
+    if (!QUERY_PLACE) return Promise.reject(new Error('Missing weather query_place'));
+    const url = new URL('https://geocoding-api.open-meteo.com/v1/search');
+    url.searchParams.set('name', QUERY_PLACE);
+    url.searchParams.set('count', '10');
+    url.searchParams.set('language', 'zh');
+    url.searchParams.set('format', 'json');
+    return fetch(url.toString())
+      .then(res => res.json())
+      .then(data => {
+        const results = Array.isArray(data?.results) ? data.results : [];
+        const result = MATCH_ADMIN1 ? results.find(item => item?.admin1 === MATCH_ADMIN1) : results[0];
+        const latitude = Number(result?.latitude);
+        const longitude = Number(result?.longitude);
+        if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) {
+          throw new Error('Weather location not found');
+        }
+        return { latitude, longitude, place: DISPLAY_PLACE };
+      });
+  }
+
+  function fetchWeather(location) {
     const url = new URL('https://api.open-meteo.com/v1/forecast');
-    url.searchParams.set('latitude', LOCATION.latitude.toFixed(4));
-    url.searchParams.set('longitude', LOCATION.longitude.toFixed(4));
+    url.searchParams.set('latitude', Number(location.latitude).toFixed(4));
+    url.searchParams.set('longitude', Number(location.longitude).toFixed(4));
     url.searchParams.set('current', 'temperature_2m,weather_code,wind_speed_10m');
     url.searchParams.set('timezone', 'Asia/Shanghai');
     return fetch(url.toString()).then(res => res.json()).then(data => {
@@ -75,7 +115,7 @@
       return {
         weather: mapWeather(Number(current.weather_code || 0), Number(current.wind_speed_10m || 0)),
         temp: Number.isFinite(Number(current.temperature_2m)) ? Math.round(Number(current.temperature_2m)) : null,
-        place: LOCATION.place
+        place: location.place || DISPLAY_PLACE
       };
     });
   }
@@ -87,18 +127,19 @@
       if (state.loading || state.error) {
         if (canvas?._toneSkycon) canvas._toneSkycon.pause();
         if (canvas) canvas.getContext('2d')?.clearRect(0, 0, canvas.width, canvas.height);
-        text.textContent = (state.place || LOCATION.place) + ' \u00b7 ' + (state.error ? '\u5929\u6c14\u6682\u4e0d\u53ef\u7528' : '\u5929\u6c14\u52a0\u8f7d\u4e2d');
+        text.textContent = (state.place || DISPLAY_PLACE) + ' \u00b7 ' + (state.error ? '\u5929\u6c14\u6682\u4e0d\u53ef\u7528' : '\u5929\u6c14\u52a0\u8f7d\u4e2d');
         return;
       }
       drawIcon(canvas, state.weather);
       const temp = state.temp === null ? '' : ' ' + state.temp + '\u00b0C';
-      text.textContent = (state.place || LOCATION.place) + ' \u00b7 ' + (WEATHER_LABELS[state.weather] || '\u5929\u6c14') + temp;
+      text.textContent = (state.place || DISPLAY_PLACE) + ' \u00b7 ' + (WEATHER_LABELS[state.weather] || '\u5929\u6c14') + temp;
     });
   }
 
   function init() {
     render(loadingState());
-    fetchWeather()
+    resolveLocation()
+      .then(location => fetchWeather(location))
       .then(state => { writeCache(state); render(state); })
       .catch(() => {
         const cached = readCache();
@@ -111,5 +152,10 @@
   else init();
   document.addEventListener('pjax:complete', init);
 })();
+
+
+
+
+
 
 
