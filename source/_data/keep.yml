@@ -46,11 +46,11 @@ home:
     enable: true
     # Open this URL and replace the name value to find a query_place:
     # https://geocoding-api.open-meteo.com/v1/search?name=fengxian&count=10&language=zh&format=json
-    display_place: 上海市奉贤区
+    display_place: 上海市
     query_place: fengxian
     # Optional province/city filter from the geocoding result, useful for duplicate names.
     match_admin1: 上海市
-    cache_minutes: 20
+    cache_minutes: 10
 
 post:
   img_align: center      # Option values: left | center | right
@@ -84,7 +84,7 @@ code_block:
 
 toc:
   enable: true     # Option values: true | false
-  number: false      # Option values: true | false
+  number: true      # Option values: true | false
   expand_all: true  # Option values: true | false
   init_open: false    # Option values: true | false
   layout: left      # Option values: left | right

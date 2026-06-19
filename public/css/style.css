@@ -3540,9 +3540,10 @@ figure.highlight .shrink-line:hover::before {
   line-height: 1;
   opacity: 0.86;
 }
-.first-screen-container .first-screen-content .home-weather-status canvas {
-  width: 2rem;
-  height: 2rem;
+.first-screen-container .first-screen-content .home-weather-status img {
+  display: block;
+  width: 2.15rem;
+  height: 2.15rem;
 }
 .first-screen-container .first-screen-content .sc-icon-list {
   display: flex;

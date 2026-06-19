@@ -15,47 +15,71 @@
   const DISPLAY_PLACE = CONFIG.display_place || CONFIG.place || DEFAULT_CONFIG.display_place;
   const QUERY_PLACE = CONFIG.query_place || CONFIG.place || CONFIG.display_place || '';
   const MATCH_ADMIN1 = CONFIG.match_admin1 || '';
-  const CACHE_KEY = 'tone-home-weather-v9-' + encodeURIComponent(DISPLAY_PLACE + '|' + QUERY_PLACE + '|' + MATCH_ADMIN1);
+  const CACHE_KEY = 'tone-home-weather-v10-' + encodeURIComponent(DISPLAY_PLACE + '|' + QUERY_PLACE + '|' + MATCH_ADMIN1);
   const cacheMinutes = Number(CONFIG.cache_minutes);
   const CACHE_TTL = (Number.isFinite(cacheMinutes) && cacheMinutes > 0 ? cacheMinutes : DEFAULT_CONFIG.cache_minutes) * 60 * 1000;
+  const ICON_BASE = '/images/meteocons/';
+
   const WEATHER_LABELS = {
     'clear-day': '\u6674',
+    'mostly-clear-day': '\u5c11\u4e91',
     'partly-cloudy-day': '\u591a\u4e91',
-    cloudy: '\u9634',
-    rain: '\u5c0f\u96e8',
-    'showers-day': '\u9635\u96e8',
-    sleet: '\u96e8\u5939\u96ea',
-    'rain-snow': '\u96e8\u96ea',
-    snow: '\u96ea',
-    'snow-showers-day': '\u9635\u96ea',
-    wind: '\u6709\u98ce',
+    'overcast-day': '\u9634',
     fog: '\u96fe',
-    'thunder-rain': '\u96f7\u96e8',
-    hail: '\u51b0\u96f9'
+    'fog-day': '\u96fe',
+    drizzle: '\u6bdb\u6bdb\u96e8',
+    'partly-cloudy-day-drizzle': '\u9635\u6bdb\u6bdb\u96e8',
+    'overcast-drizzle': '\u6bdb\u6bdb\u96e8',
+    rain: '\u5c0f\u96e8',
+    'overcast-rain': '\u4e2d\u96e8',
+    'extreme-rain': '\u5927\u96e8',
+    'partly-cloudy-day-rain': '\u9635\u96e8',
+    sleet: '\u96e8\u5939\u96ea',
+    snow: '\u96ea',
+    snowflake: '\u96ea\u7c92',
+    'partly-cloudy-day-snow': '\u9635\u96ea',
+    'overcast-snow': '\u5927\u96ea',
+    wind: '\u6709\u98ce',
+    hail: '\u51b0\u96f9',
+    thunderstorms: '\u96f7\u66b4',
+    'thunderstorms-rain': '\u96f7\u96e8',
+    'thunderstorms-hail': '\u96f7\u66b4\u51b0\u96f9',
+    'thunderstorms-day': '\u96f7\u66b4',
+    'thunderstorms-day-rain': '\u96f7\u96e8',
+    'thunderstorms-day-hail': '\u96f7\u66b4\u51b0\u96f9'
   };
 
   function mapWeather(code, windSpeed) {
-    if ([45, 48].includes(code)) return 'fog';
-    if ([95, 96, 99].includes(code)) return 'thunder-rain';
+    if (code === 0) return windSpeed >= 34 ? 'wind' : 'clear-day';
+    if (code === 1) return windSpeed >= 30 ? 'wind' : 'mostly-clear-day';
+    if (code === 2) return windSpeed >= 30 ? 'wind' : 'partly-cloudy-day';
+    if (code === 3) return windSpeed >= 30 ? 'wind' : 'overcast-day';
+    if (code === 45) return 'fog-day';
+    if (code === 48) return 'fog';
+    if (code === 51) return 'partly-cloudy-day-drizzle';
+    if (code === 53 || code === 55) return 'overcast-drizzle';
+    if (code === 56 || code === 57) return 'sleet';
+    if (code === 61) return 'rain';
+    if (code === 63) return 'overcast-rain';
+    if (code === 65) return 'extreme-rain';
     if (code === 66 || code === 67) return 'sleet';
-    if (code >= 71 && code <= 77) return 'snow';
-    if (code === 85 || code === 86) return 'snow-showers-day';
-    if (code >= 80 && code <= 82) return 'showers-day';
-    if (code >= 51 && code <= 65) return 'rain';
-    if (code === 1 || code === 2) return windSpeed >= 30 ? 'wind' : 'partly-cloudy-day';
-    if (code === 3) return windSpeed >= 30 ? 'wind' : 'cloudy';
+    if (code === 71 || code === 73) return 'snow';
+    if (code === 75) return 'overcast-snow';
+    if (code === 77) return 'snowflake';
+    if (code >= 80 && code <= 82) return 'partly-cloudy-day-rain';
+    if (code === 85) return 'partly-cloudy-day-snow';
+    if (code === 86) return 'overcast-snow';
+    if (code === 95) return 'thunderstorms-day-rain';
+    if (code === 96 || code === 99) return 'thunderstorms-day-hail';
     if (windSpeed >= 34) return 'wind';
     return 'clear-day';
   }
 
-  function drawIcon(canvas, type) {
-    if (!canvas || !window.Skycons) return;
-    if (canvas._toneSkycon) canvas._toneSkycon.pause();
-    const skycons = new window.Skycons({ monochrome: false, resizeClear: true });
-    const iconName = (type || 'clear-day').toUpperCase().replace(/-/g, '_');
-    skycons.add(canvas, window.Skycons[iconName] || window.Skycons.CLEAR_DAY);
-    skycons.play();
-    canvas._toneSkycon = skycons;
+  function drawIcon(img, type) {
+    if (!img) return;
+    const icon = type || 'not-available';
+    img.src = ICON_BASE + icon + '.svg';
+    img.alt = WEATHER_LABELS[icon] || '\u5929\u6c14';
   }
 
   function loadingState() {
@@ -122,15 +146,14 @@
 
   function render(state) {
     document.querySelectorAll('[data-home-weather-status]').forEach(el => {
-      const canvas = el.querySelector('canvas');
+      const icon = el.querySelector('img');
       const text = el.querySelector('span');
       if (state.loading || state.error) {
-        if (canvas?._toneSkycon) canvas._toneSkycon.pause();
-        if (canvas) canvas.getContext('2d')?.clearRect(0, 0, canvas.width, canvas.height);
+        drawIcon(icon, state.error ? 'not-available' : 'cloudy');
         text.textContent = (state.place || DISPLAY_PLACE) + ' \u00b7 ' + (state.error ? '\u5929\u6c14\u6682\u4e0d\u53ef\u7528' : '\u5929\u6c14\u52a0\u8f7d\u4e2d');
         return;
       }
-      drawIcon(canvas, state.weather);
+      drawIcon(icon, state.weather);
       const temp = state.temp === null ? '' : ' ' + state.temp + '\u00b0C';
       text.textContent = (state.place || DISPLAY_PLACE) + ' \u00b7 ' + (WEATHER_LABELS[state.weather] || '\u5929\u6c14') + temp;
     });
@@ -152,10 +175,4 @@
   else init();
   document.addEventListener('pjax:complete', init);
 })();
-
-
-
-
-
-
 

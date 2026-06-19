@@ -60,7 +60,7 @@ D:\myblog\scripts\post-asset-html-images.js
 
 ## 更新 Record
 
-Record 页面用于记录图片、音乐、剧集、游戏等。常用文件：
+Record 页面用于记录图片、音乐、影视、游戏等。常用文件：
 
 ```text
 D:\myblog\source\_data\record.yml

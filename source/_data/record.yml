@@ -20,7 +20,7 @@
    title: "唉 (pt.3)"                 
    date: 2026-06-11               
    cover: ../images/record/唉 (pt.3).jpg
-   rating: 9                 
+   rating: 9.3                
    link: "https://music.163.com/#/song?id=1492114515&uct2=U2FsdGVkX1/6lXNbfObMGGORnax/2YY6WuCQcWrasJQ="
    text: "抽刀断水流 无奈水更流😭"  
 
@@ -47,3 +47,11 @@
    rating: 8                 
    link: 
    text: "一直在愿望单的肉鸽游戏，玩法、机制、角色都非常多，刚开始没看教程没有mod还是比较难，后面越玩越上头"  
+
+ - type: music              
+   title: "Wui"                 
+   date: 2026-06-18               
+   cover: ../images/record/Wui.jpg
+   rating: 9                 
+   link: "https://music.163.com/song?id=2681066622&uct2=U2FsdGVkX18GASacrN0R/r+IJkouqmPoIzU6R0M9t8w="
+   text: ""

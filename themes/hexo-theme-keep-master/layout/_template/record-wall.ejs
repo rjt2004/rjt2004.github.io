@@ -2,9 +2,9 @@
 const typeMeta = {
   photo: { label: '图片', icon: 'fa-solid fa-image' },
   music: { label: '音乐', icon: 'fa-solid fa-record-vinyl' },
-  drama: { label: '剧集', icon: 'fa-solid fa-clapperboard' },
+  drama: { label: '影视', icon: 'fa-solid fa-clapperboard' },
   game: { label: '游戏', icon: 'fa-solid fa-gamepad' },
-  tv: { label: '剧集', icon: 'fa-solid fa-clapperboard' }
+  tv: { label: '影视', icon: 'fa-solid fa-clapperboard' }
 }
 const records = (theme.source_data?.record || [])
   .filter(item => item?.cover)
@@ -111,6 +111,7 @@ const renderStars = score => {
   }
 })()
 </script>
+
 
 
 
