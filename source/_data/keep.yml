@@ -1,4 +1,4 @@
-﻿base_info:
+base_info:
   primary_color: "#0066cc"
   title: Ton3rr
   author: Ton3rr
@@ -40,7 +40,7 @@ home:
   category: false        # Option values: true | false
   tag: true               # Option values: true | false
   post_datetime: updated    # Option values: updated | created
-  post_datetime_format: ago # Option values: ago | YYYY-MM-DD HH:mm:ss
+  post_datetime_format: YYYY-MM-DD # Option values: ago | YYYY-MM-DD HH:mm:ss
 
   weather:
     enable: true
@@ -64,7 +64,7 @@ post:
     wordcount: true    # Word count, one article. Option values: true | false
     min2read: true    # Time to read, one article. Option values: true | false
 
-  datetime_format: "YYYY-MM-DD HH:mm:ss"  # Datetime format. e.g. "YYYY-MM-DD HH:mm:ss"
+  datetime_format: "YYYY-MM-DD"  # Datetime format. e.g. "YYYY-MM-DD HH:mm:ss"
 
   copyright_info: false  # Option values: true | false
 

@@ -24,7 +24,7 @@ const { created_datetime_icon, updated_datetime_icon } = theme?.post || {}
         <% if (page_type === 'home' && show_home_post_block_datetime) { %>
             <span class="meta-info-item border-box">
                 <i class="icon <%= home_post_block_datetime_icon %>"></i>&nbsp;<span class="home-post-history"
-                                                                                data-updated="<%= home_post_block_datetime %>"
+                                                                                data-updated="<%= date(home_post_block_datetime, 'YYYY-MM-DD') %>"
                 ><%= date(home_post_block_datetime, home_post_datetime_format === 'ago' ? 'YYYY-MM-DD HH:mm:ss' : home_post_datetime_format) %></span>
             </span>
         <% } %>
@@ -37,7 +37,7 @@ const { created_datetime_icon, updated_datetime_icon } = theme?.post || {}
 
             <span class="meta-info-item post-update-date">
                 <i class="icon <%= updated_datetime_icon || 'fa-solid fa-file-pen' %>"></i>&nbsp;
-                <span class="datetime" data-updated="<%= post.updated %>"><%= date(post.updated, theme.post?.datetime_format || 'YYYY-MM-DD HH:mm:ss') %></span>
+                <span class="datetime" data-updated="<%= date(post.updated, 'YYYY-MM-DD') %>"><%= date(post.updated, theme.post?.datetime_format || 'YYYY-MM-DD HH:mm:ss') %></span>
             </span>
         <% } %>
 
