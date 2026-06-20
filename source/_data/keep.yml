@@ -50,7 +50,7 @@ home:
     query_place: fengxian
     # Optional province/city filter from the geocoding result, useful for duplicate names.
     match_admin1: 上海市
-    cache_minutes: 10
+    refresh_minutes: 5
 
 post:
   img_align: center      # Option values: left | center | right
@@ -124,6 +124,7 @@ comment:
 
 lazyload:
   enable: true  # Option values: true | false
+
 
 
 

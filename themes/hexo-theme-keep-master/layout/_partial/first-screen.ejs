@@ -13,8 +13,8 @@ const homeWeatherEnable = homeWeather?.enable !== false
 
             <% if (homeWeatherEnable) { %>
                 <div class="home-weather-status" data-home-weather-status>
-                    <img class="home-weather-icon" src="<%- url_for('/images/meteocons/cloudy.svg') %>" alt="" aria-hidden="true">
-                    <span><%= homeWeather?.place || '天气' %> · 天气加载中</span>
+                    <img class="home-weather-icon" src="<%- url_for('/images/meteocons/cloudy.svg') %>" alt="" aria-hidden="true" hidden>
+                    <span>天气加载中</span>
                 </div>
             <% } %>
 
@@ -87,8 +87,10 @@ const homeWeatherEnable = homeWeather?.enable !== false
 </div>
 <% if (homeWeatherEnable) { %>
 <script <%= theme?.pjax?.enable === true ? 'data-pjax' : '' %>>window.TONE_HOME_WEATHER = <%- JSON.stringify(homeWeather) %>;</script>
-<script <%= theme?.pjax?.enable === true ? 'data-pjax' : '' %> src="<%- url_for('/js/page/home-weather.js?v=meteocons-1') %>"></script>
+<script <%= theme?.pjax?.enable === true ? 'data-pjax' : '' %> src="<%- url_for('/js/page/home-weather.js?v=meteocons-3') %>"></script>
 <% } %>
+
+
 
 
 
