@@ -3545,6 +3545,13 @@ figure.highlight .shrink-line:hover::before {
   width: 2.15rem;
   height: 2.15rem;
 }
+.first-screen-container .first-screen-content .home-weather-status.is-message {
+  width: 100%;
+  justify-content: center;
+}
+.first-screen-container .first-screen-content .home-weather-status.is-message img {
+  display: none;
+}
 .first-screen-container .first-screen-content .sc-icon-list {
   display: flex;
   justify-content: center;
