@@ -1,4 +1,4 @@
-base_info:
+﻿base_info:
   primary_color: "#0066cc"
   title: Ton3rr
   author: Ton3rr
@@ -24,7 +24,7 @@ social_contact:
   enable: true      # Option values: true | false
   links:
     github:  https://github.com/rjt2004        # GitHub
-    weixin:  img | /images/wechat.jpg        # WeChat
+    weixin:                                          # WeChat
     qq:   img | /images/qq.jpg           # QQ
     weibo:   # WeiBo
     zhihu:           # ZhiHu

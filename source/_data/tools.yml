@@ -21,7 +21,7 @@
   image: "/images/tools/chatgpt.png"
 
 - name: "豆包"
-  link: "https://www.doubao.com/chat/8812316051389954"
+  link: "https://www.doubao.com/chat/"
   description: "字节跳动 AI 对话助手"
   image: "/images/tools/6lgg5yyf.png"
 
@@ -110,11 +110,6 @@
   link: "https://csacademy.com/app/graph_editor"
   description: "在线编辑图结构"
   image: "/images/tools/graph-editor.png"
-
-- name: "皎月连一键内网穿透"
-  link: "http://localhost:33272/"
-  description: "本地内网穿透控制台"
-  image: "/images/tools/55qo5pyi6l-e5lia6zsu5yaf.svg"
 
 - name: "Carbon"
   link: "https://carbon.now.sh"

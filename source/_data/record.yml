@@ -55,3 +55,11 @@
    rating: 9                 
    link: "https://music.163.com/song?id=2681066622&uct2=U2FsdGVkX18GASacrN0R/r+IJkouqmPoIzU6R0M9t8w="
    text: ""
+
+ - type: drama             
+   title: "铁拳教育"                 
+   date: 2026-07-01               
+   cover: ../images/record/铁拳教育.webp
+   rating: 7                
+   link: 
+   text: 
