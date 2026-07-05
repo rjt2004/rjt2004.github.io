@@ -1,4 +1,4 @@
-.blog-container {
+﻿.blog-container {
   width 100%
   max-width 100%
   margin 0 auto
@@ -174,3 +174,20 @@
     }
   }
 }
+.blog-container {
+  +keep-tablet() {
+    .blog-layout,
+    .blog-side {
+      grid-template-columns 1fr !important
+    }
+
+    .blog-side {
+      position static
+      order -1
+      display flex
+      flex-direction column
+      width 100%
+    }
+  }
+}
+

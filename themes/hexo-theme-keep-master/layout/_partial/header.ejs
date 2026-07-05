@@ -1,4 +1,4 @@
-<%
+﻿<%
 const { title: bi_title, logo: bi_logo } = theme?.base_info || {}
 const { enable: s_fs_enable } = theme?.first_screen || {}
 const { enable: local_search_enable } = theme?.local_search || {}
@@ -93,7 +93,6 @@ for (const key in origin_h_menu_nav_object) {
                     <div class="icon-item header-weather-mobile" data-home-weather-status tabindex="0">
                         <button class="header-weather-mobile-button" type="button" aria-label="天气">
                             <img class="home-weather-icon header-weather-icon" src="" alt="" hidden>
-                            <i class="fa-solid fa-cloud-sun header-weather-fallback"></i>
                         </button>
                         <div class="home-weather-card header-weather-panel border-box">
                             <div class="home-weather-icon-wrap">

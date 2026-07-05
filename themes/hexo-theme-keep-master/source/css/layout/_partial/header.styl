@@ -1069,4 +1069,27 @@ $mobile-menu-icon-wrap-margin = 0.4rem
     height 1em
   }
 }
+.header-weather-fallback {
+  display none !important
+}
+
++keep-tablet() {
+  .header-weather-mobile {
+    .header-weather-panel {
+      position fixed
+      top 50%
+      left 50%
+      right auto
+      width min(20rem, 86vw)
+      transform translate(-50%, -54%)
+    }
+
+    &:hover,
+    &:focus-within {
+      .header-weather-panel {
+        transform translate(-50%, -50%)
+      }
+    }
+  }
+}
 
