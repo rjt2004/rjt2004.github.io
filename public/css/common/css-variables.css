@@ -6,8 +6,8 @@
   --page-content-width: 80%;
   --page-content-width-tablet: 88%;
   --page-content-width-mobile: 90%;
-  --page-content-max-width: 960px;
-  --page-content-max-width-2: calc(var(--page-content-max-width) * 1.2);
+  --page-content-max-width: 1180px;
+  --page-content-max-width-2: calc(var(--page-content-max-width) * 1.18);
   --component-gap: 36px;
   --box-border-radius: 8px;
   --header-height: 70px;

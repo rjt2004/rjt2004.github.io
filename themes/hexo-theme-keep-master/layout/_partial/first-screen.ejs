@@ -1,22 +1,15 @@
-﻿<%
+<%
 const { enable: sc_enable, links: sc_links } = theme?.social_contact || {}
 const avatar = theme?.base_info?.avatar || ''
-const homeWeather = theme?.home?.weather || {}
-const homeWeatherEnable = homeWeather?.enable !== false
 %>
 <div class="first-screen-container border-box flex-center fade-in-down-animation">
     <div class="first-screen-content border-box">
         <div class="home-profile border-box">
-            <% if (avatar) { %>
-                <img class="home-avatar" src="<%- url_for(avatar) %>" alt="<%- theme?.base_info?.author || theme?.base_info?.title || 'avatar' %>">
-            <% } %>
-
-            <% if (homeWeatherEnable) { %>
-                <div class="home-weather-status" data-home-weather-status>
-                    <img class="home-weather-icon" src="<%- url_for('/images/meteocons/cloudy.svg') %>" alt="" aria-hidden="true" hidden>
-                    <span>天气加载中</span>
-                </div>
-            <% } %>
+            <div class="home-profile-main border-box">
+                <% if (avatar) { %>
+                    <img class="home-avatar" src="<%- url_for(avatar) %>" alt="<%- theme?.base_info?.author || theme?.base_info?.title || 'avatar' %>">
+                <% } %>
+            </div>
 
             <% if (sc_enable === true) { %>
                 <div class="sc-icon-list border-box">
@@ -85,14 +78,3 @@ const homeWeatherEnable = homeWeather?.enable !== false
         </div>
     </div>
 </div>
-<% if (homeWeatherEnable) { %>
-<script <%= theme?.pjax?.enable === true ? 'data-pjax' : '' %>>window.TONE_HOME_WEATHER = <%- JSON.stringify(homeWeather) %>;</script>
-<script <%= theme?.pjax?.enable === true ? 'data-pjax' : '' %> src="<%- url_for('/js/page/home-weather.js?v=meteocons-3') %>"></script>
-<% } %>
-
-
-
-
-
-
-

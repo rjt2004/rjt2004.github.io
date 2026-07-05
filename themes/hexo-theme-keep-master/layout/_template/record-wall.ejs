@@ -11,6 +11,20 @@ const records = (theme.source_data?.record || [])
   .slice()
   .sort((a, b) => new Date(b?.date || 0) - new Date(a?.date || 0))
 const formatRecordDate = value => value ? new Date(value).toISOString().slice(0, 10) : ''
+const formatMonthKey = value => {
+  if (!value) return 'unknown'
+  const date = new Date(value)
+  if (Number.isNaN(date.getTime())) return 'unknown'
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`
+}
+const formatMonthLabel = key => key === 'unknown' ? '未标日期' : key
+const timeline = []
+records.forEach(item => {
+  const key = formatMonthKey(item.date)
+  const found = timeline.find(month => month.key === key)
+  if (found) found.count += 1
+  else timeline.push({ key, label: formatMonthLabel(key), count: 1 })
+})
 const renderStars = score => {
   if (!score && score !== 0) return ''
   const five = Math.max(0, Math.min(5, Math.round((Number(score) / 2) * 2) / 2))
@@ -23,9 +37,21 @@ const renderStars = score => {
 %>
 
 <style>
-.record-wall-box { width: 100%; max-width: 1040px; margin: 0 auto; }
+.record-wall-box { width: 100%; max-width: 1180px; margin: 0 auto; }
+.record-wall-box .record-layout { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 1.45rem; align-items: start; }
+.record-wall-box .record-timeline { position: sticky; top: calc(var(--header-height) + 1rem); box-sizing: border-box; padding: 1.05rem; background: var(--background-color-1); border-radius: var(--box-border-radius); box-shadow: 0 0 8px var(--shadow-color); }
+.record-wall-box .record-timeline-title { display: flex; align-items: center; gap: .5rem; margin-bottom: .85rem; color: var(--text-color-2); font-weight: 600; font-size: 1rem; }
+.record-wall-box .record-timeline-title i { color: var(--primary-color); }
+.record-wall-box .record-timeline-list { display: flex; flex-direction: column; gap: .35rem; margin: 0; padding: 0; list-style: none; }
+.record-wall-box .record-timeline-link { display: flex; align-items: center; justify-content: space-between; gap: .8rem; box-sizing: border-box; padding: .42rem .5rem; color: var(--text-color-3); text-decoration: none !important; border-radius: .36rem; }
+.record-wall-box .record-timeline-link:hover { color: var(--background-color-1); background: var(--primary-color); }
+.record-wall-box .record-timeline-count { color: var(--text-color-4); font-size: .78rem; }
+.record-wall-box .record-timeline-link:hover .record-timeline-count { color: rgba(255,255,255,.78); }
+.record-wall-box .record-timeline-link.is-active { color: var(--background-color-1); background: var(--primary-color); }
+.record-wall-box .record-timeline-link.is-active .record-timeline-count { color: rgba(255,255,255,.78); }
+.record-wall-box .record-card.is-filtered-out { display: none; }
 .record-wall-box .record-gallery { width: 100%; column-count: 3; column-gap: .8rem; }
-.record-wall-box .record-card { position: relative; display: inline-grid; grid-template-areas: "record-stack"; width: 100%; margin: 0 0 .8rem; overflow: hidden; border-radius: .6rem; border: 0; background: var(--background-color-2); cursor: zoom-in; box-shadow: none; break-inside: avoid; isolation: isolate; transition: transform .22s ease, box-shadow .22s ease, filter .22s ease; }
+.record-wall-box .record-card { position: relative; display: inline-grid; grid-template-areas: "record-stack"; width: 100%; margin: 0 0 .8rem; overflow: hidden; border-radius: .6rem; border: 0; background: var(--background-color-2); cursor: zoom-in; box-shadow: none; break-inside: avoid; isolation: isolate; transition: transform .22s ease, box-shadow .22s ease, filter .22s ease; scroll-margin-top: calc(var(--header-height) + 1rem); }
 .record-wall-box .record-card:hover { transform: translateY(-3px); box-shadow: 0 16px 38px rgba(0,0,0,.14); filter: saturate(1.05); }
 .record-wall-box .record-card img { position: relative; z-index: 1; grid-area: record-stack; display: block; width: 100%; height: auto; background: var(--background-color-2); transition: filter .24s ease, transform .24s ease; }
 .record-wall-box .record-card.is-active { cursor: zoom-out; }
@@ -41,29 +67,40 @@ const renderStars = score => {
 .record-wall-box .record-text { display: -webkit-box; margin: 0; overflow: hidden; color: rgba(255,255,255,.92); font-size: 14px; line-height: 1.65; white-space: pre-wrap; -webkit-line-clamp: 5; -webkit-box-orient: vertical; }
 .record-wall-box .record-link { display: inline-flex; align-items: center; gap: 7px; width: fit-content; margin-top: 2px; padding: 7px 10px; border: 1px solid rgba(255,255,255,.52); border-radius: 7px; color: #102033 !important; background: rgba(255,255,255,.88); font-size: 13px; font-weight: 600; text-shadow: none; text-decoration: none !important; backdrop-filter: blur(10px); }
 .record-wall-box .record-link:hover { color: #000 !important; background: #fff; }
-@media (max-width: 900px) { .record-wall-box { max-width: 760px; } .record-wall-box .record-gallery { column-count: 2; } }
+@media (max-width: 900px) { .record-wall-box .record-layout { grid-template-columns: 1fr; gap: 1rem; } .record-wall-box .record-timeline { position: static; padding: .9rem; } .record-wall-box .record-timeline-list { flex-direction: row; flex-wrap: wrap; } .record-wall-box .record-timeline-link { justify-content: flex-start; } .record-wall-box .record-gallery { column-count: 2; } }
 @media (max-width: 560px) { .record-wall-box { max-width: 100%; } .record-wall-box .record-gallery { column-count: 1; column-gap: 0; } .record-wall-box .record-card { margin-bottom: .6rem; border-radius: .45rem; } .record-wall-box .record-card.is-active img { filter: brightness(.5) saturate(1.02); transform: scale(1.02); } .record-wall-box .record-overlay { padding: 10px; gap: 6px; background: linear-gradient(180deg, rgba(0,0,0,.12), rgba(0,0,0,.36) 42%, rgba(0,0,0,.78)); } .record-wall-box .record-type { padding: 4px 7px; font-size: 10px; } .record-wall-box .record-title { font-size: 14px; } .record-wall-box .record-meta { gap: 6px; font-size: 11px; } .record-wall-box .record-stars { font-size: 11px; } .record-wall-box .record-score { font-size: 10px; } .record-wall-box .record-text { font-size: 12px; line-height: 1.45; -webkit-line-clamp: 3; } .record-wall-box .record-link { padding: 5px 7px; font-size: 11px; } }
 </style>
 
 <div class="record-wall-box border-box">
-  <div class="record-gallery">
-    <% records.forEach((item, index) => { const recordType = item?.type || 'photo'; const meta = typeMeta[recordType] || typeMeta.photo; const recordDate = formatRecordDate(item.date); const stars = renderStars(item.rating); %>
-      <article class="record-card" data-record-index="<%= index %>" aria-label="<%= item.title || meta.label %>" role="button" tabindex="0">
-        <img src="<%- url_for(item.cover) %>" alt="<%= item.title || meta.label %>" loading="lazy" onerror="this.style.display='none'">
-        <div class="record-overlay" aria-hidden="true">
-          <span class="record-type"><i class="<%= meta.icon %>"></i><span><%= meta.label %></span></span>
-          <h2 class="record-title"><%= item.title || meta.label %></h2>
-          <div class="record-meta">
-            <% if (recordDate) { %><span class="record-date"><i class="fa-regular fa-calendar"></i><span><%= recordDate %></span></span><% } %>
-            <%- stars %>
+  <div class="record-layout border-box">
+    <% if (timeline.length) { %>
+      <aside class="record-timeline border-box">
+        <div class="record-timeline-title"><i class="fa-solid fa-box-archive"></i><span><%= __('archive') %></span></div>
+        <ul class="record-timeline-list">          <% timeline.forEach(month => { %>
+            <li><a class="record-timeline-link" href="#record-<%= month.key %>" data-record-filter="<%= month.key %>"><span><%= month.label %></span><span class="record-timeline-count"><%= month.count %></span></a></li>
+          <% }) %>
+        </ul>
+      </aside>
+    <% } %>
+    <div class="record-gallery">
+      <% records.forEach((item, index) => { const recordType = item?.type || 'photo'; const meta = typeMeta[recordType] || typeMeta.photo; const recordDate = formatRecordDate(item.date); const monthKey = formatMonthKey(item.date); const prevMonthKey = index > 0 ? formatMonthKey(records[index - 1].date) : ''; const stars = renderStars(item.rating); %>
+        <article class="record-card" <%- monthKey !== prevMonthKey ? 'id="record-' + monthKey + '"' : '' %> data-record-index="<%= index %>" data-record-month="<%= monthKey %>" aria-label="<%= item.title || meta.label %>" role="button" tabindex="0">
+          <img src="<%- url_for(item.cover) %>" alt="<%= item.title || meta.label %>" loading="lazy" onerror="this.style.display='none'">
+          <div class="record-overlay" aria-hidden="true">
+            <span class="record-type"><i class="<%= meta.icon %>"></i><span><%= meta.label %></span></span>
+            <h2 class="record-title"><%= item.title || meta.label %></h2>
+            <div class="record-meta">
+              <% if (recordDate) { %><span class="record-date"><i class="fa-regular fa-calendar"></i><span><%= recordDate %></span></span><% } %>
+              <%- stars %>
+            </div>
+            <p class="record-text"><%= item.text || '暂时还没有写下体验。' %></p>
+            <% if (item.link) { %>
+              <a class="record-link" href="<%- item.link %>" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i><span>打开链接</span></a>
+            <% } %>
           </div>
-          <p class="record-text"><%= item.text || '暂时还没有写下体验。' %></p>
-          <% if (item.link) { %>
-            <a class="record-link" href="<%- item.link %>" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i><span>打开链接</span></a>
-          <% } %>
-        </div>
-      </article>
-    <% }) %>
+        </article>
+      <% }) %>
+    </div>
   </div>
 </div>
 
@@ -96,6 +133,24 @@ const renderStars = score => {
         }
       })
     })
+    const filterLinks = document.querySelectorAll('.record-wall-box .record-timeline-link[data-record-filter]')
+    filterLinks.forEach(link => {
+      if (link.dataset.recordFilterBound === 'true') return
+      link.dataset.recordFilterBound = 'true'
+      link.addEventListener('click', event => {
+        event.preventDefault()
+                const filter = link.dataset.recordFilter || ''
+        const reset = link.classList.contains('is-active')
+        closeAll()
+        filterLinks.forEach(item => item.classList.toggle('is-active', !reset && item === link))
+        cards.forEach(card => {
+          const shouldShow = reset || card.dataset.recordMonth === filter
+          card.classList.toggle('is-filtered-out', !shouldShow)
+        })
+        const firstVisible = Array.from(cards).find(card => !card.classList.contains('is-filtered-out'))
+        firstVisible?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+      })
+    })
   }
   window.initRecordWall()
   if (window.__recordInlinePjaxBound !== true) {
@@ -111,7 +166,6 @@ const renderStars = score => {
   }
 })()
 </script>
-
 
 
 

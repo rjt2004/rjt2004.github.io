@@ -1,9 +1,9 @@
-$tool-item-height = 5.8rem
+﻿$tool-item-height = 5.8rem
 $tool-item-logo-size = 2.8rem
 $tool-item-height-tablet = 4.6rem
 $tool-item-border-radius = 0.6rem
 $tool-item-grid-column = 4
-$left-tools-nav-width = 9rem
+$left-tools-nav-width = 220px
 
 if (hexo-config('source_data.tools')) {
   .page-template-container {
@@ -204,6 +204,37 @@ if (hexo-config('source_data.tools')) {
               font-size 0.9rem
             }
           }
+        }
+      }
+    }
+  }
+}
+
+if (hexo-config('source_data.tools')) {
+  .page-template-container .tools-nav-box {
+    .tools-nav-list {
+      align-self flex-start
+      width 220px
+      height fit-content
+      max-height none
+      margin-right 1.45rem
+      padding 1.05rem
+      overflow visible
+      background var(--background-color-1)
+      border-radius var(--box-border-radius)
+      box-shadow 0 0 8px var(--shadow-color)
+
+      .tool-nav-category {
+        margin-bottom 0.35rem
+        padding 0.42rem 0.5rem
+        font-size 0.95rem
+        line-height 1.35
+        border-radius 0.36rem
+
+        &:hover,
+        &.active {
+          color var(--background-color-1)
+          background var(--primary-color)
         }
       }
     }

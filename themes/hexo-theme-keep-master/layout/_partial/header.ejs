@@ -3,6 +3,8 @@ const { title: bi_title, logo: bi_logo } = theme?.base_info || {}
 const { enable: s_fs_enable } = theme?.first_screen || {}
 const { enable: local_search_enable } = theme?.local_search || {}
 const origin_h_menu_nav_object = theme?.menu || { archives: '/archives' }
+const homeWeather = theme?.home?.weather || {}
+const homeWeatherEnable = homeWeather?.enable === true && homeWeather?.endpoint
 
 const h_menu_nav_object = {}
 for (const key in origin_h_menu_nav_object) {
@@ -24,46 +26,88 @@ for (const key in origin_h_menu_nav_object) {
             </a>
         </div>
 
-        <div class="right border-box">
-            <div class="pc border-box">
-                <ul class="menu-list border-box">
-                    <% for (const i in h_menu_nav_object) { %>
-                        <% const { path, icon, name, children } = getMenuItemObj(h_menu_nav_object, i) %>
-                        <li class="menu-item flex-start border-box<%- children.length ? ' has-sub-menu' : '' %><%- path && is_current(path) && !children.length ? ' active' : '' %>">
-                            <a class="menu-text-color border-box" href="<%- path && !children.length ? url_for(path) : 'javascript:void(0);' %>">
-                                <% if (icon) { %>
-                                    <i class="menu-text-color menu-icon <%= icon %>"></i>
-                                <% } %>
-                                <%= __(name).toUpperCase() %>
-                                <% if (children.length) { %>
-                                    <i class="menu-text-color collapse-icon fa-solid fa-angle-down"></i>
-                                <% } %>
-                            </a>
-                            <% if (children.length) { %>
-                                <ul class="sub-menu-list border-box">
-                                    <% for (const smi of children) { %>
-                                        <% const { path: p2, icon: i2, name: n2 } = parseMenuItem(smi) %>
-                                        <li class="sub-menu-item border-box <%- is_current(p2) ? ' active' : '' %>">
-                                            <a class="menu-text-color border-box flex-start" href="<%- url_for(p2) %>">
-                                                <% if (i2) { %>
-                                                    <i class="menu-text-color sub-menu-icon <%= i2 %>"></i>
-                                                <% } %>
-                                                <%= __(n2).toUpperCase() %>
-                                            </a>
-                                        </li>
-                                    <% } %>
-                                </ul>
+        <nav class="center pc border-box" aria-label="Main menu">
+            <ul class="menu-list border-box">
+                <% for (const i in h_menu_nav_object) { %>
+                    <% const { path, icon, name, children } = getMenuItemObj(h_menu_nav_object, i) %>
+                    <li class="menu-item flex-start border-box<%- children.length ? ' has-sub-menu' : '' %><%- path && is_current(path) && !children.length ? ' active' : '' %>">
+                        <a class="menu-text-color border-box" href="<%- path && !children.length ? url_for(path) : 'javascript:void(0);' %>">
+                            <% if (icon) { %>
+                                <i class="menu-text-color menu-icon <%= icon %>"></i>
                             <% } %>
+                            <%= __(name).toUpperCase() %>
+                            <% if (children.length) { %>
+                                <i class="menu-text-color collapse-icon fa-solid fa-angle-down"></i>
+                            <% } %>
+                        </a>
+                        <% if (children.length) { %>
+                            <ul class="sub-menu-list border-box">
+                                <% for (const smi of children) { %>
+                                    <% const { path: p2, icon: i2, name: n2 } = parseMenuItem(smi) %>
+                                    <li class="sub-menu-item border-box <%- is_current(p2) ? ' active' : '' %>">
+                                        <a class="menu-text-color border-box flex-start" href="<%- url_for(p2) %>">
+                                            <% if (i2) { %>
+                                                <i class="menu-text-color sub-menu-icon <%= i2 %>"></i>
+                                            <% } %>
+                                            <%= __(n2).toUpperCase() %>
+                                        </a>
+                                    </li>
+                                <% } %>
+                            </ul>
+                        <% } %>
+                    </li>
+                <% } %>                <% if (local_search_enable === true) { %>
+                    <li class="menu-item search search-popup-trigger">
+                        <i class="menu-text-color fas search fa-search"></i>
+                    </li>
+                <% } %>
+            </ul>
+        </nav>
+
+        <div class="right border-box">
+            <div class="pc header-tools border-box">
+                <ul class="menu-list tools-menu-list border-box">
+                    <% if (homeWeatherEnable) { %>
+                        <li class="menu-item header-weather-item border-box" data-home-weather-status tabindex="0">
+                            <button class="header-weather-pill menu-text-color border-box" type="button" aria-label="天气">
+                                <img class="home-weather-icon header-weather-icon" src="" alt="" hidden>
+                                <span class="home-weather-brief">--°C</span>
+                            </button>
+                            <div class="home-weather-card header-weather-panel border-box">
+                                <div class="home-weather-icon-wrap">
+                                    <img class="home-weather-icon header-weather-panel-icon" src="" alt="" hidden>
+                                </div>
+                                <div class="home-weather-body">
+                                    <div class="home-weather-place">天气加载中</div>
+                                    <div class="home-weather-main"></div>
+                                    <div class="home-weather-meta"></div>
+                                    <div class="home-weather-detail"></div>
+                                </div>
+                            </div>
                         </li>
                     <% } %>
-                    <% if (local_search_enable === true) { %>
-                        <li class="menu-item search search-popup-trigger">
-                            <i class="menu-text-color fas search fa-search"></i>
-                        </li>
-                    <% } %>
-                </ul>
+</ul>
             </div>
             <div class="mobile border-box flex-start">
+                <% if (homeWeatherEnable) { %>
+                    <div class="icon-item header-weather-mobile" data-home-weather-status tabindex="0">
+                        <button class="header-weather-mobile-button" type="button" aria-label="天气">
+                            <img class="home-weather-icon header-weather-icon" src="" alt="" hidden>
+                            <i class="fa-solid fa-cloud-sun header-weather-fallback"></i>
+                        </button>
+                        <div class="home-weather-card header-weather-panel border-box">
+                            <div class="home-weather-icon-wrap">
+                                <img class="home-weather-icon header-weather-panel-icon" src="" alt="" hidden>
+                            </div>
+                            <div class="home-weather-body">
+                                <div class="home-weather-place">天气加载中</div>
+                                <div class="home-weather-main"></div>
+                                <div class="home-weather-meta"></div>
+                                <div class="home-weather-detail"></div>
+                            </div>
+                        </div>
+                    </div>
+                <% } %>
                 <% if (local_search_enable === true) { %>
                     <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
                 <% } %>
@@ -116,5 +160,8 @@ for (const key in origin_h_menu_nav_object) {
 
     <div class="window-mask"></div>
 
+    <% if (homeWeatherEnable) { %>
+        <script <%= theme?.pjax?.enable === true ? 'data-pjax' : '' %>>window.TONE_HOME_WEATHER = <%- JSON.stringify(homeWeather) %>;</script>
+        <script <%= theme?.pjax?.enable === true ? 'data-pjax' : '' %> src="<%- url_for('/js/page/home-weather.js?v=meteocons-qweather-3') %>"></script>
+    <% } %>
 </header>
-

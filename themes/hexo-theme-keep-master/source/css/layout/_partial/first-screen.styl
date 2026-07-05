@@ -1,4 +1,4 @@
-﻿.first-screen-container {
+.first-screen-container {
   position relative
   width 100%
   height 100vh
@@ -34,8 +34,21 @@
       transform translateY(-1vh)
     }
 
+    .home-profile-main {
+      display flex
+      align-items center
+      justify-content center
+      gap 2.4rem
+
+      +keep-mobile() {
+        flex-direction column
+        gap 1.2rem
+      }
+    }
+
     .home-avatar {
       display block
+      flex 0 0 auto
       width 136px
       height 136px
       object-fit cover
@@ -52,31 +65,96 @@
       }
     }
 
-    .home-weather-status {
-      display inline-flex
+    .home-weather-card {
+      display flex
       align-items center
-      gap 0.55rem
-      margin-top 1.05rem
+      min-width 18rem
+      max-width 22rem
+      min-height 7.2rem
+      padding 1rem 1.15rem
       color var(--first-screen-font-color-light)
-      font-size 0.95rem
-      line-height 1
-      opacity 0.86
+      border 1px solid rgba(255, 255, 255, 0.34)
+      border-radius 16px
+      background rgba(255, 255, 255, 0.16)
+      box-shadow 0 14px 40px rgba(0, 0, 0, 0.14)
+      backdrop-filter blur(14px)
+      -webkit-backdrop-filter blur(14px)
 
-      img {
-        display block
-        width 2.15rem
-        height 2.15rem
+      .dark-mode & {
+        border-color rgba(255, 255, 255, 0.16)
+        background rgba(22, 24, 28, 0.34)
+        box-shadow 0 16px 44px rgba(0, 0, 0, 0.24)
+      }
+
+      +keep-mobile() {
+        width min(88vw, 21rem)
+        min-width 0
+        min-height 6.6rem
+        padding 0.9rem 1rem
       }
 
       &.is-message {
-        width 100%
         justify-content center
+        text-align center
       }
 
-      &.is-message img {
+      &.is-message .home-weather-icon-wrap,
+      &.is-message .home-weather-main,
+      &.is-message .home-weather-meta,
+      &.is-message .home-weather-detail {
         display none
       }
 
+      &.is-error .home-weather-place {
+        opacity 0.82
+      }
+    }
+
+    .home-weather-icon-wrap {
+      display flex
+      align-items center
+      justify-content center
+      flex 0 0 4.2rem
+      width 4.2rem
+      height 4.2rem
+      margin-right 0.85rem
+      border-radius 50%
+      background rgba(255, 255, 255, 0.26)
+
+      .dark-mode & {
+        background rgba(255, 255, 255, 0.10)
+      }
+    }
+
+    .home-weather-icon {
+      display block
+      width 3.45rem
+      height 3.45rem
+    }
+
+    .home-weather-body {
+      min-width 0
+      line-height 1.35
+    }
+
+    .home-weather-place {
+      margin-bottom 0.18rem
+      font-size 0.82rem
+      opacity 0.78
+    }
+
+    .home-weather-main {
+      font-size 1.48rem
+      font-weight 700
+      white-space nowrap
+    }
+
+    .home-weather-meta,
+    .home-weather-detail {
+      margin-top 0.22rem
+      font-size 0.82rem
+      opacity 0.82
+      white-space nowrap
     }
 
     .sc-icon-list {
@@ -85,7 +163,7 @@
       align-items center
       flex-wrap wrap
       gap 2.1rem
-      margin-top 1.35rem
+      margin-top 1.65rem
 
       .sc-icon-item {
         display flex
@@ -132,5 +210,3 @@
     }
   }
 }
-
-

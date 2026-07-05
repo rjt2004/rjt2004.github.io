@@ -11,7 +11,6 @@ menu:
   blog: /blog || fa-solid fa-pen-nib                # 博客
   record: /record || fa-solid fa-record-vinyl              # 记录
   tools: /tools || fa-solid fa-toolbox                 # 工具
-  about: /about || fa-solid fa-user                    # 关于
 
 first_screen:
   enable: true        # Option values: true | false
@@ -24,6 +23,7 @@ social_contact:
   enable: true      # Option values: true | false
   links:
     github:  https://github.com/rjt2004        # GitHub
+    email:  1610773590@qq.com         # Email
     weixin:                                          # WeChat
     qq:   img | /images/qq.jpg           # QQ
     weibo:   # WeiBo
@@ -31,7 +31,7 @@ social_contact:
     twitter:         # Twitter
     x:               # X
     facebook:        # Facebook
-    email:  1610773590@qq.com         # Email
+    
     bilibili:  https://space.bilibili.com/62971110
 
 home:
@@ -44,13 +44,14 @@ home:
 
   weather:
     enable: true
-    # Open this URL and replace the name value to find a query_place:
-    # https://geocoding-api.open-meteo.com/v1/search?name=fengxian&count=10&language=zh&format=json
-    display_place: 上海市
-    query_place: fengxian
-    # Optional province/city filter from the geocoding result, useful for duplicate names.
-    match_admin1: 上海市
-    refresh_minutes: 5
+    provider: qweather
+    # 首页天气请求地址。和风天气 JWT 私钥保存在 Cloudflare Worker，不写入博客源码。
+    endpoint: https://ton3rr.1610773590.workers.dev/weather
+    # location 和 adm 会发送给 Worker 查询天气；display_place 只用于首页展示。
+    location: 上海奉贤
+    adm: 上海
+    display_place: 上海市奉贤区
+    refresh_minutes: 10
 
 post:
   img_align: center      # Option values: left | center | right
@@ -124,6 +125,7 @@ comment:
 
 lazyload:
   enable: true  # Option values: true | false
+
 
 
 
