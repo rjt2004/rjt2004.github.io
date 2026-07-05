@@ -46,7 +46,7 @@ home:
     enable: true
     provider: qweather
     # 首页天气请求地址。和风天气 JWT 私钥保存在 Cloudflare Worker，不写入博客源码。
-    endpoint: https://ton3rr.1610773590.workers.dev/weather
+    endpoint: https://myblog-weather.1610773590.workers.dev/weather
     # location 和 adm 会发送给 Worker 查询天气；display_place 只用于首页展示。
     location: 上海奉贤
     adm: 上海
@@ -125,6 +125,7 @@ comment:
 
 lazyload:
   enable: true  # Option values: true | false
+
 
 
 
