@@ -167,6 +167,12 @@
   link: "https://dash.cloudflare.com/"
   description: "CDN、DNS等网站服务"
   image: "/images/tools/cloudflare.ico"
+
+- name: "和风天气"
+  link: "https://console.qweather.com/"
+  description: "天气服务控制台"
+  image: "/images/tools/weather.png"
+
 - name: "Hexo"
   link: "https://hexo.io/zh-cn/"
   description: "静态博客生成框架"

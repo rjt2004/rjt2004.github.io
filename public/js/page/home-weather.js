@@ -143,12 +143,12 @@
     const feels = weather.feelsLike ? `体感 ${weather.feelsLike}°C` : '';
     const humidity = weather.humidity ? `湿度 ${weather.humidity}%` : '';
     const wind = [weather.windDir, weather.windScale ? `${weather.windScale}级` : ''].filter(Boolean).join(' ');
-    const updated = updateTime ? `更新 ${updateTime}` : '';
+    const updated = updateTime ? `观测 ${updateTime}` : '';
     renderMetricGrid(meta, [
-      { icon: '🌡️', value: feels },
-      { icon: '💧', value: humidity },
+      { iconSrc: '/images/weather/temperature-emoji.svg', iconAlt: '体感', value: feels },
+      { iconSrc: '/images/weather/humidity-emoji.svg', iconAlt: '湿度', value: humidity },
       { iconSrc: '/images/weather/wind-emoji.svg', iconAlt: '风', value: wind },
-      { icon: '🕓', value: updated }
+      { iconSrc: '/images/weather/time-emoji.svg', iconAlt: '观测', value: updated }
     ]);
     if (detail) detail.textContent = '';
   }
@@ -168,7 +168,7 @@
   }
 
   function fetchWeather() {
-    return fetch(buildWeatherUrl(), { method: 'GET' })
+    return fetch(buildWeatherUrl(), { method: 'GET', cache: 'no-store' })
       .then(res => res.json().then(data => ({ ok: res.ok, data })))
       .then(({ ok, data }) => {
         if (!ok || data?.ok === false) throw new Error(data?.message || 'Weather request failed');
@@ -199,4 +199,5 @@
   else init();
   document.addEventListener('pjax:complete', init);
 })();
+
 

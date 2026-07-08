@@ -1093,3 +1093,141 @@ $mobile-menu-icon-wrap-margin = 0.4rem
   }
 }
 
+
+.header-weather-panel {
+  display grid
+  grid-template-columns 5.8rem minmax(0, 1fr)
+  grid-template-rows auto auto auto
+  align-items center
+  gap 0.2rem 0.9rem
+  width 20rem
+  padding 1.08rem 1.18rem 1.12rem
+  text-align left
+
+  .home-weather-icon-wrap {
+    grid-column 1
+    grid-row 1
+    justify-self center
+    width 4.6rem
+    height 4.6rem
+    margin 0
+  }
+
+  .header-weather-panel-icon {
+    width 3.75rem
+    height 3.75rem
+  }
+
+  .home-weather-body {
+    display contents
+  }
+
+  .home-weather-place {
+    grid-column 1
+    grid-row 2
+    justify-self center
+    max-width 5.8rem
+    margin 0.08rem 0 0
+    overflow hidden
+    color var(--text-color-3)
+    font-size 0.82rem
+    line-height 1.2
+    text-align center
+    text-overflow ellipsis
+    white-space nowrap
+  }
+
+  .home-weather-main {
+    grid-column 2
+    grid-row 1 / span 2
+    align-self center
+    color var(--text-color-1)
+    font-size 1.48rem
+    font-weight 700
+    line-height 1.25
+    text-align center
+    white-space normal
+  }
+
+  .home-weather-meta {
+    grid-column 1 / -1
+    grid-row 3
+    display grid
+    grid-template-columns repeat(2, minmax(0, 1fr))
+    gap 0.58rem 0.66rem
+    width 100%
+    margin-top 0.88rem
+    font-size 0.92rem
+  }
+
+  .home-weather-metric {
+    min-height 2.3rem
+    padding 0.52rem 0.46rem
+    border-radius 0.58rem
+  }
+
+  .home-weather-metric-icon {
+    width 1.18rem
+    height 1.18rem
+    margin-right 0.34rem
+    font-size 1.08rem
+  }
+
+  .home-weather-metric-icon img {
+    width 1.18rem
+    height 1.18rem
+  }
+
+  .home-weather-metric-text {
+    font-size 0.9rem
+  }
+}
+
++keep-mobile() {
+  .header-weather-panel {
+    grid-template-columns 5rem minmax(0, 1fr)
+    width min(20rem, 86vw)
+    gap 0.16rem 0.68rem
+    padding 1rem
+
+    .home-weather-icon-wrap {
+      width 4rem
+      height 4rem
+    }
+
+    .header-weather-panel-icon {
+      width 3.25rem
+      height 3.25rem
+    }
+
+    .home-weather-place {
+      max-width 5rem
+      font-size 0.76rem
+    }
+
+    .home-weather-main {
+      font-size 1.28rem
+    }
+
+    .home-weather-meta {
+      gap 0.45rem
+      margin-top 0.78rem
+      font-size 0.8rem
+    }
+
+    .home-weather-metric {
+      min-height 2.08rem
+      padding 0.42rem 0.32rem
+    }
+
+    .home-weather-metric-icon,
+    .home-weather-metric-icon img {
+      width 1.05rem
+      height 1.05rem
+    }
+
+    .home-weather-metric-text {
+      font-size 0.78rem
+    }
+  }
+}
