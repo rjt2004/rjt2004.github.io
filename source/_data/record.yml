@@ -46,7 +46,7 @@
    cover: ../images/record/isaac.jpg
    rating: 8                 
    link: 
-   text: "一直在愿望单的肉鸽游戏，玩法、机制、角色都非常多，刚开始没看教程没有mod还是比较难，后面越玩越上头"  
+   text: "内容丰富的肉鸽游戏，玩法、机制、角色都非常多，刚开始没看教程没有mod还是比较难"  
 
  - type: music              
    title: "Wui"                 
@@ -62,4 +62,12 @@
    cover: ../images/record/铁拳教育.webp
    rating: 7                
    link: 
-   text: 设定很像模范出租车，一些霸凌、读博的题材也很像
+   text: 设定很像《模范出租车》，围绕教育的主题主角团打副本，一些题材也很像
+
+ - type: drama             
+   title: "鬼谜东宫"                 
+   date: 2026-07-20               
+   cover: ../images/record/鬼谜东宫.webp
+   rating: 6                
+   link: 
+   text: 王宫+鬼神的设定联想到了《王国》，核心都是为了王位不择手段，最可怕的是人心，但是剧情比较无聊，莫名其妙就来个新的设定
