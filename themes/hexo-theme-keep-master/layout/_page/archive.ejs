@@ -1,25 +1,33 @@
 <div class="fade-in-down-animation">
+    <%
+        const blogPosts = page.posts?.toArray ? page.posts.toArray() : Array.from(page.posts || [])
+        const monthArchive = []
+        blogPosts.forEach(post => {
+            const key = date(post.date, 'YYYY-MM')
+            const found = monthArchive.find(month => month.key === key)
+            if (found) found.count += 1
+            else monthArchive.push({ key, label: key, count: 1 })
+        })
+    %>
     <div class="blog-container">
         <div class="blog-layout border-box">
             <aside class="blog-side border-box">
-                <section class="blog-side-card border-box">
-                    <div class="blog-section-title"><i class="fa-solid fa-tags"></i><span><%= __('tag') %></span></div>
-                    <% if (site.tags.length){ %>
-                        <div class="tagcloud-content">
-                            <%- tagcloud({
-                                min_font: 1,
-                                max_font: 1,
-                                unit: 'rem',
-                                amount: 100
-                            }) %>
-                        </div>
+                <section class="blog-side-card border-box blog-month-archive">
+                    <div class="blog-section-title"><i class="fa-solid fa-box-archive"></i><span><%= __('archive') %></span></div>
+                    <% if (monthArchive.length) { %>
+                        <ul class="blog-month-list">
+                            <% monthArchive.forEach(month => { %>
+                                <li>
+                                    <a class="blog-month-link" href="#blog-<%= month.key %>" data-blog-filter="<%= month.key %>">
+                                        <span><%= month.label %></span>
+                                        <span class="blog-month-count"><%= month.count %></span>
+                                    </a>
+                                </li>
+                            <% }) %>
+                        </ul>
                     <% } else { %>
                         <%- partial('_partial/common/empty-content') %>
                     <% } %>
-                </section>
-                <section class="blog-side-card border-box compact-archive">
-                    <div class="blog-section-title"><i class="fa-solid fa-box-archive"></i><span><%= __('archive') %></span></div>
-                    <%- partial('_partial/archive-list.ejs', { archive_posts: page.posts }) %>
                 </section>
             </aside>
             <section class="blog-main border-box">
@@ -29,3 +37,46 @@
     </div>
     <%- partial('_partial/paginator', { page_info: page }) %>
 </div>
+
+<script data-pjax>
+(() => {
+  window.initBlogMonthFilter = () => {
+    const container = document.querySelector('.blog-container')
+    if (!container) return
+    const links = container.querySelectorAll('.blog-month-link[data-blog-filter]')
+    const posts = container.querySelectorAll('.home-post-item[data-post-month]')
+    if (!links.length || !posts.length) return
+
+    posts.forEach(post => {
+      if (!post.id) post.id = `blog-${post.dataset.postMonth}`
+    })
+
+    links.forEach(link => {
+      if (link.dataset.blogFilterBound === 'true') return
+      link.dataset.blogFilterBound = 'true'
+      link.addEventListener('click', event => {
+        event.preventDefault()
+        const filter = link.dataset.blogFilter || ''
+        const reset = link.classList.contains('is-active')
+
+        links.forEach(item => item.classList.toggle('is-active', !reset && item === link))
+        posts.forEach(post => {
+          const shouldShow = reset || post.dataset.postMonth === filter
+          post.classList.toggle('is-filtered-out', !shouldShow)
+        })
+
+        const firstVisible = Array.from(posts).find(post => !post.classList.contains('is-filtered-out'))
+        firstVisible?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+      })
+    })
+  }
+
+  window.initBlogMonthFilter()
+  if (window.__blogMonthFilterPjaxBound !== true) {
+    window.__blogMonthFilterPjaxBound = true
+    window.addEventListener('DOMContentLoaded', () => window.initBlogMonthFilter?.())
+    document.addEventListener('pjax:complete', () => window.initBlogMonthFilter?.())
+    document.addEventListener('pjax:success', () => window.initBlogMonthFilter?.())
+  }
+})()
+</script>

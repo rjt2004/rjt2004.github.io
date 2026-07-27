@@ -19,7 +19,7 @@
     <% } %>
     <ul class="home-post-list border-box">
         <% page.posts.forEach(post => { %>
-            <li class="home-post-item">
+            <li class="home-post-item" data-post-month="<%= date(post.date, 'YYYY-MM') %>">
 
                 <% if (post?.home_cover) { %>
                     <% const home_cover = resolvePostAsset(post, post.home_cover) %>

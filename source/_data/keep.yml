@@ -38,7 +38,7 @@ home:
   announcement:
   post_excerpt: false
   category: false        # Option values: true | false
-  tag: true               # Option values: true | false
+  tag: false               # Option values: true | false
   post_datetime: updated    # Option values: updated | created
   post_datetime_format: YYYY-MM-DD # Option values: ago | YYYY-MM-DD HH:mm:ss
 
@@ -87,7 +87,7 @@ toc:
   enable: true     # Option values: true | false
   number: true      # Option values: true | false
   expand_all: true  # Option values: true | false
-  init_open: false    # Option values: true | false
+  init_open: true    # Option values: true | false
   layout: left      # Option values: left | right
 
 website_count:
@@ -125,6 +125,8 @@ comment:
 
 lazyload:
   enable: true  # Option values: true | false
+
+
 
 
 

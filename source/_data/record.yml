@@ -1,4 +1,4 @@
-# Record item example. Copy the block below, remove leading '#', then edit values.
+﻿# Record item example. Copy the block below, remove leading '#', then edit values.
 #
 # - type: photo                    # photo / music / drama / game
 #   title: "Title"                 # title shown on the card overlay
@@ -7,14 +7,6 @@
 #   rating: 8.5                    # optional, 10-point score; mapped to 5 stars
 #   link: https://example.com      # optional external link
 #   text: "Your note or review."   # text shown after clicking the image
-
- - type: photo                  
-   title: "test"                 
-   date: 2026-06-10               
-   cover: ../images/record/test.png
-   rating:                 
-   link: 
-   text: "It's a test"  
 
  - type: music              
    title: "唉 (pt.3)"                 
@@ -76,6 +68,6 @@
    title: "群体"                 
    date: 2026-07-25               
    cover: ../images/record/群体.webp
-   rating: 6.5                
+   rating: 7                
    link: 
    text: 

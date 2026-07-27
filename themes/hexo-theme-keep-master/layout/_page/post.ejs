@@ -1,38 +1,15 @@
-<%
+﻿<%
 const post_author = page?.author || theme?.base_info?.author || config?.author
 const post_avatar = page?.avatar || theme?.base_info?.avatar
 const is_code_block_unshrink = page?.code_block_shrink === false
-const resolvePostAsset = (post, asset) => {
-    if (!asset) return asset
-    if (/^(https?:)?\/\//.test(asset) || asset.startsWith('/') || asset.startsWith('../') || asset.startsWith('./')) {
-        return asset
-    }
-    return `${post.path}${asset}`
-}
-const post_cover = resolvePostAsset(page, page.post_cover || page?.home_cover)
 %>
 <div class="fade-in-down-animation">
     <div class="post-page-container border-box<%= page?.password ? ' encrypt' : '' %>">
         <div class="post-content-container border-box">
-            <% if (page?.post_cover || page?.home_cover) { %>
-                <div class="post-content-top border-box"
-                     style="--post-cover-bg: url('<%- url_for(post_cover) %>')"
-                >
-                    <div class="cover-post-title">
-                        <%= page.title %>
-                    </div>
-                    <img class="post-cover" src="<%- url_for(post_cover) %>"
-                         onerror="this.style.display='none'"
-                    >
+            <div class="post-content-bottom border-box">
+                <div class="post-title">
+                    <%= page.title %>
                 </div>
-            <% } %>
-
-            <div class="post-content-bottom border-box<%= (page?.post_cover || page?.home_cover) ? ' has-cover' : '' %>">
-                <% if (!page?.post_cover && !page?.home_cover) { %>
-                    <div class="post-title">
-                        <%= page.title %>
-                    </div>
-                <% } %>
 
                 <% if (post_author) { %>
                     <div class="post-header border-box">
