@@ -1,6 +1,7 @@
 ---
 title: DIY装机
 date: 2026-06-07 20:42:36
+updated: 2026-06-27
 home_cover: DIY.jpg
 home_cover_height: 200 
 tags:

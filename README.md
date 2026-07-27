@@ -85,6 +85,35 @@ D:\myblog\source\images\record\图片名.jpg
   text: "文字记录"
 ```
 
+## 首页天气
+
+首页天气现在使用“浏览器 -> Cloudflare Worker -> 和风天气”的结构：
+
+```text
+博客首页只请求 Cloudflare Worker
+Worker 保存和风天气 JWT 私钥并请求和风天气 API
+```
+
+常用配置在：
+
+```text
+D:\myblog\source\_data\keep.yml
+```
+
+对应字段：
+
+```yaml
+home:
+  weather:
+    enable: true
+    provider: qweather
+    endpoint: Worker 的 /weather 地址
+    location: 查询地址
+    adm: 上级行政区，用于辅助匹配
+    display_place: 首页展示名称
+    refresh_minutes: 浏览器端重新请求天气的间隔
+```
+
 ## 本地预览
 
 运行：

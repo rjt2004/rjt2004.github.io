@@ -162,6 +162,11 @@
 
 - category: 博客
 
+
+- name: "Cloudflare"
+  link: "https://dash.cloudflare.com/"
+  description: "CDN、DNS等网站服务"
+  image: "/images/tools/cloudflare.ico"
 - name: "Hexo"
   link: "https://hexo.io/zh-cn/"
   description: "静态博客生成框架"
