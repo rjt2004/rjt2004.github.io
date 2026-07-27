@@ -4652,6 +4652,41 @@ figure.highlight .shrink-line:hover::before {
   color: var(--background-color-1);
   background: var(--primary-color);
 }
+.blog-container .blog-month-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.blog-container .blog-month-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  box-sizing: border-box;
+  padding: 0.42rem 0.5rem;
+  color: var(--text-color-3);
+  text-decoration: none !important;
+  border-radius: 0.36rem;
+}
+.blog-container .blog-month-link:hover,
+.blog-container .blog-month-link.is-active {
+  color: var(--background-color-1);
+  background: var(--primary-color);
+}
+.blog-container .blog-month-link:hover .blog-month-count,
+.blog-container .blog-month-link.is-active .blog-month-count {
+  color: rgba(255,255,255,0.78);
+}
+.blog-container .blog-month-count {
+  color: var(--text-color-4);
+  font-size: 0.78rem;
+}
+.blog-container .home-post-item.is-filtered-out {
+  display: none;
+}
 .blog-container .compact-archive .archive-list-container .archive-item {
   margin-bottom: 1rem;
 }
@@ -4705,6 +4740,13 @@ figure.highlight .shrink-line:hover::before {
   .blog-container .blog-side {
     display: flex;
     flex-direction: column;
+  }
+  .blog-container .blog-month-list {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .blog-container .blog-month-link {
+    justify-content: flex-start;
   }
   .blog-container .blog-side-card {
     padding: 1rem;
