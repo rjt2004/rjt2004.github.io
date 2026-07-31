@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Ton3rr">
+    
+    <title>
+        
+            CS336-1 文本编码与Tokenizer |
+        
+        Ton3rr
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/logo.svg">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"rjt2004.github.io","root":"/","language":"en","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"Ton3rr","author":"Ton3rr","avatar":"/images/avatar.svg","logo":"/images/logo.svg","favicon":"/images/logo.svg"},"menu":{"home":"/ || fa-solid fa-house","blog":"/blog || fa-solid fa-pen-nib","record":"/record || fa-solid fa-record-vinyl","tools":"/tools || fa-solid fa-toolbox"},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"Keep writing and Keep loving.","hitokoto":false},"social_contact":{"enable":true,"links":{"github":"https://github.com/rjt2004","email":"1610773590@qq.com","weixin":null,"qq":"img | /images/qq.jpg","weibo":null,"zhihu":null,"twitter":null,"x":null,"facebook":null,"bilibili":"https://space.bilibili.com/62971110"}},"scroll":{"progress_bar":false,"percent":false,"hide_header":true},"home":{"announcement":null,"post_excerpt":false,"category":false,"tag":false,"post_datetime":"updated","post_datetime_format":"YYYY-MM-DD","weather":{"enable":true,"provider":"qweather","endpoint":"https://myblog-weather.1610773590.workers.dev/weather","location":"上海奉贤","adm":"上海","display_place":"上海市奉贤区","refresh_minutes":10}},"post":{"img_align":"center","author_badge":{"enable":false,"level_badge":false,"custom_badge":["One","Two","Three"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD","copyright_info":false,"share":true,"reward":{"enable":false,"img_link":null,"text":null}},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true,"layout":"left"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":true,"site_pv":true,"page_pv":true}},"local_search":{"enable":false,"preload":true},"comment":{"enable":true,"use":"giscus","giscus":{"repo":"rjt2004/rjt2004.github.io","repo_id":"R_kgDOM__o0Q","category":"Announcements","category_id":"DIC_kwDOM__o0c4C-z_p","reactions_enabled":true}},"rss":{"enable":false},"lazyload":{"enable":true},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":true},"footer":{"since":2024,"word_count":false,"record":{"enable":false}},"inject":{"enable":false,"css":[null],"js":[null]},"root":"","source_data":{"icons":{"music":{"svg":"<svg t=\"1730389322491\" class=\"icon\" viewBox=\"0 0 1024 1024\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" p-id=\"4310\" width=\"200\" height=\"200\"><path d=\"M625.28843881 13.0350417c27.69272986-7.55256305 57.90298008-7.55256305 85.59570994 0 32.72777156 7.55256305 62.93802178 22.65768816 88.1132303 42.79785497 10.07008341 7.55256305 17.62264645 15.10512511 22.65768815 27.69272986 7.55256305 17.62264645 5.0350417 37.76281327-5.0350417 52.86793838-7.55256305 12.58760475-22.65768816 22.65768816-40.28033362 25.17520851-12.58760475 2.51752134-25.17520852 0-37.76281327-7.55256305-5.0350417-2.51752134-10.07008341-10.07008341-17.62264645-12.58760376-17.62264645-10.07008341-35.24529192-20.14016681-55.38545874-17.62264645-15.10512511 0-27.69272986 7.55256305-35.2452929 17.62264645-10.07008341 10.07008341-12.58760475 22.65768816-10.07008341 35.24529192 7.55256305 25.17520852 12.58760475 52.86793838 20.1401678 78.04314689 50.35041703 2.51752134 98.1833137 15.10512511 140.98116867 40.28033363 40.28033363 25.17520852 78.04314689 57.90298008 108.25339711 95.66579334 25.17520852 32.72777156 45.31537533 70.49058483 55.38545873 110.77091845 12.58760475 42.79785497 17.62264645 88.1132303 12.58760475 130.91108527-2.51752134 37.76281327-10.07008341 73.00810519-22.65768815 108.25339711-32.72777156 83.07818859-90.63075164 158.60381513-168.67389755 206.4367118-55.38545873 35.24529192-120.84100186 57.90298008-186.29654499 65.45554312-45.31537533 5.0350417-90.63075164 5.0350417-135.94612696-2.51752134-93.148272-15.10512511-178.74398194-60.42050044-246.71704543-128.39356491-65.45554312-65.45554312-110.77091845-151.05125208-130.91108526-241.68200273-7.55256305-67.97306348-7.55256305-135.94612697 7.55256305-203.91919144 17.62264645-80.56066823 60.42050044-158.60381513 115.80595917-219.02431556 47.83289667-50.35041703 105.73587675-88.1132303 168.67389853-115.80596016 7.55256305-2.51752134 12.58760475-5.0350417 20.14016681-7.55256206 15.10512511-2.51752134 30.21025022 0 42.79785497 10.0700834 17.62264645 12.58760475 25.17520852 32.72777156 22.65768816 52.86793838-2.51752134 20.14016681-17.62264645 37.76281327-35.24529193 45.31537533-62.93802178 25.17520852-120.84100186 67.97306348-161.12133646 120.84100186C209.89749584 375.55804728 184.72228634 433.46102736 177.16972428 493.8815278c-7.55256305 60.42050044 0 120.84100186 20.14016681 178.74398193 30.21025022 83.07818859 93.148272 153.56877342 171.19141889 193.84910705 47.83289667 25.17520852 100.70083505 37.76281327 153.56877343 37.76281327 42.79785497 0 88.1132303-7.55256305 128.3935649-22.65768816 35.24529192-12.58760475 70.49058483-32.72777156 98.18331371-57.90297909 27.69272986-22.65768816 50.35041703-52.86793838 65.45554214-83.07818958 7.55256305-15.10512511 17.62264645-32.72777156 20.14016779-50.35041703 15.10512511-50.35041703 17.62264645-105.73587675 2.51752036-156.08629378-12.58760475-42.79785497-37.76281327-80.56066823-70.49058384-108.2533981-15.10512511-12.58760475-30.21025022-25.17520852-47.83289667-35.24529192-15.10512511-7.55256305-30.21025022-15.10512511-47.83289668-17.62264645 12.58760475 45.31537533 22.65768816 90.63075164 35.24529193 133.42860661 2.51752134 10.07008341 5.0350417 22.65768816 5.0350417 32.72777156 2.51752134 45.31537533-15.10512511 93.148272-45.31537533 128.39356392-27.69272986 32.72777156-67.97306348 57.90298008-110.77091845 65.45554313-45.31537533 10.07008341-95.66579334 0-135.94612697-25.17520852-37.76281327-25.17520852-65.45554312-62.93802178-80.56066823-103.21835639-7.55256305-22.65768816-12.58760475-47.83289667-12.58760377-73.00810519-2.51752134-55.38545873 12.58760475-108.25339711 42.79785398-153.56877342 35.24529192-52.86793838 93.148272-90.63075164 156.08629477-108.25339711-5.0350417-17.62264645-10.07008341-35.24529192-12.58760475-52.86793837-12.58760475-37.76281327-10.07008341-80.56066823 7.55256305-113.28843882 10.07008341-20.14016681 22.65768816-37.76281327 40.28033362-50.35041801C582.49058483 33.17520852 602.63075164 20.58760475 625.28843881 13.0350417m-146.01621037 407.83838091c-17.62264645 17.62264645-27.69272986 40.28033363-32.72777156 62.93802178-5.0350417 20.14016681-5.0350417 42.79785497 0 65.45554313 5.0350417 22.65768816 17.62264645 45.31537533 37.76281326 60.42050043 15.10512511 10.07008341 35.24529192 15.10512511 55.38545972 10.07008341 35.24529192-5.0350417 62.93802178-37.76281327 62.93802178-73.00810519-2.51752134-7.55256305-2.51752134-17.62264645-5.0350417-25.17520851-12.58760475-47.83289667-25.17520852-98.1833137-37.76281327-146.01621038-30.21025022 7.55256305-57.90298008 22.65768816-80.56066823 45.31537533z\" fill=\"#515151\" p-id=\"4311\"></path></svg>","link":"img | /images/music.jpg"}},"tools":[{"category":"AI","anchorId":"QUk0"},{"name":"easyChat","link":"https://next.eqing.tech/#/new-chat","description":"聚合式 AI 对话工具","image":"/images/tools/easychat.ico"},{"name":"kimi","link":"https://kimi.moonshot.cn/","description":"长文本阅读与 AI 助手","image":"/images/tools/kimi.ico"},{"name":"deepseek","link":"https://chat.deepseek.com/","description":"DeepSeek AI 对话与推理","image":"/images/tools/deepseek.png"},{"name":"ChatGPT","link":"https://chatgpt.com/library","description":"OpenAI 的 AI 对话助手","image":"/images/tools/chatgpt.png"},{"name":"豆包","link":"https://www.doubao.com/chat/","description":"字节跳动 AI 对话助手","image":"/images/tools/6lgg5yyf.png"},{"name":"短信","link":"https://5sim.net/zh","description":"在线短信接码平台","image":"/images/tools/55-t5l-h.ico"},{"name":"IKunCode","link":"https://api.ikuncode.cc/console","description":"接口与在线工具控制台","image":"/images/tools/ikuncode.jpeg"},{"category":"CS","anchorId":"Q1M8"},{"name":"Acwing","link":"https://www.acwing.com/","description":"算法学习与在线题库","image":"/images/tools/acwing.png"},{"name":"力扣","link":"https://leetcode.cn/","description":"算法刷题与面试题库","image":"/images/tools/5yqb5omj.png"},{"name":"洛谷","link":"https://www.luogu.com.cn/","description":"编程竞赛与算法题库","image":"/images/tools/5rsb6lc3.png"},{"name":"代码随想录","link":"https://programmercarl.com/","description":"算法学习路线与题解","image":"/images/tools/5luj56cb6zqp5ooz5b2v.png"},{"name":"阿里云","link":"https://account.aliyun.com","description":"云服务器与云产品控制台","image":"/images/tools/6zi_6yem5lqr.ico"},{"name":"华为云","link":"https://www.huaweicloud.com/","description":"云服务器与云服务平台","image":"/images/tools/5y2o5li65lqr.png"},{"name":"腾讯云","link":"https://cloud.tencent.com/","description":"云服务器与云服务平台","image":"/images/tools/6iw-6k6v5lqr.ico"},{"name":"Kaggle","link":"https://www.kaggle.com/","description":"数据竞赛与数据集平台","image":"/images/tools/kaggle.png"},{"name":"Github","link":"https://github.com/rjt2004","description":"代码托管与项目主页","image":"/images/tools/github.png"},{"name":"acGit","link":"https://git.acwing.com/","description":"AcWing 代码托管服务","image":"/images/tools/acgit.png"},{"name":"Gitee","link":"https://gitee.com/","description":"国内代码托管平台","image":"/images/tools/gitee.ico"},{"name":"Linuxdo","link":"https://linux.do/","description":"技术交流与社区论坛","image":"/images/tools/linuxdo.png"},{"category":"工具","anchorId":"JUU1JUI3JUE1JUU1JTg1JUI321"},{"name":"Graphviz Online","link":"https://dreampuf.github.io/GraphvizOnline","description":"在线绘制 Graphviz 图","image":"/images/tools/graphviz-online.svg"},{"name":"Graph Editor","link":"https://csacademy.com/app/graph_editor","description":"在线编辑图结构","image":"/images/tools/graph-editor.png"},{"name":"Carbon","link":"https://carbon.now.sh","description":"生成代码截图","image":"/images/tools/carbon.ico"},{"name":"高亮","link":"https://highlightcode.com/","description":"代码高亮与格式化","image":"/images/tools/6auy5lqu.ico"},{"name":"PDF","link":"https://www.ilovepdf.com/zh-cn","description":"PDF 合并、压缩与转换","image":"/images/tools/pdf.png"},{"name":"Canva","link":"https://www.canva.cn/","description":"在线设计海报和演示文稿","image":"/images/tools/canva.ico"},{"name":"draw","link":"https://app.diagrams.net/","description":"在线流程图与架构图工具","image":"/images/tools/draw.ico"},{"category":"科研","anchorId":"JUU3JUE3JTkxJUU3JUEwJTk029"},{"name":"Overleaf","link":"https://www.overleaf.com/project","description":"在线 LaTeX 写作协作","image":"/images/tools/overleaf.png"},{"name":"LaTeX","link":"https://en.wikibooks.org/wiki/LaTeX","description":"LaTeX 学习与参考文档","image":"/images/tools/latex.ico"},{"name":"dblp","link":"https://dblp.org/","description":"计算机论文与作者索引","image":"/images/tools/dblp.png"},{"name":"知网","link":"https://www.cnki.net/","description":"中文学术文献检索","image":"/images/tools/55-l572r.ico"},{"category":"博客","anchorId":"JUU1JThEJTlBJUU1JUFFJUEy34"},{"name":"Cloudflare","link":"https://dash.cloudflare.com/","description":"CDN、DNS等网站服务","image":"/images/tools/cloudflare.ico"},{"name":"和风天气","link":"https://console.qweather.com/","description":"天气服务控制台","image":"/images/tools/weather.png"},{"name":"Hexo","link":"https://hexo.io/zh-cn/","description":"静态博客生成框架","image":"/images/tools/hexo.png"},{"name":"Keep","link":"https://keep-docs.xpoet.cn/","description":"Hexo Keep 主题文档","image":"/images/tools/keep.svg"},{"name":"ideogram","link":"https://ideogram.ai/t/explore","description":"AI 图片生成工具","image":"/images/tools/ideogram.png"},{"name":"iconfont","link":"https://www.iconfont.cn/","description":"阿里巴巴矢量图标库","image":"/images/tools/iconfont.svg"},{"name":"LeanCloud","link":"https://console.leancloud.cn","description":"应用后端与数据服务","image":"/images/tools/leancloud.ico"},{"name":"openmoji","link":"https://openmoji.org/","description":"emoji资源下载","image":"/images/tools/openmoji.png"}],"record":[{"type":"music","title":"唉 (pt.3)","date":"2026-06-11T00:00:00.000Z","cover":"../images/record/唉 (pt.3).jpg","rating":9.3,"link":"https://music.163.com/#/song?id=1492114515&uct2=U2FsdGVkX1/6lXNbfObMGGORnax/2YY6WuCQcWrasJQ=","text":"抽刀断水流 无奈水更流😭"},{"type":"drama","title":"努力克服自卑的我们","date":"2026-06-12T00:00:00.000Z","cover":"../images/record/努力克服自卑的我们.webp","rating":8.5,"link":null,"text":null},{"type":"music","title":"Baby Driver","date":"2026-06-12T00:00:00.000Z","cover":"../images/record/Baby Driver.jpg","rating":8.5,"link":"https://music.163.com/song?id=3387243296&uct2=U2FsdGVkX1/EDXgwLOporaeLQgEEDsE/uZvGQq5aP4M=","text":"好听👍👍👍"},{"type":"game","title":"以撒的结合：重生","date":"2026-06-13T00:00:00.000Z","cover":"../images/record/isaac.jpg","rating":8,"link":null,"text":"内容丰富的肉鸽游戏，玩法、机制、角色都非常多，刚开始没看教程没有mod还是比较难"},{"type":"music","title":"Wui","date":"2026-06-18T00:00:00.000Z","cover":"../images/record/Wui.jpg","rating":9,"link":"https://music.163.com/song?id=2681066622&uct2=U2FsdGVkX18GASacrN0R/r+IJkouqmPoIzU6R0M9t8w=","text":""},{"type":"drama","title":"铁拳教育","date":"2026-07-01T00:00:00.000Z","cover":"../images/record/铁拳教育.webp","rating":7,"link":null,"text":"设定很像《模范出租车》，围绕教育的主题主角团打副本，一些题材也很像"},{"type":"drama","title":"鬼谜东宫","date":"2026-07-20T00:00:00.000Z","cover":"../images/record/鬼谜东宫.webp","rating":6,"link":null,"text":"王宫+鬼神的设定联想到了《王国》，核心都是为了王位不择手段，最可怕的是人心，但是剧情比较无聊，莫名其妙就来个新的设定"},{"type":"drama","title":"群体","date":"2026-07-25T00:00:00.000Z","cover":"../images/record/群体.webp","rating":7,"link":null,"text":null},{"type":"drama","title":"星城","date":"2026-07-31T00:00:00.000Z","cover":"../images/record/星城.webp","rating":8,"link":null,"text":null}]},"version":"4.2.3"}
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"}
+    KEEP.language_code_block = {"copy":"Copy code","copied":"Copied","fold":"Fold code block","folded":"Folded"}
+    KEEP.language_copy_copyright = {"copy":"Copy copyright info","copied":"Copied","title":"Original post title","author":"Original post author","link":"Original post link"}
+  </script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <i class="pjax-progress-icon fas fa-circle-notch fa-spin"></i>
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+        <!-- page content -->
+        <div class="page-main-content border-box">
+            <div class="page-main-content-top">
+                
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/logo.svg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               Ton3rr
+            </a>
+        </div>
+
+        <nav class="center pc border-box" aria-label="Main menu">
+            <ul class="menu-list border-box">
+                
+                    
+                    <li class="menu-item flex-start border-box">
+                        <a class="menu-text-color border-box" href="/">
+                            
+                                <i class="menu-text-color menu-icon fa-solid fa-house"></i>
+                            
+                            HOME
+                            
+                        </a>
+                        
+                    </li>
+                
+                    
+                    <li class="menu-item flex-start border-box">
+                        <a class="menu-text-color border-box" href="/blog">
+                            
+                                <i class="menu-text-color menu-icon fa-solid fa-pen-nib"></i>
+                            
+                            BLOG
+                            
+                        </a>
+                        
+                    </li>
+                
+                    
+                    <li class="menu-item flex-start border-box">
+                        <a class="menu-text-color border-box" href="/record">
+                            
+                                <i class="menu-text-color menu-icon fa-solid fa-record-vinyl"></i>
+                            
+                            RECORD
+                            
+                        </a>
+                        
+                    </li>
+                
+                    
+                    <li class="menu-item flex-start border-box">
+                        <a class="menu-text-color border-box" href="/tools">
+                            
+                                <i class="menu-text-color menu-icon fa-solid fa-toolbox"></i>
+                            
+                            TOOLS
+                            
+                        </a>
+                        
+                    </li>
+                                
+            </ul>
+        </nav>
+
+        <div class="right border-box">
+            <div class="pc header-tools border-box">
+                <ul class="menu-list tools-menu-list border-box">
+                    
+                        <li class="menu-item header-weather-item border-box" data-home-weather-status tabindex="0">
+                            <button class="header-weather-pill menu-text-color border-box" type="button" aria-label="天气">
+                                <img class="home-weather-icon header-weather-icon" src="" alt="" hidden>
+                                <span class="home-weather-brief">--°C</span>
+                            </button>
+                            <div class="home-weather-card header-weather-panel border-box">
+                                <div class="home-weather-icon-wrap">
+                                    <img class="home-weather-icon header-weather-panel-icon" src="" alt="" hidden>
+                                </div>
+                                <div class="home-weather-body">
+                                    <div class="home-weather-place">天气加载中</div>
+                                    <div class="home-weather-main"></div>
+                                    <div class="home-weather-meta"></div>
+                                    <div class="home-weather-detail"></div>
+                                </div>
+                            </div>
+                        </li>
+                    
+</ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item header-weather-mobile" data-home-weather-status tabindex="0">
+                        <button class="header-weather-mobile-button" type="button" aria-label="天气">
+                            <img class="home-weather-icon header-weather-icon" src="" alt="" hidden>
+                        </button>
+                        <div class="home-weather-card header-weather-panel border-box">
+                            <div class="home-weather-icon-wrap">
+                                <img class="home-weather-icon header-weather-panel-icon" src="" alt="" hidden>
+                            </div>
+                            <div class="home-weather-body">
+                                <div class="home-weather-place">天气加载中</div>
+                                <div class="home-weather-main"></div>
+                                <div class="home-weather-meta"></div>
+                                <div class="home-weather-detail"></div>
+                            </div>
+                        </div>
+                    </div>
+                
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-house"></i>
+                                </span>
+                            
+                            HOME
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/blog">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-pen-nib"></i>
+                                </span>
+                            
+                            BLOG
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/record">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-record-vinyl"></i>
+                                </span>
+                            
+                            RECORD
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tools">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-toolbox"></i>
+                                </span>
+                            
+                            TOOLS
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+    
+        <script data-pjax>window.TONE_HOME_WEATHER = {"enable":true,"provider":"qweather","endpoint":"https://myblog-weather.1610773590.workers.dev/weather","location":"上海奉贤","adm":"上海","display_place":"上海市奉贤区","refresh_minutes":10};</script>
+        <script data-pjax src="/js/page/home-weather.js?v=meteocons-qweather-3"></script>
+    
+</header>
+
+            </div>
+
+            <div class="page-main-content-middle border-box">
+                <div class="main-content border-box">
+                    
+                        
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            <div class="post-content-bottom border-box">
+                <div class="post-title">
+                    CS336-1 文本编码与Tokenizer
+                </div>
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/avatar.svg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">Ton3rr</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2026-07-12</span>
+            </span>
+
+            <span class="meta-info-item post-update-date">
+                <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                <span class="datetime" data-updated="2026-08-01">2026-08-01</span>
+            </span>
+        
+
+        
+
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>9.3k Words</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>39 Mins</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <p>&emsp;&emsp;<a class="link"   target="_blank" rel="noopener" href="https://cs336.stanford.edu/" >CS336<i class="fas fa-external-link-alt"></i></a>的学习笔记，参考了b站<a class="link"   target="_blank" rel="noopener" href="https://space.bilibili.com/488678545/" >这就是小C_<i class="fas fa-external-link-alt"></i></a>的视频和笔记。</p>
+<h3 id="字符本质：ASCII、Unicode与UTF-8编码"><a href="#字符本质：ASCII、Unicode与UTF-8编码" class="headerlink" title="字符本质：ASCII、Unicode与UTF-8编码"></a>字符本质：ASCII、Unicode与UTF-8编码</h3><p>&emsp;&emsp;计算机为了使用二进制唯一标识某个字符，必须先有<strong>字符 -&gt; 数字</strong>的映射表，<a class="link"   target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/ASCII#" >ASCII<i class="fas fa-external-link-alt"></i></a>（American Standard Code for Information Interchange，美国信息交换标准代码）是早年的一套编码标准，它定义了26个基本拉丁字母、阿拉伯数字和英式标点符号的对应二进制编码。ASCII码只能用于现代美国英语，对于其它语言例如中文无能为力，为了解决这样的局限，Unicode产生。</p>
+<img    
+                       lazyload
+                       alt="image"
+                       data-src="ASCII.png"
+                         alt="ASCII" style="width:30%; max-width:720px;"
+                 >
+
+<p>&emsp;&emsp;<a class="link"   target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E7%BB%9F%E4%B8%80%E7%A0%81#" >Unicode<i class="fas fa-external-link-alt"></i></a>（The Unicode Standard）也称作统一码、万国码，它在兼容ASCII的基础上为全球的所有字符包括emoji分配了一个唯一的ID，也称为<strong>码点</strong>，例如“A”对应十进制数<code>65</code>，“牛”对应<code>0x725B</code>。</p>
+<p>&emsp;&emsp;解决了编号问题，还需要解决的问题是这个码点如何存储在内存中，转换为二进制后，数据长短不一，使用多少字节存储和计算机如何识别就是UTF解决的问题。UTF（Unicode Transformation Format）意为Unicode转换格式，最常用的是UTF-8，它使用了变长前缀编码方式，原理类似于计算机网络中划分子网的方式。</p>
+<img    
+                       lazyload
+                       alt="image"
+                       data-src="UTF.png"
+                         alt="UTF" style="width:80%; max-width:720px;"
+                 >
+
+<p>&emsp;&emsp;UTF-8通过<strong>控制位</strong>和<strong>延续位</strong>判断该字符占几个字节以及当前字节是否是开头，例如110开头表示后面还有一个字节，10开头表示当前字节是一个“从属字节”。</p>
+<img    
+                       lazyload
+                       alt="image"
+                       data-src="UTF-8.png"
+                         alt="UTF-8" style="width:80%; max-width:720px;"
+                 >
+
+<p>&emsp;&emsp;示例：以emoji👍为例，👍的码点是<code>128077</code>，对应的十六进制为<code>0x1F44D</code>，二进制为<code>0001 1111 0100 0100 1101</code>。</p>
+<p>&emsp;&emsp;<code>0x1F44D</code>对应4字节模版：</p>
+<p>&emsp;&emsp;1111 0<code>xxx</code> | 10<code>xx xxxx</code> | 10<code>xx xxxx</code> | 10<code>xx xxxx</code></p>
+<p>&emsp;&emsp;将码点转换后的二进制填充后得出结果（从后往前，有空填0）：</p>
+<p>&emsp;&emsp;1111 0<code>000</code> | 10<code>01 1111</code> | 10<code>01 0001</code> | 10<code>00 1101</code></p>
+<p>&emsp;&emsp;最后的结果即为<code>F0 9F 91 8D</code>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">print</span>(<span class="built_in">ord</span>(<span class="string">&#x27;👍&#x27;</span>))</span><br><span class="line"><span class="number">128077</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">print</span>(<span class="built_in">hex</span>(<span class="number">128077</span>))</span><br><span class="line"><span class="number">0x1f44d</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">print</span>(<span class="built_in">bin</span>(<span class="number">128077</span>))</span><br><span class="line"><span class="number">0b11111010001001101</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">print</span>(<span class="string">&#x27;👍&#x27;</span>.encode(<span class="string">&#x27;utf-8&#x27;</span>))</span><br><span class="line"><span class="string">b&#x27;\xf0\x9f\x91\x8d&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="BPE算法原理与训练实现"><a href="#BPE算法原理与训练实现" class="headerlink" title="BPE算法原理与训练实现"></a>BPE算法原理与训练实现</h3><p>&emsp;&emsp;本节主要围绕两个目标展开：一是理解BPE（Byte-Pair Encoding）的算法思想，二是不依赖<code>transformers</code>等现成库，亲手实现并训练一个基于BPE的分词器。</p>
+<h4 id="为什么需要Tokenizer"><a href="#为什么需要Tokenizer" class="headerlink" title="为什么需要Tokenizer"></a>为什么需要Tokenizer</h4><p>&emsp;&emsp;一个直观的问题是：既然<code>UTF-8</code>已经能把所有文本编码成<code>0~255</code>范围内的字节，为什么不能直接把原始字节丢给模型？核心原因是序列长度会变得过长。Transformer的<code>Self-Attention</code>计算复杂度与序列长度的平方相关，如果直接以字节作为输入单位，文本会被切得非常碎，计算量和显存占用都会明显上升。</p>
+<p>&emsp;&emsp;例如单词<code>Transformer</code>本身占用<code>11</code>个字节。如果以字节为单位输入，序列长度就是<code>11</code>；如果它能够作为一个整体Token输入，序列长度就可以压缩为<code>1</code>。Tokenizer的本质作用，就是在<strong>词表大小</strong>和<strong>序列长度</strong>之间寻找平衡：把高频、稳定的字节组合打包成一个Token，从而减少模型实际看到的序列长度。</p>
+<p>&emsp;&emsp;BPE是Tokenizer的一种主流实现方式。它不依赖人工词典，而是通过统计语料中相邻符号对的出现频率，反复合并最常见的符号对，让常见片段逐渐形成更长的Token。这样既保留了从字节出发的开放词表能力，也能对常见文本片段进行压缩。</p>
+<h4 id="BPE流程"><a href="#BPE流程" class="headerlink" title="BPE流程"></a>BPE流程</h4><p>&emsp;&emsp;BPE（Byte-Pair Encoding）的核心思想可以概括为一句话：<strong>从最小的符号单位开始，每次找到当前语料中出现频率最高的相邻符号对，并把它们合并成一个新的Token</strong>。不断重复这个过程后，常见的文本片段会逐渐被压缩成更长的Token，而低频词、生僻词、新词仍然可以退回到更小的子词甚至字节表示。</p>
+<p>&emsp;&emsp;训练流程通常如下：</p>
+<ol>
+<li><strong>初始化基础词表</strong></li>
+</ol>
+<p>&emsp;&emsp;先把<code>0~255</code>这<code>256</code>个字节放进基础词表。由于所有<code>UTF-8</code>文本最终都可以表示成字节序列（单字节或多字节），因此这种做法天然具备开放词表能力：无论是中文、英文、emoji、代码符号还是生僻字符，都能被编码，不会因为遇到未知字符而无法处理。</p>
+<ol start="2">
+<li><strong>处理特殊Token</strong></li>
+</ol>
+<p>&emsp;&emsp;在正式训练之前，需要先确定是否存在特殊Token，例如：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;|endoftext|&gt;</span><br><span class="line">&lt;|pad|&gt;</span><br><span class="line">&lt;|bos|&gt;</span><br><span class="line">&lt;|eos|&gt;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;这些Token不是普通文本，而是带有<strong>控制语义</strong>的标记。例如<code>&lt;|endoftext|&gt;</code>可以表示一段文本结束，<code>&lt;|pad|&gt;</code>可以用于补齐序列长度，<code>&lt;|bos|&gt;</code>和<code>&lt;|eos|&gt;</code>可以表示序列开始和结束。训练时必须把它们从普通语料中隔离出来，避免BPE把它们拆成零散片段，或者让它们和普通文本一起参与频率统计。训练完成后，再把这些特殊Token作为完整Token加入词表。</p>
+<p>&emsp;&emsp;一些领域内具有稳定含义的专业名词，也可以根据任务需要进行类似处理。例如医学文本中的<code>BRCA1</code>、<code>COVID-19</code>，代码语料中的<code>torch.nn.Module</code>、<code>std::vector</code>，论文语料中的<code>Self-Attention</code>、<code>LayerNorm</code>等。如果这些词在任务中非常重要，并且希望模型把它们视为一个完整单元，就可以考虑将它们加入特殊Token或通过规则保护起来。不过特殊Token会占用词表空间，加入过多反而会削弱Tokenizer的通用性，因此一般只保留真正需要稳定表示的控制符号或高价值领域词。</p>
+<ol start="3">
+<li><strong>预分词（Pre-tokenization）</strong></li>
+</ol>
+<p>&emsp;&emsp;在真正统计字节对频率之前，通常需要先做预分词。预分词会根据一组规则先把输入文本切成若干片段，避免BPE在不合适的边界上跨片段合并，产生违背直觉的Token。</p>
+<p>&emsp;&emsp;例如不做预分词时，<code>&quot;您好 人没了&quot;</code>有可能被切成<code>&quot;您&quot;</code>、<code>&quot;好 人&quot;</code>、<code>&quot;没了&quot;</code>，其中<code>&quot;好 人&quot;</code>跨过了空格边界，语义和形式上都不自然。先按空格等规则预分词后，可以得到<code>&quot;您好&quot;</code>和<code>&quot;人没了&quot;</code>两个片段，再分别在片段内部继续分词，例如得到<code>&quot;您好&quot;</code>、<code>&quot;人&quot;</code>、<code>&quot;没了&quot;</code>，这样可以更好地约束Token边界。</p>
+<p>&emsp;&emsp;GPT-2风格的Tokenizer通常会使用正则表达式进行预分词，把文本拆成字母串、数字串、标点、空白符等片段，并且常常把单词前面的空格和单词绑定在一起。例如：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Hello World test!</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;可能会被预分词为：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[&quot;Hello&quot;, &quot; World&quot;, &quot; test&quot;, &quot;!&quot;]</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;这一步不会产生最终Token，而是给后续BPE合并划定边界。也就是说，BPE只在预分词得到的片段内部统计和合并，不会随意跨越片段边界。</p>
+<ol start="4">
+<li><strong>统计相邻符号对频率</strong></li>
+</ol>
+<p>&emsp;&emsp;预分词之后，每个片段会被转换成<code>UTF-8</code>字节序列。然后统计语料中所有相邻符号对的出现频率。例如当前有如下片段：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">t h e</span><br><span class="line">t h e</span><br><span class="line">t h a t</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;那么<code>(t, h)</code>出现<code>3</code>次，<code>(h, e)</code>出现<code>2</code>次，<code>(h, a)</code>出现<code>1</code>次，<code>(a, t)</code>出现<code>1</code>次。这里的频率统计会考虑片段在语料中的出现次数，出现越多的片段，对全局统计的影响越大。</p>
+<ol start="5">
+<li><strong>合并最高频Pair</strong></li>
+</ol>
+<p>&emsp;&emsp;每一轮训练都会选择当前出现频率最高的相邻符号对，并把它合并成一个新Token。例如<code>(t, h)</code>最高频，就把它合并为<code>th</code>：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">t h e   -&gt; th e</span><br><span class="line">t h e   -&gt; th e</span><br><span class="line">t h a t -&gt; th a t</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;合并后，原来的符号序列发生变化，新的相邻符号对也会随之产生。因此BPE会继续在更新后的语料表示上统计<code>pair</code>频率，并进行下一轮合并。</p>
+<ol start="6">
+<li><strong>重复直到达到目标词表大小</strong></li>
+</ol>
+<p>&emsp;&emsp;BPE会不断重复“统计<code>pair</code>频率 -&gt; 选择最高频<code>pair</code> -&gt; 合并为新Token”的过程，直到词表大小达到预设值，或者已经没有可以继续合并的<code>pair</code>。训练结束后，会得到两个核心结果：</p>
+<p>&emsp;&emsp;一是<code>vocab</code>，也就是<strong>Token ID到字节序列的映射</strong>；二是<code>merges</code>，也就是<strong>按训练顺序记录下来的合并规则</strong>。后续编码新文本时，不再重新统计频率，而是按照<code>merges</code>中的优先级应用这些合并规则。</p>
+<p>&emsp;&emsp;总体来看，BPE本质上是一种数据驱动的文本压缩算法：常见片段被合并成更长的Token，从而缩短序列长度；不常见片段则保留为更细粒度的子词或字节，从而保证任何文本都可以被表示。</p>
+<h4 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h4><p>&emsp;&emsp;沿用前面的极简例子，假设预分词后的片段是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">the</span><br><span class="line">the</span><br><span class="line">that</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;为了方便观察，这里暂时用字符来表示对应的单字节。实际的Byte-level BPE中，它们都会先被表示成<code>UTF-8</code>字节序列：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">the  -&gt; t h e</span><br><span class="line">the  -&gt; t h e</span><br><span class="line">that -&gt; t h a t</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;初始<code>vocab</code>包含全部<code>0~255</code>个单字节Token，其中一小部分可以写成：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ID 97  -&gt; b&quot;a&quot;</span><br><span class="line">ID 101 -&gt; b&quot;e&quot;</span><br><span class="line">ID 104 -&gt; b&quot;h&quot;</span><br><span class="line">ID 116 -&gt; b&quot;t&quot;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;第一轮统计相邻<code>pair</code>频率：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">the  : (t, h), (h, e)</span><br><span class="line">the  : (t, h), (h, e)</span><br><span class="line">that : (t, h), (h, a), (a, t)</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;因此：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(t, h) 出现 3 次</span><br><span class="line">(h, e) 出现 2 次</span><br><span class="line">(h, a) 出现 1 次</span><br><span class="line">(a, t) 出现 1 次</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;最高频<code>pair</code>是<code>(t, h)</code>，于是第一条合并规则就是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(b&quot;t&quot;, b&quot;h&quot;) -&gt; b&quot;th&quot;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;这条规则会被记录进<code>merges</code>：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">merges = [</span><br><span class="line">  (b&quot;t&quot;, b&quot;h&quot;)</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;同时<code>vocab</code>中新增一个Token，例如：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ID 256 -&gt; b&quot;th&quot;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;语料表示随之更新为：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">the  -&gt; th e</span><br><span class="line">the  -&gt; th e</span><br><span class="line">that -&gt; th a t</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;第二轮重新统计<code>pair</code>。此时：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(th, e) 出现 2 次</span><br><span class="line">(th, a) 出现 1 次</span><br><span class="line">(a, t)  出现 1 次</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;最高频<code>pair</code>是<code>(th, e)</code>，于是继续合并：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(b&quot;th&quot;, b&quot;e&quot;) -&gt; b&quot;the&quot;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;此时<code>merges</code>变成：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">merges = [</span><br><span class="line">  (b&quot;t&quot;, b&quot;h&quot;),</span><br><span class="line">  (b&quot;th&quot;, b&quot;e&quot;)</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;<code>vocab</code>继续新增：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ID 257 -&gt; b&quot;the&quot;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;语料表示更新为：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">the  -&gt; the</span><br><span class="line">the  -&gt; the</span><br><span class="line">that -&gt; th a t</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;如果继续训练，下一轮可能会把<code>(th, a)</code>合并为<code>tha</code>，再把<code>(tha, t)</code>合并为<code>that</code>。这样最终<code>vocab</code>的一部分可能长这样：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ID 97  -&gt; b&quot;a&quot;</span><br><span class="line">ID 101 -&gt; b&quot;e&quot;</span><br><span class="line">ID 104 -&gt; b&quot;h&quot;</span><br><span class="line">ID 116 -&gt; b&quot;t&quot;</span><br><span class="line">ID 256 -&gt; b&quot;th&quot;</span><br><span class="line">ID 257 -&gt; b&quot;the&quot;</span><br><span class="line">ID 258 -&gt; b&quot;tha&quot;</span><br><span class="line">ID 259 -&gt; b&quot;that&quot;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;对应的<code>merges</code>可能是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(b&quot;t&quot;, b&quot;h&quot;)    -&gt; b&quot;th&quot;</span><br><span class="line">(b&quot;th&quot;, b&quot;e&quot;)   -&gt; b&quot;the&quot;</span><br><span class="line">(b&quot;th&quot;, b&quot;a&quot;)   -&gt; b&quot;tha&quot;</span><br><span class="line">(b&quot;tha&quot;, b&quot;t&quot;)  -&gt; b&quot;that&quot;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;可以看到，<code>vocab</code>和<code>merges</code>关注的是两个不同问题：</p>
+<p>&emsp;&emsp;<code>vocab</code>回答的是：<strong>某个Token ID对应什么字节序列</strong>。例如<code>ID 257 -&gt; b&quot;the&quot;</code>。</p>
+<p>&emsp;&emsp;<code>merges</code>回答的是：<strong>编码新文本时应该按照什么顺序合并字节或子词</strong>。例如先把<code>b&quot;t&quot;</code>和<code>b&quot;h&quot;</code>合并成<code>b&quot;th&quot;</code>，再把<code>b&quot;th&quot;</code>和<code>b&quot;e&quot;</code>合并成<code>b&quot;the&quot;</code>。</p>
+<p>&emsp;&emsp;例如编码新文本<code>the</code>时，初始表示是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">t h e</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;按照<code>merges</code>中的规则依次合并：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">t h e</span><br><span class="line">-&gt; th e</span><br><span class="line">-&gt; the</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;最后再查<code>vocab</code>，就可以得到：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">the -&gt; ID 257</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;如果编码<code>that</code>，初始表示是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">t h a t</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;按照上面的合并规则，可以得到：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">t h a t</span><br><span class="line">-&gt; th a t</span><br><span class="line">-&gt; tha t</span><br><span class="line">-&gt; that</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;最后得到：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">that -&gt; ID 259</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;如果某个词没有被完整合并成一个Token，也没有关系。BPE会使用已经学到的最长可用片段进行表示；如果连子词都匹配不上，也可以退回到底层字节Token。这就是Byte-level BPE既能压缩常见文本，又能覆盖任意UTF-8文本的原因。</p>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><p><a class="link"   target="_blank" rel="noopener" href="https://github.com/chaser026/cs336-1/blob/main/cs336_basics/train_bpe.py" >train_bpe.py<i class="fas fa-external-link-alt"></i></a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> defaultdict, Counter</span><br><span class="line"><span class="keyword">import</span> regex <span class="keyword">as</span> re  <span class="comment"># type: ignore</span></span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">train_bpe</span>(<span class="params"></span></span><br><span class="line"><span class="params">    input_path: <span class="built_in">str</span> | os.PathLike,  <span class="comment"># 输入语料文件的路径</span></span></span><br><span class="line"><span class="params">    vocab_size: <span class="built_in">int</span>,             <span class="comment"># 目标词表大小（基础字节 + 合并 Token + 特殊 Token）</span></span></span><br><span class="line"><span class="params">    special_tokens: <span class="built_in">list</span>[<span class="built_in">str</span>],   <span class="comment"># 需要保留的特殊 Token 列表</span></span></span><br><span class="line"><span class="params"></span>) -&gt; <span class="built_in">tuple</span>[<span class="built_in">dict</span>[<span class="built_in">int</span>, <span class="built_in">bytes</span>], <span class="built_in">list</span>[<span class="built_in">tuple</span>[<span class="built_in">bytes</span>, <span class="built_in">bytes</span>]]]:</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    训练字节级 BPE (Byte-Pair Encoding) 分词器。</span></span><br><span class="line"><span class="string">    </span></span><br><span class="line"><span class="string">    该函数 BPE 算法的核心流程：</span></span><br><span class="line"><span class="string">    1. 初始化词表为所有可能的字节 (0-255)。</span></span><br><span class="line"><span class="string">    2.  读取输入语料，并根据特殊 Token 进行切分，确保特殊 Token 不参与统计。</span></span><br><span class="line"><span class="string">    3. 使用 GPT-2 的预分词正则将语料库切分成单词，并统计每个单词的频率。</span></span><br><span class="line"><span class="string">    4. 迭代进行“合并”操作，直到达到目标词表大小。</span></span><br><span class="line"><span class="string">       - 合并策略：总是选择当前出现频率最高、且在字典序上最大的字节对。</span></span><br><span class="line"><span class="string">    5. 使用倒排索引优化合并过程中的频率更新，确保速度。</span></span><br><span class="line"><span class="string">    6. 将合并产生的 Token 加入词表，并最终加入特殊 Token。</span></span><br><span class="line"><span class="string">    </span></span><br><span class="line"><span class="string">    返回:</span></span><br><span class="line"><span class="string">        tuple[dict[int, bytes], list[tuple[bytes, bytes]]]:</span></span><br><span class="line"><span class="string">            vocab: 训练好的词汇表，映射 Token ID -&gt; Token 字节序列。</span></span><br><span class="line"><span class="string">            merges: BPE 合并规则列表，按生成顺序排列。</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># --- 1. 初始化基础词表 ---</span></span><br><span class="line">    <span class="comment"># 词表从 0 到 255 的字节开始，这是 BPE 的基础单位。</span></span><br><span class="line">    vocab = &#123;i: <span class="built_in">bytes</span>([i]) <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">256</span>)&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 计算需要进行的合并次数。</span></span><br><span class="line">    <span class="comment"># 目标词表大小 = 基础字节数 (256) + 特殊 Token 数 + 需要新生成的 Token 数。</span></span><br><span class="line">    num_merges = vocab_size - <span class="number">256</span> - <span class="built_in">len</span>(special_tokens)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># --- 2. 读取语料，并按特殊 Token 分割 ---</span></span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(input_path, <span class="string">&quot;r&quot;</span>, encoding=<span class="string">&quot;utf-8&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        text = f.read()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 如果指定了特殊 Token，我们需要在开始统计之前将它们从语料中“隔离”出来。</span></span><br><span class="line">    <span class="comment"># 这能防止 BPE 规则将特殊 Token（如 &lt;|endoftext|&gt;）拆开或与普通文本混合。</span></span><br><span class="line"></span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    For special_tokens:</span></span><br><span class="line"><span class="string">    在训练时，必须保证特殊 Token 不参与频率统计。</span></span><br><span class="line"><span class="string">    代码逻辑：</span></span><br><span class="line"><span class="string">        切割语料：在开始统计词频之前，利用正则将语料库在特殊 Token 处切开。</span></span><br><span class="line"><span class="string">        独立统计：只对切分出来的普通文本片段进行 BPE 统计。</span></span><br><span class="line"><span class="string">        最后加入：训练结束后，强制将特殊 Token 加入词表（通常放在最后），确保它们有 ID。</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">if</span> special_tokens:</span><br><span class="line">        <span class="comment"># 在正则中，| 表示“或”，这行代码将多个特殊 token 用 | 连接，形成一个匹配任一 token 的正则模式。</span></span><br><span class="line">        special_regex = <span class="string">&quot;|&quot;</span>.join(re.escape(t) <span class="keyword">for</span> t <span class="keyword">in</span> special_tokens)</span><br><span class="line">        <span class="comment"># 使用 re.split 进行分割。关键是使用捕获组 `(...)`，这样特殊 Token 本身也会被保留在结果列表中。</span></span><br><span class="line">        parts = re.split(<span class="string">f&quot;(<span class="subst">&#123;special_regex&#125;</span>)&quot;</span>, text)</span><br><span class="line">        <span class="comment"># 过滤掉从 parts 中提取出的特殊 Token 本身，只保留用于 BPE 训练的普通文本片段。</span></span><br><span class="line">        <span class="comment"># text = &quot;Hello World World&lt;|endoftext|&gt;Hello happy happy&lt;|endoftext|&gt;!&quot;</span></span><br><span class="line">        <span class="comment"># train_segments =  [&#x27;Hello World World&#x27;, &#x27;Hello happy happy&#x27;, &#x27;!&#x27;]</span></span><br><span class="line">        train_segments = [p <span class="keyword">for</span> p <span class="keyword">in</span> parts <span class="keyword">if</span> p <span class="keyword">not</span> <span class="keyword">in</span> special_tokens]</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="comment"># 如果没有特殊 Token，直接使用整个语料。</span></span><br><span class="line">        train_segments = [text]</span><br><span class="line"></span><br><span class="line">    <span class="comment"># --- 3. 预分词（Pre-tokenization）并统计词频 ---</span></span><br><span class="line">    <span class="comment"># 使用 GPT-2 的 BPE 预分词正则表达式。</span></span><br><span class="line">    <span class="comment"># GPT-2 正则表达式的作用是执行“预分词（Pre-tokenization）”。 它的规则是：</span></span><br><span class="line">    <span class="comment">#   (1)不允许跨越类型合并：比如它会把字母和标点符号分开。</span></span><br><span class="line">    <span class="comment">#   (2)保护空格：它通常会把单词前面的空格和单词连在一起，作为一个整体。</span></span><br><span class="line">    <span class="comment"># text = &quot;Hello World test! ...&quot;</span></span><br><span class="line">    <span class="comment"># 分割后 words = [&#x27;Hello&#x27;, &#x27; World&#x27;, &#x27; test&#x27;, &#x27;!&#x27;, &#x27; ...&#x27;]</span></span><br><span class="line">    gpt2_pat = re.<span class="built_in">compile</span>(<span class="string">r&quot;&quot;&quot;&#x27;(?:[sdmt]|ll|ve|re)| ?\p&#123;L&#125;+| ?\p&#123;N&#125;+| ?[^\s\p&#123;L&#125;\p&#123;N&#125;]+|\s+(?!\S)|\s+&quot;&quot;&quot;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># raw_counts: 存储每个“单词”（预分词后的结果）及其出现频率。</span></span><br><span class="line">    <span class="comment"># 单词被表示为字节元组，例如 &quot;hello&quot; -&gt; (b&#x27;h&#x27;, b&#x27;e&#x27;, b&#x27;l&#x27;, b&#x27;l&#x27;, b&#x27;o&#x27;)</span></span><br><span class="line">    raw_counts = Counter()</span><br><span class="line">    <span class="keyword">for</span> segment <span class="keyword">in</span> train_segments:</span><br><span class="line">        <span class="comment"># 对每个语料片段应用预分词正则，找到所有“单词”</span></span><br><span class="line">        words = gpt2_pat.findall(segment)</span><br><span class="line">        <span class="keyword">for</span> word <span class="keyword">in</span> words:</span><br><span class="line">            <span class="comment"># 将单词转换为 UTF-8 字节序列，然后组成元组作为 Counter 的键, 统计这个元组出现的频次</span></span><br><span class="line">            <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">            对于 &quot;Hi&quot;：</span></span><br><span class="line"><span class="string">                word.encode(&quot;utf-8&quot;) 得到 b&#x27;Hi&#x27;。</span></span><br><span class="line"><span class="string">                for b in b&#x27;Hi&#x27; 会遍历出整数 72 和 105。</span></span><br><span class="line"><span class="string">                bytes([b]) 把整数变回单字节对象：b&#x27;H&#x27; 和 b&#x27;i&#x27;。</span></span><br><span class="line"><span class="string">                最终组成元组：(b&#x27;H&#x27;, b&#x27;i&#x27;)。</span></span><br><span class="line"><span class="string">            为什么必须是元组（tuple）？</span></span><br><span class="line"><span class="string">                因为 Counter 的键（key）必须是不可变的。list 不能做键，而 tuple 可以。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">            举例：</span></span><br><span class="line"><span class="string">                raw_counts = &#123;</span></span><br><span class="line"><span class="string">                    (b&#x27;H&#x27;, b&#x27;i&#x27;): 50,</span></span><br><span class="line"><span class="string">                    (b&#x27; &#x27;, b&#x27;t&#x27;, b&#x27;h&#x27;, b&#x27;e&#x27;, b&#x27;r&#x27;, b&#x27;e&#x27;): 100,</span></span><br><span class="line"><span class="string">                    (b&#x27;!&#x27;): 50,</span></span><br><span class="line"><span class="string">                    (b&#x27;\xe4&#x27;,b&#x27;\xbd&#x27;,b&#x27;\xa0&#x27;,b&#x27;\xe5&#x27;,b&#x27;\xa5&#x27;,b&#x27;\xbd&#x27;):20, # 你好</span></span><br><span class="line"><span class="string">                &#125;</span></span><br><span class="line"><span class="string">            &quot;&quot;&quot;</span></span><br><span class="line">            raw_counts[<span class="built_in">tuple</span>(<span class="built_in">bytes</span>([b]) <span class="keyword">for</span> b <span class="keyword">in</span> word.encode(<span class="string">&quot;utf-8&quot;</span>))] += <span class="number">1</span></span><br><span class="line">            </span><br><span class="line">    <span class="comment"># --- 构建高效数据结构以支持快速合并 ---</span></span><br><span class="line">    <span class="comment"># words_list: 存储每个单词的字节列表。使用 list 而不是 tuple，因为 BPE 合并会修改单词内部结构。</span></span><br><span class="line">    <span class="comment"># counts_list: 存储对应单词的频率。</span></span><br><span class="line">    words_list = []</span><br><span class="line">    counts_list = []</span><br><span class="line">    <span class="keyword">for</span> word_tuple, freq <span class="keyword">in</span> raw_counts.items():</span><br><span class="line">        words_list.append(<span class="built_in">list</span>(word_tuple)) <span class="comment"># 转换为 list 以便后面修改</span></span><br><span class="line">        counts_list.append(freq)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># defaultdict(int) 是一个“带默认初始值”的字典。当你访问一个字典中不存在的键时，它不会报错，而是自动为这个键创建一个默认值 0，而在使用普通字典进行计数时，你必须先检查键是否存在，否则会触发 KeyError。</span></span><br><span class="line">    <span class="comment"># stats: 存储所有可能的相邻字节对 (pair) 及其全局出现频率。</span></span><br><span class="line">    <span class="comment"># 结构：&#123;(byte_a, byte_b): frequency&#125;</span></span><br><span class="line">    stats = defaultdict(<span class="built_in">int</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># indices: 倒排索引。存储 pair -&gt; &#123;包含该 pair 的单词在 words_list 中的下标集合&#125;</span></span><br><span class="line">    <span class="comment"># 这个结构是性能优化的关键，用于快速找到需要更新的单词。</span></span><br><span class="line">    indices = defaultdict(<span class="built_in">set</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># --- 初始化 `stats` 和 `indices` ---</span></span><br><span class="line">    <span class="comment"># 遍历所有唯一的单词</span></span><br><span class="line">    <span class="keyword">for</span> idx, word <span class="keyword">in</span> <span class="built_in">enumerate</span>(words_list):</span><br><span class="line">        freq = counts_list[idx] <span class="comment"># 获取该单词的出现频率</span></span><br><span class="line">        <span class="comment"># 遍历单词中的所有相邻字节对</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(word) - <span class="number">1</span>):</span><br><span class="line">            pair = (word[i], word[i+<span class="number">1</span>])</span><br><span class="line">            stats[pair] += freq          <span class="comment"># 累加该 pair 的全局频率</span></span><br><span class="line">            indices[pair].add(idx)       <span class="comment"># 将当前单词的索引加入该 pair 的倒排列表中</span></span><br><span class="line">            </span><br><span class="line">    merges = [] <span class="comment"># 用于存储生成的 BPE 合并规则，按顺序记录</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># --- 4. 迭代合并流程 ---</span></span><br><span class="line">    <span class="comment"># 循环执行 `num_merges` 次，每次找到并应用一个最佳合并规则</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(num_merges):</span><br><span class="line">        <span class="comment"># 如果 `stats` 为空（所有可能的对都已合并或频率为0），则停止</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> stats:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">            </span><br><span class="line">        <span class="comment"># --- 4a. 寻找最佳 Pair ---</span></span><br><span class="line">        <span class="comment"># 目标：找到当前 `stats` 中频率最高、且字典序最大的 Pair</span></span><br><span class="line">        <span class="comment"># `max(stats.items(), key=lambda x: (x[1], x[0]))` </span></span><br><span class="line">        <span class="comment">#   - x[1] 是频率 (frequency)。max 会优先选择大的频率。</span></span><br><span class="line">        <span class="comment">#   - x[0] 是 Pair (tuple of bytes)。如果频率相同，max 会比较 Pair 的字典序。</span></span><br><span class="line">        <span class="comment">#     Python 对元组的比较是逐个元素进行，所以 `(b&#x27; &#x27;, b&#x27;t&#x27;)` 会大于 `(b&#x27; &#x27;, b&#x27;a&#x27;)`。</span></span><br><span class="line">        best_pair = <span class="built_in">max</span>(stats.items(), key=<span class="keyword">lambda</span> x: (x[<span class="number">1</span>], x[<span class="number">0</span>]))[<span class="number">0</span>]</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 如果最佳 Pair 的频率已经降到 0（可能是在之前的迭代中由于其组成部分被合并了），则停止</span></span><br><span class="line">        <span class="keyword">if</span> stats[best_pair] &lt;= <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">            </span><br><span class="line">        <span class="comment"># 记录这次合并</span></span><br><span class="line">        merges.append(best_pair)</span><br><span class="line">        <span class="comment"># 创建新的 Token（合并后的字节序列）</span></span><br><span class="line">        new_token = best_pair[<span class="number">0</span>] + best_pair[<span class="number">1</span>]</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># --- 4b. 获取需要更新的单词 ---</span></span><br><span class="line">        <span class="comment"># 使用倒排索引 `indices`，快速获取所有包含 `best_pair` 的单词的下标</span></span><br><span class="line">        <span class="comment"># 必须复制一份 `relevant_indices`，因为后面的循环会修改 `indices` 和 `stats`</span></span><br><span class="line">        relevant_indices = <span class="built_in">list</span>(indices[best_pair])</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># --- 4c. 遍历并更新所有受影响的单词、统计信息和倒排索引 ---</span></span><br><span class="line">        <span class="keyword">for</span> idx <span class="keyword">in</span> relevant_indices:</span><br><span class="line">            word = words_list[idx] <span class="comment"># 获取单词</span></span><br><span class="line">            freq = counts_list[idx] <span class="comment"># 获取单词的频率</span></span><br><span class="line">            </span><br><span class="line">            <span class="comment"># 扫描当前单词，找到所有 `best_pair` 的出现位置</span></span><br><span class="line">            i = <span class="number">0</span></span><br><span class="line">            <span class="keyword">while</span> i &lt; <span class="built_in">len</span>(word) - <span class="number">1</span>:</span><br><span class="line">                <span class="comment"># 检查当前位置 `i` 和 `i+1` 是否匹配 `best_pair`</span></span><br><span class="line">                <span class="keyword">if</span> word[i] == best_pair[<span class="number">0</span>] <span class="keyword">and</span> word[i+<span class="number">1</span>] == best_pair[<span class="number">1</span>]:</span><br><span class="line">                    <span class="comment"># --- 匹配到 `best_pair`，执行合并 ---</span></span><br><span class="line">                    </span><br><span class="line">                    <span class="comment"># 1. 更新旧的邻居 Pair 的频率：</span></span><br><span class="line">                    <span class="comment">#    - 左邻居：(word[i-1], word[i])</span></span><br><span class="line">                    <span class="keyword">if</span> i &gt; <span class="number">0</span>:</span><br><span class="line">                        prev_pair = (word[i-<span class="number">1</span>], word[i])</span><br><span class="line">                        stats[prev_pair] -= freq <span class="comment"># 频率减去该单词的频率</span></span><br><span class="line">                        <span class="keyword">if</span> stats[prev_pair] == <span class="number">0</span>:</span><br><span class="line">                            <span class="comment"># 如果频率降为 0，从 `stats` 中移除该 pair，避免未来错误选择</span></span><br><span class="line">                            <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">                            stats 字典里依然会存在这个键：&#123;(b&#x27;x&#x27;, b&#x27;y&#x27;): 0&#125;。</span></span><br><span class="line"><span class="string">                            当训练快结束，或者剩下的所有对频率都降为 0 时，max 函数依然会扫描这些值为 0 的项。</span></span><br><span class="line"><span class="string">                            根据平局规则，如果存在多个频率为 0 的项，max 会返回其中字典序最大的那一个，这是错误的</span></span><br><span class="line"><span class="string">                            &quot;&quot;&quot;</span></span><br><span class="line">                            <span class="keyword">del</span> stats[prev_pair]</span><br><span class="line">                        <span class="comment"># 不从 indices 中移除 idx</span></span><br><span class="line">                        <span class="comment"># 因为我们后续会通过检查 `word[i]` 来确定是否真的匹配。</span></span><br><span class="line">                        <span class="comment"># 频繁移除索引反而可能导致性能下降或逻辑错误。</span></span><br><span class="line">                        </span><br><span class="line">                    <span class="comment">#    - 右邻居：(word[i+1], word[i+2])</span></span><br><span class="line">                    <span class="keyword">if</span> i &lt; <span class="built_in">len</span>(word) - <span class="number">2</span>:</span><br><span class="line">                        next_pair = (word[i+<span class="number">1</span>], word[i+<span class="number">2</span>])</span><br><span class="line">                        stats[next_pair] -= freq</span><br><span class="line">                        <span class="keyword">if</span> stats[next_pair] == <span class="number">0</span>:</span><br><span class="line">                            <span class="keyword">del</span> stats[next_pair]</span><br><span class="line">                      </span><br><span class="line">                    </span><br><span class="line">                    <span class="comment"># 2. 修改单词结构：将 (word[i], word[i+1]) 替换为 new_token</span></span><br><span class="line">                    word[i] = new_token     <span class="comment"># 将第一个字节替换为新 Token</span></span><br><span class="line">                    <span class="keyword">del</span> word[i+<span class="number">1</span>]           <span class="comment"># 删除第二个字节，使单词变短</span></span><br><span class="line">                    </span><br><span class="line">                    <span class="comment"># 3. 添加新产生的邻居 Pair 的频率和索引</span></span><br><span class="line">                    <span class="comment">#    - 新的左邻居：(word[i-1], new_token)</span></span><br><span class="line">                    <span class="keyword">if</span> i &gt; <span class="number">0</span>:</span><br><span class="line">                        new_prev = (word[i-<span class="number">1</span>], word[i]) <span class="comment"># word[i] 现在是 new_token</span></span><br><span class="line">                        stats[new_prev] += freq</span><br><span class="line">                        indices[new_prev].add(idx) <span class="comment"># 添加到新 pair 的倒排索引</span></span><br><span class="line">                    </span><br><span class="line">                    <span class="comment">#    - 新的右邻居：(new_token, word[i+1]) (注意：word[i+1] 是旧的 word[i+2])</span></span><br><span class="line">                    <span class="keyword">if</span> i &lt; <span class="built_in">len</span>(word) - <span class="number">1</span>:</span><br><span class="line">                        new_next = (word[i], word[i+<span class="number">1</span>])</span><br><span class="line">                        stats[new_next] += freq</span><br><span class="line">                        indices[new_next].add(idx)</span><br><span class="line">                    </span><br><span class="line">                    <span class="comment"># 合并后，索引 i 指向的是新 Token。</span></span><br><span class="line">                    <span class="comment"># i 不需要移动（i+=1），因为我们刚刚修改了 word[i] 并且删除了 word[i+1]。</span></span><br><span class="line">                    <span class="comment"># 下一轮循环会检查新的 (word[i], word[i+1])，即 (new_token, old_word[i+2])</span></span><br><span class="line">                    <span class="comment"># 这可以处理像 A A A -&gt; X A 这样的情况，正确地更新新的邻居对</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    <span class="comment"># 如果不匹配，正常移动到下一个位置</span></span><br><span class="line">                    i += <span class="number">1</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 4d. 清理：移除已完全合并的 `best_pair`</span></span><br><span class="line">        <span class="comment"># 这个 pair 已经不存在于 `stats` 和 `indices` 中了</span></span><br><span class="line">        <span class="keyword">if</span> best_pair <span class="keyword">in</span> stats: <span class="keyword">del</span> stats[best_pair]</span><br><span class="line">        <span class="keyword">if</span> best_pair <span class="keyword">in</span> indices: <span class="keyword">del</span> indices[best_pair]</span><br><span class="line"></span><br><span class="line">    <span class="comment"># --- 5. 构建最终的词表 ---</span></span><br><span class="line">    <span class="comment"># 添加 BPE 合并产生的 Token，ID 从 256 开始，按合并顺序递增</span></span><br><span class="line">    <span class="keyword">for</span> pair <span class="keyword">in</span> merges:</span><br><span class="line">        new_id = <span class="built_in">len</span>(vocab)</span><br><span class="line">        vocab[new_id] = pair[<span class="number">0</span>] + pair[<span class="number">1</span>]</span><br><span class="line">        </span><br><span class="line">    <span class="comment"># 添加特殊 Token</span></span><br><span class="line">    <span class="keyword">for</span> s_tok <span class="keyword">in</span> special_tokens:</span><br><span class="line">        s_bytes = s_tok.encode(<span class="string">&quot;utf-8&quot;</span>)</span><br><span class="line">        vocab[<span class="built_in">len</span>(vocab)] = s_bytes</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> vocab, merges</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">bytes_to_unicode</span>():</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    创建一个映射，将 0-255 字节映射为一组可见的 Unicode 字符。</span></span><br><span class="line"><span class="string">    这是 GPT-2 源码中的标准做法。</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    bs = <span class="built_in">list</span>(<span class="built_in">range</span>(<span class="built_in">ord</span>(<span class="string">&quot;!&quot;</span>), <span class="built_in">ord</span>(<span class="string">&quot;~&quot;</span>) + <span class="number">1</span>)) + <span class="built_in">list</span>(<span class="built_in">range</span>(<span class="built_in">ord</span>(<span class="string">&quot;¡&quot;</span>), <span class="built_in">ord</span>(<span class="string">&quot;¬&quot;</span>) + <span class="number">1</span>)) + <span class="built_in">list</span>(<span class="built_in">range</span>(<span class="built_in">ord</span>(<span class="string">&quot;®&quot;</span>), <span class="built_in">ord</span>(<span class="string">&quot;ÿ&quot;</span>) + <span class="number">1</span>))</span><br><span class="line">    cs = bs[:]</span><br><span class="line">    n = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> b <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">256</span>):</span><br><span class="line">        <span class="keyword">if</span> b <span class="keyword">not</span> <span class="keyword">in</span> bs:</span><br><span class="line">            bs.append(b)</span><br><span class="line">            cs.append(<span class="number">256</span> + n)</span><br><span class="line">            n += <span class="number">1</span></span><br><span class="line">    cs = [<span class="built_in">chr</span>(n) <span class="keyword">for</span> n <span class="keyword">in</span> cs]</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">dict</span>(<span class="built_in">zip</span>(bs, cs))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">save_tokenizer_files</span>(<span class="params">vocab, merges, out_dir</span>):</span><br><span class="line">    os.makedirs(out_dir, exist_ok=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 初始化映射表</span></span><br><span class="line">    byte_encoder = bytes_to_unicode()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 词表保存</span></span><br><span class="line">    <span class="comment"># 使用 byte_encoder 将 bytes 转换为可见字符串</span></span><br><span class="line">    json_vocab = &#123;</span><br><span class="line">        k: <span class="string">&quot;&quot;</span>.join(byte_encoder[b] <span class="keyword">for</span> b <span class="keyword">in</span> v) </span><br><span class="line">        <span class="keyword">for</span> k, v <span class="keyword">in</span> vocab.items()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(os.path.join(out_dir, <span class="string">&quot;vocab.json&quot;</span>), <span class="string">&quot;w&quot;</span>, encoding=<span class="string">&quot;utf-8&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        json.dump(json_vocab, f, indent=<span class="number">4</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 合并规则保存</span></span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(os.path.join(out_dir, <span class="string">&quot;merges.txt&quot;</span>), <span class="string">&quot;w&quot;</span>, encoding=<span class="string">&quot;utf-8&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        <span class="keyword">for</span> p1, p2 <span class="keyword">in</span> merges:</span><br><span class="line">            <span class="comment"># 同样转换 p1 和 p2</span></span><br><span class="line">            s1 = <span class="string">&quot;&quot;</span>.join(byte_encoder[b] <span class="keyword">for</span> b <span class="keyword">in</span> p1)</span><br><span class="line">            s2 = <span class="string">&quot;&quot;</span>.join(byte_encoder[b] <span class="keyword">for</span> b <span class="keyword">in</span> p2)</span><br><span class="line">            f.write(<span class="string">f&quot;<span class="subst">&#123;s1&#125;</span> <span class="subst">&#123;s2&#125;</span>\n&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>():</span><br><span class="line">    input_path = <span class="string">&quot;data/TinyStoriesV2-GPT4-train.txt&quot;</span> <span class="comment"># 你的原始文本路径</span></span><br><span class="line">    vocab_size = <span class="number">10000</span> <span class="comment"># 作业要求的词表大小</span></span><br><span class="line">    <span class="comment"># input_path = &quot;data/owt_train.txt&quot; </span></span><br><span class="line">    <span class="comment"># input_path = &quot;data/chinese.txt&quot; </span></span><br><span class="line">    <span class="comment"># vocab_size = 1000 # 作业要求的词表大小</span></span><br><span class="line">    </span><br><span class="line">    special_tokens = [<span class="string">&quot;&lt;|endoftext|&gt;&quot;</span>]</span><br><span class="line">    output_dir = <span class="string">&quot;data/TinyStoriesV2-GPT4-train&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;开始训练 BPE 分词器 (目标词表大小: <span class="subst">&#123;vocab_size&#125;</span>)...&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;这可能需要几分钟，具体取决于你的 CPU 速度和倒排索引的效率。&quot;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 调用你之前写好的逻辑</span></span><br><span class="line">    vocab, merges = train_bpe(input_path, vocab_size, special_tokens)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 保存结果</span></span><br><span class="line">    save_tokenizer_files(vocab, merges, output_dir)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+<h3 id="完整tokenizer类的封装"><a href="#完整tokenizer类的封装" class="headerlink" title="完整tokenizer类的封装"></a>完整tokenizer类的封装</h3><blockquote>
+<p>&emsp;&emsp;<code>vocab</code>回答的是：<strong>某个 <code>Token ID</code> 对应什么字节序列</strong>。</p>
+<p>&emsp;&emsp;<code>merges</code>回答的是：<strong>编码新文本时，应该按照什么顺序合并字节或子词</strong>。</p>
+</blockquote>
+<p>&emsp;&emsp;在使用 BPE 算法得到 <code>vocab</code>（词表）和 <code>merges</code>（合并规则）后，还需要把训练结果封装成一个完整的 <code>Tokenizer</code>。这个类需要完成两件事：一是把原始字符串转换为 <code>Token ID</code> 列表，也就是<strong>编码（Encode）</strong>；二是把 <code>Token ID</code> 列表还原为字符串，也就是<strong>解码（Decode）</strong>。</p>
+<p>&emsp;&emsp;完整的 <code>Tokenizer</code> 还需要处理特殊 Token，例如 <code>&lt;|endoftext|&gt;</code>。这类 Token 带有控制语义，编码时应该被优先识别并直接映射为对应的 ID，而不是被普通的 BPE 流程继续拆分。</p>
+<h4 id="编码（Encode）"><a href="#编码（Encode）" class="headerlink" title="编码（Encode）"></a>编码（Encode）</h4><p>&emsp;&emsp;编码的输入是一个字符串，输出是一个 <code>list[int]</code>。它的核心原则是：<strong>严格按照训练阶段得到的 <code>merges</code> 顺序进行合并</strong>。由于越早加入 <code>merges</code> 的规则优先级越高，所以编码时会选择 <code>rank</code> 最小的 <code>pair</code> 先合并。</p>
+<p>&emsp;&emsp;对于不包含特殊 Token 的普通文本，编码流程可以概括为：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">while true:</span><br><span class="line">    1. 找出当前序列中所有相邻的 pair</span><br><span class="line">    2. 检查这些 pair 是否出现在 merges 规则中</span><br><span class="line">    3. 如果都不在，停止循环</span><br><span class="line">    4. 如果有多对 pair 可以合并，选择 rank 最小的 best_pair</span><br><span class="line">    5. 执行合并：将当前序列中所有 best_pair 替换为合并后的字节块</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;这里要注意，合并过程中操作的是字节块，而不是最终的 <code>Token ID</code>。只有当某个预分词片段已经无法继续合并时，才会把当前得到的字节块逐个拿到 <code>vocab</code> 中查询，转换成对应的 ID。</p>
+<p>&emsp;&emsp;如果文本中包含特殊 Token，则需要先把特殊 Token 和普通文本切开：特殊 Token 直接查表得到 ID；特殊 Token 之间的普通文本，再走 <code>GPT-2</code> 预分词和 BPE 合并流程。</p>
+<img    
+                       lazyload
+                       alt="image"
+                       data-src="encode.drawio.svg"
+                         alt="encode" style="width:30%; max-width:720px;"
+                 >
+
+<h4 id="解码（Decode）"><a href="#解码（Decode）" class="headerlink" title="解码（Decode）"></a>解码（Decode）</h4><p>&emsp;&emsp;解码的输入是一个 <code>Token ID</code> 列表，输出是一个字符串。相比编码，解码流程更直接：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. 遍历当前 ID 列表，从 vocab 中找到每个 ID 对应的 bytes</span><br><span class="line">2. 将所有 bytes 按顺序拼接成一个完整的字节流</span><br><span class="line">3. 调用 decode(&quot;utf-8&quot;, errors=&quot;replace&quot;) 还原为字符串</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;解码时可能会遇到不合法的 <code>UTF-8</code> 字节流。更准确地说，模型生成的是 <code>Token ID</code> 序列；解码时，这些 ID 会先通过 <code>vocab</code> 映射回对应的字节块，再拼接成完整字节流。如果字节流刚好被截断，或者不是合法的 <code>UTF-8</code> 编码，直接调用 <code>decode(&quot;utf-8&quot;)</code> 就会抛出 <code>UnicodeDecodeError</code>。</p>
+<p>&emsp;&emsp;例如，👍 对应的 <code>UTF-8</code> 字节是 <code>b&#39;\xf0\x9f\x91\x8d&#39;</code>，这是一个 4 字节序列。如果只拿到前两个字节 <code>b&#39;\xf0\x9f&#39;</code>，直接解码就会报错。解决方法是在解码时使用 <code>errors=&quot;replace&quot;</code>，让 Python 用 Unicode 替换字符 <code>�</code> 代替非法字节片段。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> full_bytes.decode(<span class="string">&quot;utf-8&quot;</span>, errors=<span class="string">&quot;replace&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h4 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h4><p><a class="link"   target="_blank" rel="noopener" href="https://github.com/chaser026/cs336-1/blob/main/cs336_basics/tokenizer.py" >tokenizer.py<i class="fas fa-external-link-alt"></i></a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> regex <span class="keyword">as</span> re  <span class="comment"># 使用 regex 而非内置 re，因为它支持 Unicode 类别（如 \p&#123;L&#125;）</span></span><br><span class="line"><span class="keyword">from</span> collections.abc <span class="keyword">import</span> Iterable</span><br><span class="line"></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">For special_tokens:</span></span><br><span class="line"><span class="string">    推理/编码阶段 (Tokenizer.encode)</span></span><br><span class="line"><span class="string">        在模型使用分词器将文本转为 ID 时，必须优先匹配特殊 Token。</span></span><br><span class="line"><span class="string">    代码逻辑：</span></span><br><span class="line"><span class="string">        正则匹配：构建一个包含所有特殊 Token 的正则表达式。</span></span><br><span class="line"><span class="string">        优先级：先扫描文本，一旦发现特殊 Token，直接将其转为对应的 ID。</span></span><br><span class="line"><span class="string">        普通处理：特殊 Token 之间的文本，再走正常的 GPT-2 预分词和 BPE 合并流程。</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">BPETokenizer</span>:</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    字节级 BPE（Byte-Pair Encoding）分词器实现。</span></span><br><span class="line"><span class="string">    </span></span><br><span class="line"><span class="string">    该分词器将任意字符串编码为整数 ID 序列，并能将 ID 序列还原。</span></span><br><span class="line"><span class="string">    它采用字节级处理，确保不会出现未知词（OOV）错误。</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, vocab: <span class="built_in">dict</span>[<span class="built_in">int</span>, <span class="built_in">bytes</span>], merges: <span class="built_in">list</span>[<span class="built_in">tuple</span>[<span class="built_in">bytes</span>, <span class="built_in">bytes</span>]], special_tokens: <span class="built_in">list</span>[<span class="built_in">str</span>] | <span class="literal">None</span> = <span class="literal">None</span></span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        初始化分词器。</span></span><br><span class="line"><span class="string">        </span></span><br><span class="line"><span class="string">        参数:</span></span><br><span class="line"><span class="string">            vocab: 词汇表，建立整数 ID 到 字节块(bytes) 的映射。</span></span><br><span class="line"><span class="string">            merges: 合并规则列表。列表中的每一项是一个二元组 (bytes_a, bytes_b)，</span></span><br><span class="line"><span class="string">                   表示在训练过程中 bytes_a 和 bytes_b 被合并的顺序。</span></span><br><span class="line"><span class="string">            special_tokens: 特殊标记列表（如 &lt;|endoftext|&gt;），这些标记不会被 BPE 规则拆分。</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="comment"># 1. 建立双向映射，方便查表</span></span><br><span class="line">        <span class="variable language_">self</span>.vocab = vocab  <span class="comment"># ID -&gt; 字节块</span></span><br><span class="line">        <span class="variable language_">self</span>.id_to_byte = vocab</span><br><span class="line">        <span class="variable language_">self</span>.byte_to_id = &#123;v: k <span class="keyword">for</span> k, v <span class="keyword">in</span> vocab.items()&#125; <span class="comment"># 字节块 -&gt; ID</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 2. 将合并规则转换为Rank字典。</span></span><br><span class="line">        <span class="comment"># BPE 编码时，必须优先应用在训练阶段较早出现的合并规则。</span></span><br><span class="line">        <span class="comment"># 字典结构为: &#123;(byte_a, byte_b): 顺序索引&#125;</span></span><br><span class="line">        <span class="variable language_">self</span>.merges = &#123;pair: i <span class="keyword">for</span> i, pair <span class="keyword">in</span> <span class="built_in">enumerate</span>(merges)&#125;</span><br><span class="line">        </span><br><span class="line">        <span class="variable language_">self</span>.special_tokens = special_tokens <span class="keyword">or</span> []</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 3. 构建特殊 Token 的正则表达式</span></span><br><span class="line">        <span class="keyword">if</span> <span class="variable language_">self</span>.special_tokens:</span><br><span class="line">            <span class="comment"># 关键：必须按照长度从长到短排序（reverse=True）。</span></span><br><span class="line">            <span class="comment"># 这样正则引擎会优先匹配最长的特殊标记，防止重叠标记（如 &lt;|a|&gt;&lt;|b|&gt;）被错误拆分。</span></span><br><span class="line">            sorted_special = <span class="built_in">sorted</span>(<span class="variable language_">self</span>.special_tokens, key=<span class="built_in">len</span>, reverse=<span class="literal">True</span>)</span><br><span class="line">            <span class="comment"># 使用 re.escape 确保标记中的特殊字符（如 | 或 [ ）被当作普通字符处理</span></span><br><span class="line">            special_pattern = <span class="string">&quot;|&quot;</span>.join(re.escape(t) <span class="keyword">for</span> t <span class="keyword">in</span> sorted_special)</span><br><span class="line">            <span class="variable language_">self</span>.special_regex = re.<span class="built_in">compile</span>(special_pattern)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="variable language_">self</span>.special_regex = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 4. GPT-2 官方预分词正则表达式。</span></span><br><span class="line">        <span class="comment"># 它的作用是在应用 BPE 合并前，先将文本切分成单词、标点、数字等逻辑块。</span></span><br><span class="line">        <span class="comment"># 这样做是为了防止 BPE 规则跨越单词或标点（例如：防止将 &quot;dog&quot; 的末尾和 &quot;.&quot; 合并）。</span></span><br><span class="line">        <span class="variable language_">self</span>.gpt2_pat = re.<span class="built_in">compile</span>(<span class="string">r&quot;&quot;&quot;&#x27;(?:[sdmt]|ll|ve|re)| ?\p&#123;L&#125;+| ?\p&#123;N&#125;+| ?[^\s\p&#123;L&#125;\p&#123;N&#125;]+|\s+(?!\S)|\s+&quot;&quot;&quot;</span>)</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">encode</span>(<span class="params">self, text: <span class="built_in">str</span></span>) -&gt; <span class="built_in">list</span>[<span class="built_in">int</span>]:</span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        将输入的原始字符串编码为整数 ID 列表。</span></span><br><span class="line"><span class="string">        </span></span><br><span class="line"><span class="string">        该方法的核心逻辑是：</span></span><br><span class="line"><span class="string">        1. 作为一个“协调者”，它负责处理文本中的“特殊标记（Special Tokens）”和“普通文本”。</span></span><br><span class="line"><span class="string">        2. 特殊标记（如 &lt;|endoftext|&gt;）被视为原子，直接映射为 ID，不参与 BPE 的拆分和合并。</span></span><br><span class="line"><span class="string">        3. 普通文本片段则被交给底层逻辑执行预分词和 BPE 算法。</span></span><br><span class="line"><span class="string">        </span></span><br><span class="line"><span class="string">        参数:</span></span><br><span class="line"><span class="string">            text: 需要编码的原始字符串（例如 &quot;Hello&lt;|end|&gt;World&quot;）。</span></span><br><span class="line"><span class="string">            </span></span><br><span class="line"><span class="string">        返回:</span></span><br><span class="line"><span class="string">            list[int]: 编码后的整数 ID 序列。</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="comment"># --- 步骤 1: 边界情况检查 ---</span></span><br><span class="line">        <span class="comment"># 如果输入是空字符串或 None，直接返回空列表。</span></span><br><span class="line">        <span class="comment"># 这是为了防止后续逻辑在处理空文本时产生错误。</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> text:</span><br><span class="line">            <span class="keyword">return</span> []</span><br><span class="line"></span><br><span class="line">        <span class="comment"># --- 步骤 2: 情况 A - 快速路径 (Fast Path) ---</span></span><br><span class="line">        <span class="comment"># 如果我们在初始化时没有定义任何特殊标记（或者特殊标记列表为空），</span></span><br><span class="line">        <span class="comment"># 那么整个文本都可以被视为一段连续的“普通文本”。</span></span><br><span class="line">        <span class="comment"># 我们直接调用内部方法 _encode_text_segment 进行 BPE 处理并返回结果。</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> <span class="variable language_">self</span>.special_regex:</span><br><span class="line">            <span class="keyword">return</span> <span class="variable language_">self</span>._encode_text_segment(text)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># --- 步骤 3: 情况 B - 处理含有特殊标记的复杂文本 ---</span></span><br><span class="line">        <span class="comment"># 此时文本中可能混有普通文字和特殊标记，我们需要像“剪刀”一样把它们切开。</span></span><br><span class="line">        tokens = []</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># last_pos 用于记录上一次匹配结束的位置，帮助我们定位“特殊标记”之间的“缝隙”。</span></span><br><span class="line">        last_pos = <span class="number">0</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 使用 finditer 遍历文本中所有符合特殊标记模式的匹配项。</span></span><br><span class="line">        <span class="comment"># finditer 的好处是它提供了 match.start() 和 match.end()，</span></span><br><span class="line">        <span class="comment"># 这让我们能够精确地知道特殊标记在哪里开始，在哪里结束。</span></span><br><span class="line">        <span class="keyword">for</span> <span class="keyword">match</span> <span class="keyword">in</span> <span class="variable language_">self</span>.special_regex.finditer(text):</span><br><span class="line">            </span><br><span class="line">            <span class="comment"># 3.1 提取并处理“前置普通文本”</span></span><br><span class="line">            <span class="comment"># 这里的区间是 [last_pos, match.start())。</span></span><br><span class="line">            <span class="comment"># &quot; hello &lt;|endoftext|&gt; world&quot;</span></span><br><span class="line">            <span class="comment"># 这段文本是夹在两个特殊标记之间（或者开头到第一个特殊标记之间）的普通文字。</span></span><br><span class="line">            pre_text = text[last_pos:<span class="keyword">match</span>.start()]</span><br><span class="line">            </span><br><span class="line">            <span class="comment"># 如果这两个标记之间确实有文字（长度 &gt; 0）</span></span><br><span class="line">            <span class="keyword">if</span> pre_text:</span><br><span class="line">                <span class="comment"># 调用核心 BPE 逻辑。_encode_text_segment 会执行：</span></span><br><span class="line">                <span class="comment"># 1. GPT-2 预分词正则切分。</span></span><br><span class="line">                <span class="comment"># 2. 字节化。</span></span><br><span class="line">                <span class="comment"># 3. 按照 merges 规则进行贪婪合并。</span></span><br><span class="line">                tokens.extend(<span class="variable language_">self</span>._encode_text_segment(pre_text))</span><br><span class="line">                <span class="comment"># pre_tokens : [1,2,3,...] self._encode_text_segment: [4,5,6] tokens.extend -&gt; [1,2,3,...,4,5,6]</span></span><br><span class="line">                <span class="comment"># token.append() : [1,2,3,...,[4,5,6]]</span></span><br><span class="line">            </span><br><span class="line">            <span class="comment"># 3.2 处理“当前特殊标记”</span></span><br><span class="line">            <span class="comment"># match.group() 拿到的就是被识别出来的特殊标记字符串（如 &quot;&lt;|endoftext|&gt;&quot;）。</span></span><br><span class="line">            special_tok = <span class="keyword">match</span>.group()</span><br><span class="line">            </span><br><span class="line">            <span class="comment"># 核心原则：特殊标记不参与 BPE 合并！</span></span><br><span class="line">            <span class="comment"># 我们直接将其编码为 UTF-8 字节，然后在词表中查找其 ID。</span></span><br><span class="line">            <span class="comment"># 注意：这些标记在 train_bpe 阶段必须已经被手动加入到了词表中。</span></span><br><span class="line">            tokens.append(<span class="variable language_">self</span>.byte_to_id[special_tok.encode(<span class="string">&quot;utf-8&quot;</span>)])</span><br><span class="line">            </span><br><span class="line">            <span class="comment"># 3.3 更新游标</span></span><br><span class="line">            <span class="comment"># 将游标移动到当前匹配项的末尾，为寻找下一个片段做准备。</span></span><br><span class="line">            last_pos = <span class="keyword">match</span>.end()</span><br><span class="line">            </span><br><span class="line">        <span class="comment"># --- 步骤 4: 处理“收尾文本” ---</span></span><br><span class="line">        <span class="comment"># 如果最后一个特殊标记后面还有文字（例如 &quot;Hello&lt;|end|&gt;World&quot; 中的 &quot;World&quot;），</span></span><br><span class="line">        <span class="comment"># 或者整个文本根本没有特殊标记匹配（虽然逻辑上 Case A 已处理，但这里是双重保险），</span></span><br><span class="line">        <span class="comment"># 我们需要处理从 last_pos 到字符串末尾的所有剩余字符。</span></span><br><span class="line">        remaining_text = text[last_pos:]</span><br><span class="line">        <span class="keyword">if</span> remaining_text:</span><br><span class="line">            <span class="comment"># 剩余部分同样作为普通文本片段进行 BPE 编码。</span></span><br><span class="line">            tokens.extend(<span class="variable language_">self</span>._encode_text_segment(remaining_text))</span><br><span class="line">            </span><br><span class="line">        <span class="comment"># 返回拼接好的所有 ID 列表</span></span><br><span class="line">        <span class="keyword">return</span> tokens</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">_encode_text_segment</span>(<span class="params">self, text: <span class="built_in">str</span></span>) -&gt; <span class="built_in">list</span>[<span class="built_in">int</span>]:</span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        内部核心函数：对不含特殊 Token 的纯文本片段应用 BPE 合并逻辑。</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        ids = []</span><br><span class="line">        <span class="comment"># 使用 GPT-2 正则进行预分词，将文本拆成单词/标点符号块</span></span><br><span class="line">        <span class="comment"># 例如：&quot;Hello world!&quot; -&gt; [&quot;Hello&quot;, &quot; world&quot;, &quot;!&quot;]</span></span><br><span class="line">        pre_tokens = <span class="variable language_">self</span>.gpt2_pat.findall(text)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> p_tok <span class="keyword">in</span> pre_tokens:</span><br><span class="line">            <span class="comment"># 第一步：将当前片段转为字节序列，并将每个字节看作一个独立的“部分（Part）”</span></span><br><span class="line">            <span class="comment"># 例如：&quot;Hello&quot; -&gt; [b&#x27;H&#x27;, b&#x27;e&#x27;, b&#x27;l&#x27;, b&#x27;l&#x27;, b&#x27;o&#x27;]</span></span><br><span class="line">            byte_parts = [<span class="built_in">bytes</span>([b]) <span class="keyword">for</span> b <span class="keyword">in</span> p_tok.encode(<span class="string">&quot;utf-8&quot;</span>)]</span><br><span class="line">            </span><br><span class="line">            <span class="comment"># 第二步：反复执行合并，直到没有符合条件的合并规则为止</span></span><br><span class="line">            <span class="keyword">while</span> <span class="built_in">len</span>(byte_parts) &gt;= <span class="number">2</span>:</span><br><span class="line">                <span class="comment"># 在当前序列的所有相邻对中，寻找合并优先级最高（Rank 最小）的一对，即按照构造merge时添加pair的顺序进行合并</span></span><br><span class="line">                best_pair = <span class="literal">None</span></span><br><span class="line">                min_rank = <span class="built_in">float</span>(<span class="string">&#x27;inf&#x27;</span>)</span><br><span class="line">                </span><br><span class="line">                <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(byte_parts) - <span class="number">1</span>):</span><br><span class="line">                    pair = (byte_parts[i], byte_parts[i+<span class="number">1</span>])</span><br><span class="line">                    <span class="keyword">if</span> pair <span class="keyword">in</span> <span class="variable language_">self</span>.merges:</span><br><span class="line">                        rank = <span class="variable language_">self</span>.merges[pair]</span><br><span class="line">                        <span class="keyword">if</span> rank &lt; min_rank:</span><br><span class="line">                            min_rank = rank</span><br><span class="line">                            best_pair = pair</span><br><span class="line">                </span><br><span class="line">                <span class="comment"># 如果找不到任何可以合并的规则，退出当前片段的合并过程</span></span><br><span class="line">                <span class="keyword">if</span> best_pair <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">                    <span class="keyword">break</span> </span><br><span class="line">                </span><br><span class="line">                <span class="comment"># 第三步：执行合并操作。</span></span><br><span class="line">                <span class="comment"># 遍历当前序列，将所有出现的 best_pair 替换成合并后的长字节块。</span></span><br><span class="line">                new_byte_parts = []</span><br><span class="line">                i = <span class="number">0</span></span><br><span class="line">                <span class="comment"># [b&#x27;H&#x27;, b&#x27;e&#x27;, b&#x27;l&#x27;, b&#x27;l&#x27;, b&#x27;o&#x27;, b&#x27;H&#x27;, b&#x27;e&#x27;] -&gt; [b&#x27;He&#x27;, b&#x27;l&#x27;, b&#x27;l&#x27;, b&#x27;o&#x27;, b&#x27;He&#x27;]</span></span><br><span class="line">                <span class="keyword">while</span> i &lt; <span class="built_in">len</span>(byte_parts):</span><br><span class="line">                    <span class="comment"># 如果当前两个部分匹配最高优规则</span></span><br><span class="line">                    <span class="keyword">if</span> i &lt; <span class="built_in">len</span>(byte_parts) - <span class="number">1</span> <span class="keyword">and</span> (byte_parts[i], byte_parts[i+<span class="number">1</span>]) == best_pair:</span><br><span class="line">                        new_byte_parts.append(best_pair[<span class="number">0</span>] + best_pair[<span class="number">1</span>])</span><br><span class="line">                        i += <span class="number">2</span> <span class="comment"># 跳过下一项，因为已经合并了</span></span><br><span class="line">                    <span class="keyword">else</span>:</span><br><span class="line">                        new_byte_parts.append(byte_parts[i])</span><br><span class="line">                        i += <span class="number">1</span></span><br><span class="line">                byte_parts = new_byte_parts <span class="comment"># 更新序列，进入下一轮 while 循环</span></span><br><span class="line">            </span><br><span class="line">            <span class="comment"># 第四步：将合并到极限后的所有字节块转换为词表中的 ID</span></span><br><span class="line">            <span class="keyword">for</span> part <span class="keyword">in</span> byte_parts:</span><br><span class="line">                ids.append(<span class="variable language_">self</span>.byte_to_id[part])</span><br><span class="line">                </span><br><span class="line">        <span class="keyword">return</span> ids</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">decode</span>(<span class="params">self, ids: <span class="built_in">list</span>[<span class="built_in">int</span>]</span>) -&gt; <span class="built_in">str</span>:</span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        将 ID 列表解码为原始字符串。</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="comment"># 1. 根据 ID 查表找回字节块</span></span><br><span class="line">        byte_segments = [<span class="variable language_">self</span>.id_to_byte[i] <span class="keyword">for</span> i <span class="keyword">in</span> ids]</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 2. 将所有字节块按顺序拼接成一个完整的字节流</span></span><br><span class="line">        full_bytes = <span class="string">b&quot;&quot;</span>.join(byte_segments)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 3. 将字节流解码为 UTF-8 字符串。</span></span><br><span class="line">        <span class="comment"># 使用 errors=&quot;replace&quot; 非常关键：因为 BPE 可能会生成不完整的字节序列</span></span><br><span class="line">        <span class="comment"># （例如 3 字节的中文字符只产生了一部分），此时不报错而是插入替换符（�）。</span></span><br><span class="line">        <span class="keyword">return</span> full_bytes.decode(<span class="string">&quot;utf-8&quot;</span>, errors=<span class="string">&quot;replace&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">encode_iterable</span>(<span class="params">self, iterable: Iterable[<span class="built_in">str</span>]</span>) -&gt; Iterable[<span class="built_in">int</span>]:</span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        内存高效的迭代编码器。</span></span><br><span class="line"><span class="string">        </span></span><br><span class="line"><span class="string">        参数:</span></span><br><span class="line"><span class="string">            iterable: 一个可迭代的字符串对象（例如文件句柄）。</span></span><br><span class="line"><span class="string">        返回:</span></span><br><span class="line"><span class="string">            一个生成器，逐个产出编码后的 ID。用于处理无法一次性读入内存的大文件。</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">for</span> chunk <span class="keyword">in</span> iterable:</span><br><span class="line">            <span class="comment"># 对每一块文本进行编码，并通过 yield 吐出结果</span></span><br><span class="line">            <span class="keyword">yield</span> <span class="keyword">from</span> <span class="variable language_">self</span>.encode(chunk)</span><br></pre></td></tr></table></figure>
+
+
+                    
+                </div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="Share to WeChat"
+            data-tooltip-img-tip="Scan by WeChat"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to WeiBo"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/2026/08/01/CS336-1-%E6%A0%B8%E5%BF%83%E5%9F%BA%E7%A1%80%E7%BB%84%E4%BB%B6%EF%BC%88Building-Blocks%EF%BC%89/"
+                                   title="CS336-1 核心基础组件（Building Blocks）"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">CS336-1 核心基础组件（Building Blocks）</span>
+                                        <span class="post-nav-item">Prev posts</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/2026/06/07/DIY%E8%A3%85%E6%9C%BA/"
+                                   title="DIY装机"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">DIY装机</span>
+                                        <span class="post-nav-item">Next posts</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;Comments
+        </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">Comment plugin failed to load</span>
+    <button class="reload keep-button">Click to reload</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">Loading comment plugin</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
+
+        
+            
+
+    <div class="giscus-comments-container">
+        <div class="giscus" id="giscus"></div>
+        <script data-pjax
+                onerror="window.KeepCommentPlugin.loadFailHandle()"
+        >
+          if (!window.KeepCommentPlugin?.getGiscusTheme) {
+            window.KeepCommentPlugin.getGiscusTheme = () => {
+              return document.documentElement.classList.contains('dark-mode') ? 'dark_dimmed' : 'light_tritanopia'
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.changeGiscusTheme) {
+            window.KeepCommentPlugin.changeGiscusTheme = () => {
+              const iframe = document.querySelector('iframe.giscus-frame')
+              iframe && iframe.contentWindow.postMessage({
+                giscus: {
+                  setConfig: {
+                    theme: window.KeepCommentPlugin.getGiscusTheme()
+                  }
+                }
+              }, 'https://giscus.app')
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.initGiscus) {
+            window.KeepCommentPlugin.initGiscus = () => {
+              const script = document.createElement('script')
+              script.async = true
+              script.src = 'https://giscus.app/client.js'
+              script.setAttribute('data-repo', 'rjt2004/rjt2004.github.io')
+              script.setAttribute('data-repo-id', 'R_kgDOM__o0Q')
+              script.setAttribute('data-category', 'Announcements')
+              script.setAttribute('data-category-id', 'DIC_kwDOM__o0c4C-z_p')
+              script.setAttribute('data-reactions-enabled', '1')
+              script.setAttribute('data-lang', 'en')
+              script.setAttribute('data-mapping', 'pathname')
+              script.setAttribute('data-strict', '0')
+              script.setAttribute('data-emit-metadata', '0')
+              script.setAttribute('data-input-position', 'top')
+              script.setAttribute('crossorigin', 'anonymous')
+              script.setAttribute('loading', 'lazy')
+              script.setAttribute('data-theme', window.KeepCommentPlugin.getGiscusTheme())
+              document.querySelector('.giscus-comments-container').appendChild(script)
+              script.onerror = () => {
+                window.KeepCommentPlugin.loadFailHandle()
+              }
+              script.onload = () => {
+                window.KeepCommentPlugin.hideLoading()
+              }
+              const toggleThemeBtn = document.querySelector('.tool-toggle-theme-mode')
+              toggleThemeBtn && toggleThemeBtn.addEventListener('click', () => {
+                window.KeepCommentPlugin.changeGiscusTheme()
+              })
+            }
+          }
+
+          if ('true' === "true") {
+            setTimeout(() => {
+              window.KeepCommentPlugin.initGiscus()
+            }, 1000)
+          } else {
+            window.addEventListener("DOMContentLoaded", window.KeepCommentPlugin.initGiscus)
+          }
+        </script>
+    </div>
+
+
+        
+    </div>
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc left-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E6%9C%AC%E8%B4%A8%EF%BC%9AASCII%E3%80%81Unicode%E4%B8%8EUTF-8%E7%BC%96%E7%A0%81"><span class="nav-number">1.</span> <span class="nav-text">字符本质：ASCII、Unicode与UTF-8编码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BPE%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E4%B8%8E%E8%AE%AD%E7%BB%83%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.</span> <span class="nav-text">BPE算法原理与训练实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81Tokenizer"><span class="nav-number">2.1.</span> <span class="nav-text">为什么需要Tokenizer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#BPE%E6%B5%81%E7%A8%8B"><span class="nav-number">2.2.</span> <span class="nav-text">BPE流程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B"><span class="nav-number">2.3.</span> <span class="nav-text">示例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81"><span class="nav-number">2.4.</span> <span class="nav-text">代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%8C%E6%95%B4tokenizer%E7%B1%BB%E7%9A%84%E5%B0%81%E8%A3%85"><span class="nav-number">3.</span> <span class="nav-text">完整tokenizer类的封装</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%96%E7%A0%81%EF%BC%88Encode%EF%BC%89"><span class="nav-number">3.1.</span> <span class="nav-text">编码（Encode）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A7%A3%E7%A0%81%EF%BC%88Decode%EF%BC%89"><span class="nav-number">3.2.</span> <span class="nav-text">解码（Decode）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81-1"><span class="nav-number">3.3.</span> <span class="nav-text">代码</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+                    
+                </div>
+            </div>
+
+            <div class="page-main-content-bottom border-box">
+                
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+        &copy;&nbsp;<span>2024</span>&nbsp;-&nbsp;2026
+        
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">Ton3rr</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        Powered by&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;&&nbsp;Theme&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+
+    
+        <div class="count-info info-item">
+            
+
+            
+                <span class="count-item border-box uv">
+                    <span class="item-type border-box">Unique Visitor</span>
+                    <span class="item-value border-box uv" id="busuanzi_value_site_uv"></span>
+                </span>
+            
+
+            
+                <span class="count-item border-box pv">
+                    <span class="item-type border-box">Page View</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+    
+
+    
+</footer>
+
+            </div>
+        </div>
+    
+
+    <!-- post tools -->
+    
+        <div class="post-tools left-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E6%9C%AC%E8%B4%A8%EF%BC%9AASCII%E3%80%81Unicode%E4%B8%8EUTF-8%E7%BC%96%E7%A0%81"><span class="nav-number">1.</span> <span class="nav-text">字符本质：ASCII、Unicode与UTF-8编码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BPE%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E4%B8%8E%E8%AE%AD%E7%BB%83%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.</span> <span class="nav-text">BPE算法原理与训练实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81Tokenizer"><span class="nav-number">2.1.</span> <span class="nav-text">为什么需要Tokenizer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#BPE%E6%B5%81%E7%A8%8B"><span class="nav-number">2.2.</span> <span class="nav-text">BPE流程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B"><span class="nav-number">2.3.</span> <span class="nav-text">示例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81"><span class="nav-number">2.4.</span> <span class="nav-text">代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%8C%E6%95%B4tokenizer%E7%B1%BB%E7%9A%84%E5%B0%81%E8%A3%85"><span class="nav-number">3.</span> <span class="nav-text">完整tokenizer类的封装</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%96%E7%A0%81%EF%BC%88Encode%EF%BC%89"><span class="nav-number">3.1.</span> <span class="nav-text">编码（Encode）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A7%A3%E7%A0%81%EF%BC%88Decode%EF%BC%89"><span class="nav-number">3.2.</span> <span class="nav-text">解码（Decode）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81-1"><span class="nav-number">3.3.</span> <span class="nav-text">代码</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+<!-- common js -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local search -->
+
+
+<!-- lazyload -->
+
+    
+<script src="/js/lazyload.js"></script>
+
+
+
+<div class="pjax">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+
+        <!-- share -->
+        
+            
+<script src="/js/post/share.js"></script>
+
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            KEEP.utils.pjaxProgressBarStart()
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            KEEP.utils.pjaxProgressBarEnd()
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'))
+            KEEP.initExecute()
+        });
+    });
+</script>
+
+
+
+
+</body>
+</html>
+
+

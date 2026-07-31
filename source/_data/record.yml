@@ -71,3 +71,11 @@
    rating: 7                
    link: 
    text: 
+
+ - type: drama             
+   title: "星城"                 
+   date: 2026-07-31               
+   cover: ../images/record/星城.webp
+   rating: 8                
+   link: 
+   text: 
