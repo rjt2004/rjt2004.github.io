@@ -1,4 +1,4 @@
-﻿.home-content-container {
+.home-content-container {
   background var(--background-color-1)
 
   if (hexo-config('home') && hexo-config('home.announcement')) {
@@ -69,6 +69,7 @@
 
     .home-post-item {
       position relative
+      overflow hidden
 
       keep-container(var(--home-post-hover-scale), 0, 2.8rem)
 
@@ -88,11 +89,6 @@
         cursor default
         disable-user-select()
 
-        &.cover {
-          top 0.6rem
-          right 0.6rem
-        }
-
         &.card {
           top 0.8rem
           right 0.8rem
@@ -110,79 +106,87 @@
       }
 
 
-      .home-post-item-top {
-        position relative
-        width 100%
-        height 200px
-        overflow hidden
-        background-color var(--background-color-2)
-        border-top-left-radius var(--box-border-radius)
-        border-top-right-radius var(--box-border-radius)
+      .home-post-bg {
+        position absolute
+        top 0
+        right 0
+        bottom 0
+        left auto
+        width 38%
+        background-image var(--home-cover-bg)
+        background-position center
+        background-size cover
+        background-repeat no-repeat
+        -webkit-mask-image linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.5) 38%, #000 68%)
+        mask-image linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.5) 38%, #000 68%)
+        transform-origin right center
+        pointer-events none
+        transition-t("transform", "0", "1", "linear")
 
-        &::before {
-          position absolute
-          top -1.2rem
-          right -1.2rem
-          bottom -1.2rem
-          left -1.2rem
-          background-image var(--home-cover-bg)
-          background-position center
-          background-size cover
-          filter blur(18px)
-          opacity 0.35
-          transform scale(1.08)
-          content ''
+        +keep-mobile() {
+          width 42%
         }
+      }
 
-        &::after {
-          position absolute
-          top 0
-          right 0
-          bottom 0
-          left 0
-          background rgba(255, 255, 255, 0.2)
-          content ''
+      &:hover .home-post-bg {
+        transform scale(1.04)
+      }
+
+
+      .home-post-item-body {
+        position relative
+        z-index 1
+        display flex
+        align-items center
+        padding 1.8rem 2rem
+
+        +keep-tablet() {
+          padding 1.5rem 1.6rem
         }
 
         +keep-mobile() {
-          height 200px !important
+          padding 1.2rem 1.3rem
         }
+      }
 
-        .home-cover {
-          position relative
-          z-index 1
-          width 100%
-          height 100%
-          object-fit contain
-          transform-origin center center
-          transition-t("transform", "0", "1", "linear")
+      &.has-cover .home-post-item-body {
+        min-height 9.6rem
+        padding-right 27%
 
-          &:hover {
-            transform scale(1.03)
-          }
+        +keep-mobile() {
+          min-height 7.6rem
+          padding-right 30%
         }
       }
 
 
-      .home-post-item-bottom {
-        padding 2rem
-
-        .sticky-icon {
-          position absolute
-          top 1.2rem
-          right 1.2rem
-          color var(--text-color-4)
-          font-size 1.2rem
-          transform rotate(45deg)
-        }
-
+      .home-post-item-info {
+        min-width 0
+        width 100%
 
         .home-post-title {
           margin 0
-          color var(--text-color-2)
           font-weight 600
           font-size 1.4rem
           line-height 1.5
+
+          a.home-post-link {
+            color var(--text-color-2)
+
+            &::after {
+              position absolute
+              top 0
+              right 0
+              bottom 0
+              left 0
+              z-index 2
+              content ''
+            }
+
+            &:hover {
+              color var(--primary-color)
+            }
+          }
 
 
           +keep-tablet() {
@@ -196,11 +200,28 @@
         }
 
 
-        .home-post-content {
-          margin 1.8rem 0
-          color var(--text-color-3)
-          text-align justify
-          word-wrap break-word
+        .home-post-dates {
+          display flex
+          flex-wrap wrap
+          gap 0.35rem 1.4rem
+          margin-top 0.9rem
+          color var(--text-color-4)
+          font-size 0.92rem
+
+          .meta-info-item {
+            display flex
+            align-items center
+
+            i.icon {
+              color var(--text-color-4)
+              font-size 0.9rem
+            }
+          }
+
+          +keep-mobile() {
+            gap 0.3rem 1rem
+            font-size 0.85rem
+          }
         }
       }
     }
