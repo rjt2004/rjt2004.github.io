@@ -464,8 +464,8 @@
   window.initBlogMonthFilter = () => {
     const container = document.querySelector('.blog-container')
     if (!container) return
-    const links = container.querySelectorAll('.blog-month-link[data-blog-filter]')
-    const posts = container.querySelectorAll('.home-post-item[data-post-month]')
+    const links = Array.from(container.querySelectorAll('.blog-month-link[data-blog-filter]'))
+    const posts = Array.from(container.querySelectorAll('.home-post-item[data-post-month]'))
     if (!links.length || !posts.length) return
 
     posts.forEach(post => {
@@ -486,7 +486,7 @@
           post.classList.toggle('is-filtered-out', !shouldShow)
         })
 
-        const firstVisible = Array.from(posts).find(post => !post.classList.contains('is-filtered-out'))
+        const firstVisible = posts.find(post => !post.classList.contains('is-filtered-out'))
         firstVisible?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
       })
     })
@@ -501,7 +501,6 @@
   }
 })()
 </script>
-
                     
                 </div>
             </div>

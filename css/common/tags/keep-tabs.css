@@ -12,6 +12,7 @@
   display: flex;
   justify-content: flex-start;
   box-sizing: border-box;
+  width: 100%;
   list-style: none;
 }
 .keep-tabs .tabs-nav::before {
@@ -26,15 +27,25 @@
 }
 .keep-tabs .tabs-nav .tab {
   position: relative;
+  flex: 0 0 auto;
   box-sizing: border-box;
   margin-right: 0.8rem;
   padding: 1rem 0.6rem;
   overflow: hidden;
   color: var(--text-color-3);
+  text-decoration: none;
+  white-space: nowrap;
   cursor: pointer;
 }
 .keep-tabs .tabs-nav .tab.active {
+  color: var(--text-color-2) !important;
   font-weight: 600;
+  background: transparent !important;
+}
+.keep-tabs .tabs-nav .tab.active a,
+.keep-tabs .tabs-nav .tab.active span {
+  color: var(--text-color-2) !important;
+  background: transparent !important;
 }
 .keep-tabs .tabs-nav .tab.active::before {
   position: absolute;
@@ -62,4 +73,25 @@
 }
 .keep-tabs .tabs-content .tab-pane:not(.active) {
   display: none;
+}
+@media (max-width: 500px) {
+  .keep-tabs .tabs-nav {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .keep-tabs .tabs-nav::-webkit-scrollbar {
+    display: none;
+  }
+  .keep-tabs .tabs-nav .tab {
+    margin-right: 0.45rem;
+    padding: 0.85rem 0.55rem;
+    font-size: 0.96rem;
+  }
+  .keep-tabs .tabs-content .tab-pane {
+    padding: 0.6rem 0 0;
+  }
 }
