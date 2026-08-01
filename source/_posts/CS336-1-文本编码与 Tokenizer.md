@@ -2,7 +2,7 @@
 title: CS336-1 文本编码与Tokenizer
 date: 2026-07-12 00:28:11
 updated: 
-home_cover: stanford.webp
+home_cover: stanford.jpg
 home_cover_height: 200
 ---
 
