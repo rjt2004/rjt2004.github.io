@@ -1,4 +1,4 @@
-﻿.blog-container {
+.blog-container {
   width 100%
   max-width 100%
   margin 0 auto
@@ -18,8 +18,27 @@
   }
 
   .blog-main {
+    width 100%
+
     .home-content-container {
+      width 100%
+      min-width 0
       background transparent
+    }
+
+    .home-post-list {
+      width 100%
+      min-width 0
+      margin 0
+      padding 0
+      list-style none
+    }
+
+    .home-post-item {
+      width 100%
+      min-width 0
+      margin-left 0
+      margin-right 0
     }
   }
 
@@ -93,16 +112,23 @@
     color var(--text-color-3)
     text-decoration none !important
     border-radius 0.36rem
+    transition background-color .2s ease, color .2s ease, box-shadow .2s ease, border-color .2s ease
 
     &:hover,
     &.is-active {
       color var(--background-color-1)
       background var(--primary-color)
+      box-shadow none
     }
 
     &:hover .blog-month-count,
     &.is-active .blog-month-count {
-      color rgba(255, 255, 255, 0.78)
+      color rgba(255,255,255,.78)
+    }
+
+    &:hover span:not(.blog-month-count),
+    &.is-active span:not(.blog-month-count) {
+      color var(--background-color-1)
     }
   }
 
@@ -185,16 +211,46 @@
     }
 
     .blog-month-list {
+      display flex
       flex-direction row
-      flex-wrap wrap
+      flex-wrap nowrap
+      gap 0.45rem
+      overflow-x auto
+      overflow-y hidden
+      padding-bottom 0.2rem
+      -webkit-overflow-scrolling touch
+      scrollbar-width none
+      -ms-overflow-style none
+    }
+
+    .blog-month-list::-webkit-scrollbar {
+      display none
     }
 
     .blog-month-link {
-      justify-content flex-start
+      flex 0 0 auto
+      justify-content center
+      min-width max-content
+      padding 0.42rem 0.6rem
+      background var(--background-color-2)
+      border-radius 0.45rem
+      box-shadow none
     }
 
     .blog-side-card {
       padding 1rem
+    }
+
+    .blog-main,
+    .blog-main .home-content-container,
+    .blog-main .home-post-list,
+    .home-post-item {
+      width 100%
+      min-width 0
+    }
+
+    .home-post-item.has-cover .home-post-item-body {
+      padding-right 1.3rem
     }
   }
 }
@@ -240,4 +296,5 @@
     }
   }
 }
+
 

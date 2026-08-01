@@ -282,12 +282,13 @@
 .record-wall-box .record-timeline-title { display: flex; align-items: center; gap: .5rem; margin-bottom: .85rem; color: var(--text-color-2); font-weight: 600; font-size: 1rem; }
 .record-wall-box .record-timeline-title i { color: var(--primary-color); }
 .record-wall-box .record-timeline-list { display: flex; flex-direction: column; gap: .35rem; margin: 0; padding: 0; list-style: none; }
-.record-wall-box .record-timeline-link { display: flex; align-items: center; justify-content: space-between; gap: .8rem; box-sizing: border-box; padding: .42rem .5rem; color: var(--text-color-3); text-decoration: none !important; border-radius: .36rem; }
-.record-wall-box .record-timeline-link:hover { color: var(--background-color-1); background: var(--primary-color); }
+.record-wall-box .record-timeline-link { display: flex; align-items: center; justify-content: space-between; gap: .8rem; box-sizing: border-box; padding: .42rem .5rem; color: var(--text-color-3); text-decoration: none !important; border-radius: .36rem; transition: background-color .2s ease, color .2s ease, box-shadow .2s ease, border-color .2s ease; }
+.record-wall-box .record-timeline-link:hover { color: var(--background-color-1); background: var(--primary-color); box-shadow: none; }
 .record-wall-box .record-timeline-count { color: var(--text-color-4); font-size: .78rem; }
 .record-wall-box .record-timeline-link:hover .record-timeline-count { color: rgba(255,255,255,.78); }
-.record-wall-box .record-timeline-link.is-active { color: var(--background-color-1); background: var(--primary-color); }
+.record-wall-box .record-timeline-link.is-active { color: var(--background-color-1); background: var(--primary-color); box-shadow: none; }
 .record-wall-box .record-timeline-link.is-active .record-timeline-count { color: rgba(255,255,255,.78); }
+.record-wall-box .record-timeline-link:hover span:not(.record-timeline-count), .record-wall-box .record-timeline-link.is-active span:not(.record-timeline-count) { color: var(--background-color-1); }
 .record-wall-box .record-card.is-filtered-out { display: none; }
 .record-wall-box .record-gallery { width: 100%; column-count: 3; column-gap: .8rem; }
 .record-wall-box .record-card { position: relative; display: inline-grid; grid-template-areas: "record-stack"; width: 100%; margin: 0 0 .8rem; overflow: hidden; border-radius: .6rem; border: 0; background: var(--background-color-2); cursor: zoom-in; box-shadow: none; break-inside: avoid; isolation: isolate; transition: transform .22s ease, box-shadow .22s ease, filter .22s ease; scroll-margin-top: calc(var(--header-height) + 1rem); }
@@ -306,7 +307,7 @@
 .record-wall-box .record-text { display: -webkit-box; margin: 0; overflow: hidden; color: rgba(255,255,255,.92); font-size: 14px; line-height: 1.65; white-space: pre-wrap; -webkit-line-clamp: 5; -webkit-box-orient: vertical; }
 .record-wall-box .record-link { display: inline-flex; align-items: center; gap: 7px; width: fit-content; margin-top: 2px; padding: 7px 10px; border: 1px solid rgba(255,255,255,.52); border-radius: 7px; color: #102033 !important; background: rgba(255,255,255,.88); font-size: 13px; font-weight: 600; text-shadow: none; text-decoration: none !important; backdrop-filter: blur(10px); }
 .record-wall-box .record-link:hover { color: #000 !important; background: #fff; }
-@media (max-width: 900px) { .record-wall-box .record-layout { grid-template-columns: 1fr; gap: 1rem; } .record-wall-box .record-timeline { position: static; padding: .9rem; } .record-wall-box .record-timeline-list { flex-direction: row; flex-wrap: wrap; } .record-wall-box .record-timeline-link { justify-content: flex-start; } .record-wall-box .record-gallery { column-count: 2; } }
+@media (max-width: 900px) { .record-wall-box .record-layout { grid-template-columns: 1fr; gap: 1rem; } .record-wall-box .record-timeline { position: static; padding: .9rem; } .record-wall-box .record-timeline-list { flex-direction: row; flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden; gap: .45rem; padding-bottom: .2rem; -webkit-overflow-scrolling: touch; scrollbar-width: none; -ms-overflow-style: none; } .record-wall-box .record-timeline-list::-webkit-scrollbar { display: none; } .record-wall-box .record-timeline-link { justify-content: center; flex: 0 0 auto; min-width: max-content; padding: .42rem .6rem; border-radius: .45rem; } .record-wall-box .record-gallery { column-count: 2; } }
 @media (max-width: 560px) { .record-wall-box { max-width: 100%; } .record-wall-box .record-gallery { column-count: 1; column-gap: 0; } .record-wall-box .record-card { margin-bottom: .6rem; border-radius: .45rem; } .record-wall-box .record-card.is-active img { filter: brightness(.5) saturate(1.02); transform: scale(1.02); } .record-wall-box .record-overlay { padding: 10px; gap: 6px; background: linear-gradient(180deg, rgba(0,0,0,.12), rgba(0,0,0,.36) 42%, rgba(0,0,0,.78)); } .record-wall-box .record-type { padding: 4px 7px; font-size: 10px; } .record-wall-box .record-title { font-size: 14px; } .record-wall-box .record-meta { gap: 6px; font-size: 11px; } .record-wall-box .record-stars { font-size: 11px; } .record-wall-box .record-score { font-size: 10px; } .record-wall-box .record-text { font-size: 12px; line-height: 1.45; -webkit-line-clamp: 3; } .record-wall-box .record-link { padding: 5px 7px; font-size: 11px; } }
 </style>
 
@@ -392,7 +393,7 @@
             </div>
             <p class="record-text">暂时还没有写下体验。</p>
             
-              <a class="record-link" href="https://music.163.com/song?id=2681066622&uct2=U2FsdGVkX18GASacrN0R/r+IJkouqmPoIzU6R0M9t8w=" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i><span>打开链接</span></a>
+              <a class="record-link" href="https://music.163.com/song?id=2681066622&uct2=U2FsdGVkX18GASacrN0R/r+IJkouqmPoIzU6R0M9t8w=" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i><span>閹垫挸绱戦柧鐐复</span></a>
             
           </div>
         </article>
@@ -436,7 +437,7 @@
             </div>
             <p class="record-text">好听👍👍👍</p>
             
-              <a class="record-link" href="https://music.163.com/song?id=3387243296&uct2=U2FsdGVkX1/EDXgwLOporaeLQgEEDsE/uZvGQq5aP4M=" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i><span>打开链接</span></a>
+              <a class="record-link" href="https://music.163.com/song?id=3387243296&uct2=U2FsdGVkX1/EDXgwLOporaeLQgEEDsE/uZvGQq5aP4M=" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i><span>閹垫挸绱戦柧鐐复</span></a>
             
           </div>
         </article>
@@ -452,7 +453,7 @@
             </div>
             <p class="record-text">抽刀断水流 无奈水更流😭</p>
             
-              <a class="record-link" href="https://music.163.com/#/song?id=1492114515&uct2=U2FsdGVkX1/6lXNbfObMGGORnax/2YY6WuCQcWrasJQ=" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i><span>打开链接</span></a>
+              <a class="record-link" href="https://music.163.com/#/song?id=1492114515&uct2=U2FsdGVkX1/6lXNbfObMGGORnax/2YY6WuCQcWrasJQ=" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i><span>閹垫挸绱戦柧鐐复</span></a>
             
           </div>
         </article>
@@ -490,13 +491,13 @@
         }
       })
     })
-    const filterLinks = document.querySelectorAll('.record-wall-box .record-timeline-link[data-record-filter]')
+    const filterLinks = Array.from(document.querySelectorAll('.record-wall-box .record-timeline-link[data-record-filter]'))
     filterLinks.forEach(link => {
       if (link.dataset.recordFilterBound === 'true') return
       link.dataset.recordFilterBound = 'true'
       link.addEventListener('click', event => {
         event.preventDefault()
-                const filter = link.dataset.recordFilter || ''
+        const filter = link.dataset.recordFilter || ''
         const reset = link.classList.contains('is-active')
         closeAll()
         filterLinks.forEach(item => item.classList.toggle('is-active', !reset && item === link))
@@ -523,8 +524,6 @@
   }
 })()
 </script>
-
-
 
 
 
