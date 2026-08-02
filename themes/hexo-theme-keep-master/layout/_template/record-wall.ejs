@@ -43,13 +43,14 @@ const renderStars = score => {
 .record-wall-box .record-timeline-title { display: flex; align-items: center; gap: .5rem; margin-bottom: .85rem; color: var(--text-color-2); font-weight: 600; font-size: 1rem; }
 .record-wall-box .record-timeline-title i { color: var(--primary-color); }
 .record-wall-box .record-timeline-list { display: flex; flex-direction: column; gap: .35rem; margin: 0; padding: 0; list-style: none; }
-.record-wall-box .record-timeline-link { display: flex; align-items: center; justify-content: space-between; gap: .8rem; box-sizing: border-box; padding: .42rem .5rem; color: var(--text-color-3); text-decoration: none !important; border-radius: .36rem; transition: background-color .2s ease, color .2s ease, box-shadow .2s ease, border-color .2s ease; }
+.record-wall-box .record-timeline-link { display: flex; align-items: center; justify-content: space-between; gap: .8rem; box-sizing: border-box; padding: .42rem .5rem; color: var(--text-color-3); text-decoration: none !important; border-radius: .36rem; transition: background-color .2s ease, color .2s ease, box-shadow .2s ease, border-color .2s ease; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
 .record-wall-box .record-timeline-link:hover { color: var(--background-color-1); background: var(--primary-color); box-shadow: none; }
+@media (hover: none), (pointer: coarse) { .record-wall-box .record-timeline-link:not(.is-active):hover, .record-wall-box .record-timeline-link:not(.is-active):focus { color: var(--text-color-3); background: transparent; box-shadow: none; } .record-wall-box .record-timeline-link:not(.is-active):hover .record-timeline-count, .record-wall-box .record-timeline-link:not(.is-active):focus .record-timeline-count { color: var(--text-color-4); } .record-wall-box .record-timeline-link:not(.is-active):hover span:not(.record-timeline-count), .record-wall-box .record-timeline-link:not(.is-active):focus span:not(.record-timeline-count) { color: var(--text-color-3); } .record-wall-box .record-timeline-link.is-active, .record-wall-box .record-timeline-link.is-active:hover, .record-wall-box .record-timeline-link.is-active:focus { color: var(--background-color-1); background: var(--primary-color); box-shadow: none; } }
 .record-wall-box .record-timeline-count { color: var(--text-color-4); font-size: .78rem; }
 .record-wall-box .record-timeline-link:hover .record-timeline-count { color: rgba(255,255,255,.78); }
-.record-wall-box .record-timeline-link.is-active { color: var(--background-color-1); background: var(--primary-color); box-shadow: none; }
-.record-wall-box .record-timeline-link.is-active .record-timeline-count { color: rgba(255,255,255,.78); }
-.record-wall-box .record-timeline-link:hover span:not(.record-timeline-count), .record-wall-box .record-timeline-link.is-active span:not(.record-timeline-count) { color: var(--background-color-1); }
+.record-wall-box .record-timeline-link.is-active, .record-wall-box .record-timeline-link.is-active:hover, .record-wall-box .record-timeline-link.is-active:focus { color: var(--background-color-1); background: var(--primary-color); box-shadow: none; }
+.record-wall-box .record-timeline-link.is-active .record-timeline-count, .record-wall-box .record-timeline-link.is-active:hover .record-timeline-count, .record-wall-box .record-timeline-link.is-active:focus .record-timeline-count { color: rgba(255,255,255,.78); }
+.record-wall-box .record-timeline-link:hover span:not(.record-timeline-count), .record-wall-box .record-timeline-link.is-active span:not(.record-timeline-count), .record-wall-box .record-timeline-link.is-active:hover span:not(.record-timeline-count), .record-wall-box .record-timeline-link.is-active:focus span:not(.record-timeline-count) { color: var(--background-color-1); }
 .record-wall-box .record-card.is-filtered-out { display: none; }
 .record-wall-box .record-gallery { width: 100%; column-count: 3; column-gap: .8rem; }
 .record-wall-box .record-card { position: relative; display: inline-grid; grid-template-areas: "record-stack"; width: 100%; margin: 0 0 .8rem; overflow: hidden; border-radius: .6rem; border: 0; background: var(--background-color-2); cursor: zoom-in; box-shadow: none; break-inside: avoid; isolation: isolate; transition: transform .22s ease, box-shadow .22s ease, filter .22s ease; scroll-margin-top: calc(var(--header-height) + 1rem); }
@@ -96,7 +97,7 @@ const renderStars = score => {
             </div>
             <p class="record-text"><%= item.text || '\u6682\u65f6\u8fd8\u6ca1\u6709\u5199\u4e0b\u4f53\u9a8c\u3002' %></p>
             <% if (item.link) { %>
-              <a class="record-link" href="<%- item.link %>" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i><span>閹垫挸绱戦柧鐐复</span></a>
+              <a class="record-link" href="<%- item.link %>" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i><span><%= '\u6253\u5f00\u94fe\u63a5' %></span></a>
             <% } %>
           </div>
         </article>

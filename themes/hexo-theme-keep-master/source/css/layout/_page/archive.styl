@@ -107,6 +107,8 @@
     align-items center
     justify-content space-between
     gap 0.8rem
+    -webkit-tap-highlight-color transparent
+    outline none
     box-sizing border-box
     padding 0.42rem 0.5rem
     color var(--text-color-3)
@@ -115,23 +117,61 @@
     transition background-color .2s ease, color .2s ease, box-shadow .2s ease, border-color .2s ease
 
     &:hover,
-    &.is-active {
+    &.is-active,
+    &.is-active:hover,
+    &.is-active:focus {
       color var(--background-color-1)
       background var(--primary-color)
       box-shadow none
     }
 
     &:hover .blog-month-count,
-    &.is-active .blog-month-count {
+    &.is-active .blog-month-count,
+    &.is-active:hover .blog-month-count,
+    &.is-active:focus .blog-month-count {
       color rgba(255,255,255,.78)
     }
 
     &:hover span:not(.blog-month-count),
-    &.is-active span:not(.blog-month-count) {
+    &.is-active span:not(.blog-month-count),
+    &.is-active:hover span:not(.blog-month-count),
+    &.is-active:focus span:not(.blog-month-count) {
       color var(--background-color-1)
     }
-  }
 
+    &:not(.is-active):focus {
+      color var(--text-color-3)
+      background transparent
+      box-shadow none
+    }
+
+    &:not(.is-active):focus .blog-month-count {
+      color var(--text-color-4)
+    }
+
+    &:not(.is-active):focus span:not(.blog-month-count) {
+      color var(--text-color-3)
+    }
+
+    @media (hover: none), (pointer: coarse) {
+      &:not(.is-active):hover,
+      &:not(.is-active):focus {
+        color var(--text-color-3)
+        background var(--background-color-2)
+        box-shadow none
+      }
+
+      &:not(.is-active):hover .blog-month-count,
+      &:not(.is-active):focus .blog-month-count {
+        color var(--text-color-4)
+      }
+
+      &:not(.is-active):hover span:not(.blog-month-count),
+      &:not(.is-active):focus span:not(.blog-month-count) {
+        color var(--text-color-3)
+      }
+    }
+  }
   .blog-month-count {
     color var(--text-color-4)
     font-size 0.78rem

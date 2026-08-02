@@ -4755,6 +4755,8 @@ figure.highlight .shrink-line:hover::before {
   align-items: center;
   justify-content: space-between;
   gap: 0.8rem;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
   box-sizing: border-box;
   padding: 0.42rem 0.5rem;
   color: var(--text-color-3);
@@ -4763,18 +4765,51 @@ figure.highlight .shrink-line:hover::before {
   transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 .blog-container .blog-month-link:hover,
-.blog-container .blog-month-link.is-active {
+.blog-container .blog-month-link.is-active,
+.blog-container .blog-month-link.is-active:hover,
+.blog-container .blog-month-link.is-active:focus {
   color: var(--background-color-1);
   background: var(--primary-color);
   box-shadow: none;
 }
 .blog-container .blog-month-link:hover .blog-month-count,
-.blog-container .blog-month-link.is-active .blog-month-count {
+.blog-container .blog-month-link.is-active .blog-month-count,
+.blog-container .blog-month-link.is-active:hover .blog-month-count,
+.blog-container .blog-month-link.is-active:focus .blog-month-count {
   color: rgba(255,255,255,0.78);
 }
 .blog-container .blog-month-link:hover span:not(.blog-month-count),
-.blog-container .blog-month-link.is-active span:not(.blog-month-count) {
+.blog-container .blog-month-link.is-active span:not(.blog-month-count),
+.blog-container .blog-month-link.is-active:hover span:not(.blog-month-count),
+.blog-container .blog-month-link.is-active:focus span:not(.blog-month-count) {
   color: var(--background-color-1);
+}
+.blog-container .blog-month-link:not(.is-active):focus {
+  color: var(--text-color-3);
+  background: transparent;
+  box-shadow: none;
+}
+.blog-container .blog-month-link:not(.is-active):focus .blog-month-count {
+  color: var(--text-color-4);
+}
+.blog-container .blog-month-link:not(.is-active):focus span:not(.blog-month-count) {
+  color: var(--text-color-3);
+}
+@media (hover: none), (pointer: coarse) {
+  .blog-container .blog-month-link:not(.is-active):hover,
+  .blog-container .blog-month-link:not(.is-active):focus {
+    color: var(--text-color-3);
+    background: var(--background-color-2);
+    box-shadow: none;
+  }
+  .blog-container .blog-month-link:not(.is-active):hover .blog-month-count,
+  .blog-container .blog-month-link:not(.is-active):focus .blog-month-count {
+    color: var(--text-color-4);
+  }
+  .blog-container .blog-month-link:not(.is-active):hover span:not(.blog-month-count),
+  .blog-container .blog-month-link:not(.is-active):focus span:not(.blog-month-count) {
+    color: var(--text-color-3);
+  }
 }
 .blog-container .blog-month-count {
   color: var(--text-color-4);
