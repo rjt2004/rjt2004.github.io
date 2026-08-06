@@ -60,7 +60,7 @@
    title: "鬼谜东宫"                 
    date: 2026-07-20               
    cover: ../images/record/鬼谜东宫.webp
-   rating: 6                
+   rating: 5                
    link: 
    text: 王宫+鬼神的设定联想到了《王国》，核心都是为了王位不择手段，最可怕的是人心，但是剧情比较无聊，莫名其妙就来个新的设定
 
@@ -77,5 +77,13 @@
    date: 2026-07-31               
    cover: ../images/record/星城.webp
    rating: 8                
+   link: 
+   text: 
+
+ - type: drama             
+   title: "重症外伤中心"                 
+   date: 2026-08-04               
+   cover: ../images/record/重症外伤中心.webp
+   rating: 7.5              
    link: 
    text: 
