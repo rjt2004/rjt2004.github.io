@@ -196,42 +196,23 @@
     var html = '';
     for (var g = 0; g < 3; g++) {
       if (g) html += '<span class="flip-colon">:</span>';
-      html += '<span class="flip-card">' +
-        '<span class="flip-half flip-half-top"><span class="flip-num">0</span></span>' +
-        '<span class="flip-half flip-half-bottom"><span class="flip-num">0</span></span>' +
-        '</span>' +
-        '<span class="flip-card">' +
-        '<span class="flip-half flip-half-top"><span class="flip-num">0</span></span>' +
-        '<span class="flip-half flip-half-bottom"><span class="flip-num">0</span></span>' +
-        '</span>';
+      html += '<span class="flip-card"><span class="flip-digit">0</span></span>' +
+              '<span class="flip-card"><span class="flip-digit">0</span></span>';
     }
     el.innerHTML = html;
   }
 
   function setFlipDigit(card, val) {
-    var top = card.querySelector('.flip-half-top .flip-num');
-    var bottom = card.querySelector('.flip-half-bottom .flip-num');
-    if (!top || !bottom) return;
-    if (top.textContent === val) return;
-
-    // bottom half shows the new value immediately
-    bottom.textContent = val;
-
-    // temporary new-top standing behind the old top
-    var newTop = document.createElement('span');
-    newTop.className = 'flip-half flip-half-top flip-new-top';
-    newTop.innerHTML = '<span class="flip-num">' + val + '</span>';
-    card.appendChild(newTop);
-
-    card.classList.remove('flipping');
-    void card.offsetWidth;
-    card.classList.add('flipping');
-
+    var digit = card.querySelector('.flip-digit');
+    if (!digit) return;
+    if (digit.textContent === val) return;
+    digit.classList.remove('flip');
+    void digit.offsetWidth;
+    digit.classList.add('flip');
     setTimeout(function () {
-      top.textContent = val;
-      if (newTop.parentNode) newTop.parentNode.removeChild(newTop);
-      card.classList.remove('flipping');
-    }, 430);
+      digit.textContent = val;
+      digit.classList.remove('flip');
+    }, 170);
   }
 
   function updateFlipClock(el, d) {
