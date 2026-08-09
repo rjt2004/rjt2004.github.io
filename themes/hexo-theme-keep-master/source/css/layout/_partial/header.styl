@@ -579,6 +579,380 @@ $mobile-menu-icon-wrap-margin = 0.4rem
   overflow hidden
 }
 
+.header-clock-item {
+  position relative
+  display flex
+  align-items center
+
+  &::before {
+    display none !important
+  }
+
+  &:hover,
+  &:focus-within {
+    .header-clock-panel {
+      visibility visible
+      opacity 1
+      transform translate(-50%, 0)
+      pointer-events auto
+    }
+  }
+}
+
+.header-clock-pill,
+.header-clock-mobile-button {
+  display inline-flex
+  align-items center
+  justify-content center
+  box-sizing border-box
+  padding 0
+  color var(--text-color-3)
+  font inherit
+  line-height 1
+  background transparent
+  border 0
+  outline none
+  cursor pointer
+}
+
+.header-clock-pill {
+  gap 0.4rem
+  white-space nowrap
+
+  .is-home & {
+    if (hexo-config('first_screen') && hexo-config('first_screen.enable') == true) {
+      color var(--first-screen-header-font-color-light)
+
+      .dark-mode & {
+        color var(--first-screen-header-font-color-dark)
+      }
+    }
+  }
+}
+
+.header-clock-flip {
+  display inline-flex
+  align-items center
+  line-height 1
+  font-variant-numeric tabular-nums
+}
+
+.flip-card {
+  position relative
+  display inline-block
+  height 1.3rem
+  min-width 0.86rem
+  margin 0 0.07rem
+  border-radius 0.24rem
+  background var(--background-color-2)
+  color var(--text-color-1)
+  font-size 0.95rem
+  font-weight 600
+  box-shadow inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 1px 2px rgba(0, 0, 0, 0.12)
+  perspective 200px
+  overflow hidden
+  animation flipHintPulse 4.5s ease-in-out infinite
+  transition transform 0.25s ease, box-shadow 0.25s ease
+
+  .dark-mode & {
+    box-shadow inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 1px 2px rgba(0, 0, 0, 0.35)
+  }
+}
+
+.flip-half {
+  position absolute
+  left 0
+  width 100%
+  height 50%
+  overflow hidden
+  backface-visibility hidden
+  transform-style preserve-3d
+}
+
+.flip-half-top {
+  top 0
+
+  &.flip-new-top {
+    transform-origin 50% 0%
+    z-index 2
+
+    .flipping & {
+      animation flipRevealTop 0.42s ease-out forwards
+    }
+  }
+}
+
+.flip-half-bottom {
+  bottom 0
+}
+
+.flip-num {
+  position absolute
+  top 0
+  left 0
+  width 100%
+  height 1.3rem
+  line-height 1.3rem
+  text-align center
+}
+
+.flip-card.flipping .flip-half-top:not(.flip-new-top) {
+  transform-origin 50% 100%
+  animation flipFoldTop 0.42s ease-in forwards
+  background-image linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.18) 100%)
+}
+
+.header-clock-item:hover .flip-card {
+  animation none
+  transform scale(1.08)
+  box-shadow inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 2px 6px rgba(0, 0, 0, 0.18), 0 0 14px 2px rgba(51, 154, 240, 0.5)
+}
+
+.flip-colon {
+  margin 0 0.07rem
+  color var(--text-color-3)
+  font-size 0.95rem
+  font-weight 600
+  opacity 0.8
+}
+
+// dropdown caret hint (时间/天气下方的小箭头)
+.header-pill-caret {
+  margin-left 0.25rem
+  font-size 0.6rem
+  opacity 0.65
+  animation caretBounce 2s ease-in-out infinite
+
+  .header-clock-item:hover &,
+  .header-weather-item:hover & {
+    animation none
+    transform rotate(180deg)
+  }
+}
+
+.header-clock-panel {
+  position absolute
+  top calc(100% + 0.85rem)
+  left 50%
+  right auto
+  z-index $z-index-5
+  padding 0.85rem 0.95rem
+  color var(--text-color-2)
+  background var(--background-color-1)
+  border 1px solid var(--border-color)
+  border-radius 0.7rem
+  box-shadow 0 18px 45px var(--shadow-hover-color)
+  visibility hidden
+  opacity 0
+  transform translate(-50%, -0.3rem)
+  pointer-events none
+  transition-t("opacity, transform, visibility", "0, 0, 0", "0.18, 0.18, 0.18", "ease, ease, ease")
+
+  // invisible bridge between the pill and the card so hover doesn't drop
+  &::before {
+    content ''
+    position absolute
+    top -0.85rem
+    right 0
+    width 100%
+    height 0.85rem
+  }
+}
+
+.header-clock-mobile {
+  position relative
+  width auto !important
+  height auto !important
+  padding 0 0.15rem
+  display flex
+  align-items center
+
+  .header-clock-mobile-button {
+    color var(--text-color-3)
+    font-size 0.82rem
+    font-variant-numeric tabular-nums
+  }
+
+  &.show-clock-panel {
+    .header-clock-panel {
+      visibility visible
+      opacity 1
+      transform translate(0, 0)
+      pointer-events auto
+    }
+  }
+}
+
++keep-tablet() {
+  .header-clock-item {
+    display none
+  }
+}
+
++keep-tablet() {
+  .header-clock-mobile-panel {
+    position fixed !important
+    top 50% !important
+    left 50% !important
+    right auto !important
+    width min(19rem, 88vw)
+    transform translate(-50%, -50%) scale(0.97) !important
+  }
+
+  .header-clock-mobile.show-clock-panel .header-clock-mobile-panel {
+    transform translate(-50%, -50%) !important
+  }
+}
+
+// ---- calendar ----
+.header-clock-cal {
+  min-width 15.5rem
+}
+
+.header-clock-cal-head {
+  display flex
+  align-items center
+  justify-content space-between
+  gap 0.4rem
+  margin-bottom 0.6rem
+}
+
+.header-clock-cal-title {
+  color var(--text-color-1)
+  font-size 0.95rem
+  font-weight 600
+  white-space nowrap
+}
+
+.header-clock-cal-btn {
+  display inline-flex
+  align-items center
+  justify-content center
+  min-width 1.5rem
+  height 1.5rem
+  padding 0 0.35rem
+  color var(--text-color-3)
+  font-size 0.85rem
+  line-height 1
+  background transparent
+  border 0
+  border-radius 0.3rem
+  cursor pointer
+  transition background 0.2s ease, color 0.2s ease
+
+  &:hover {
+    background var(--background-color-2)
+    color var(--primary-color)
+  }
+}
+
+.header-clock-cal-week {
+  display grid
+  grid-template-columns repeat(7, 1fr)
+  margin-bottom 0.3rem
+
+  span {
+    color var(--text-color-4)
+    font-size 0.72rem
+    text-align center
+  }
+}
+
+.header-clock-cal-grid {
+  display grid
+  grid-template-columns repeat(7, 1fr)
+  gap 2px
+}
+
+.header-clock-cal-cell {
+  display flex
+  flex-direction column
+  align-items center
+  justify-content center
+  height 2.1rem
+  border-radius 0.3rem
+  cursor pointer
+  transition background 0.2s ease
+
+  &.is-blank {
+    cursor default
+  }
+
+  &:hover:not(.is-blank):not(.is-selected) {
+    background var(--background-color-2)
+  }
+
+  &.is-today {
+    box-shadow inset 0 0 0 1.5px var(--primary-color)
+  }
+
+  &.is-selected {
+    background var(--primary-color)
+    color #fff
+
+    .header-clock-cal-lunar {
+      color rgba(255, 255, 255, 0.75)
+    }
+  }
+}
+
+.header-clock-cal-day {
+  font-size 0.82rem
+  line-height 1.1
+}
+
+.header-clock-cal-lunar {
+  font-size 0.6rem
+  line-height 1.2
+  color var(--text-color-4)
+  transform scale(0.9)
+
+  &.is-holiday {
+    color #e03131
+    transform none
+    font-weight 600
+
+    .dark-mode & {
+      color #ff8787
+    }
+  }
+}
+
++keep-mobile() {
+  .header-clock-cal-cell {
+    height 2.4rem
+  }
+
+  .header-clock-cal-btn {
+    min-width 1.7rem
+    height 1.7rem
+  }
+
+  .header-clock-cal {
+    min-width 0
+  }
+}
+
+.header-clock-cal-foot {
+  display flex
+  align-items center
+  justify-content space-between
+  gap 0.5rem
+  margin-top 0.6rem
+  padding-top 0.5rem
+  border-top 1px solid var(--border-color)
+}
+
+.header-clock-cal-info {
+  min-width 0
+  overflow hidden
+  color var(--text-color-3)
+  font-size 0.72rem
+  white-space nowrap
+  text-overflow ellipsis
+}
+
+
 .header-weather-item {
   position relative
   display flex
@@ -616,9 +990,12 @@ $mobile-menu-icon-wrap-margin = 0.4rem
 }
 
 .header-weather-pill {
-  gap 0.38rem
-  width 10.4rem
-  white-space nowrap
+  width 2.1rem
+  height 2.1rem
+  border-radius 50%
+  background var(--background-color-2)
+  animation weatherHintPulse 5.5s ease-in-out infinite
+  transition transform 0.25s ease, box-shadow 0.25s ease
 
   .is-home & {
     if (hexo-config('first_screen') && hexo-config('first_screen.enable') == true) {
@@ -628,6 +1005,13 @@ $mobile-menu-icon-wrap-margin = 0.4rem
         color var(--first-screen-header-font-color-dark)
       }
     }
+  }
+
+  &:hover,
+  .header-weather-item:hover & {
+    animation none
+    transform scale(1.1)
+    box-shadow 0 0 14px 3px rgba(51, 154, 240, 0.55)
   }
 }
 
@@ -645,6 +1029,9 @@ $mobile-menu-icon-wrap-margin = 0.4rem
   text-overflow ellipsis
   white-space nowrap
   font-size 0.86rem
+  font-weight 600
+  font-variant-numeric tabular-nums
+  letter-spacing 0.02em
 }
 
 .header-weather-panel {
@@ -958,6 +1345,7 @@ $mobile-menu-icon-wrap-margin = 0.4rem
   }
 
   .right {
+    width 15rem
     display flex
     justify-content flex-end
   }

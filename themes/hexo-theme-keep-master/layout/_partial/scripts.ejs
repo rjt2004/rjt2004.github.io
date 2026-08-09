@@ -28,6 +28,7 @@ const page_template = page?.template?.toLowerCase()
     <!-- home page -->
     <% if (is_home()) { %>
         <%- __js('js/page/home-page.js') %>
+        <%- __js('js/home-widgets.js') %>
     <% } %>
 
     <!-- post page -->

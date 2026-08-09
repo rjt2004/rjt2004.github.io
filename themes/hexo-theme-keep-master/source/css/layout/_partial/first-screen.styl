@@ -10,6 +10,179 @@
     background var(--background-color-1) url(hexo-config('first_screen.background_img_dark')) center center / cover no-repeat
   }
 
+  // ---- home widgets: dialog bubbles ----
+  .fs-bubble {
+    position absolute
+    z-index 2
+    display flex
+    align-items flex-start
+    gap 10px
+    max-width 340px
+    padding 14px 40px 14px 16px
+    border 1px solid rgba(255, 255, 255, 0.34)
+    border-radius 16px
+    background rgba(255, 255, 255, 0.16)
+    box-shadow 0 14px 40px rgba(0, 0, 0, 0.14)
+    backdrop-filter blur(14px)
+    -webkit-backdrop-filter blur(14px)
+    color var(--first-screen-font-color-light)
+
+    .dark-mode & {
+      border-color rgba(255, 255, 255, 0.16)
+      background rgba(22, 24, 28, 0.4)
+      color var(--first-screen-font-color-dark)
+    }
+
+    // chat tail
+    &::before {
+      content ''
+      position absolute
+      top 50%
+      margin-top -6px
+      width 12px
+      height 12px
+      border 1px solid rgba(255, 255, 255, 0.34)
+      background rgba(255, 255, 255, 0.16)
+      transform rotate(45deg)
+
+      .dark-mode & {
+        border-color rgba(255, 255, 255, 0.16)
+        background rgba(22, 24, 28, 0.4)
+      }
+    }
+
+    .fs-bubble-icon {
+      flex 0 0 auto
+      margin-top 3px
+      font-size 1.05rem
+      opacity 0.72
+    }
+
+    .fs-bubble-body {
+      min-width 0
+      line-height 1.5
+    }
+
+    .fs-bubble-text {
+      margin 0
+      font-size 0.98rem
+    }
+
+    .fs-bubble-source {
+      display inline-block
+      margin-top 6px
+      font-size 0.78rem
+      opacity 0.72
+    }
+
+    .fs-bubble-title {
+      margin 0 0 6px
+      font-size 0.9rem
+      font-weight 600
+    }
+
+    .fs-bubble-list {
+      margin 0
+      padding-left 16px
+      font-size 0.88rem
+
+      li {
+        margin 4px 0
+
+        b {
+          margin-right 3px
+          font-weight 600
+        }
+      }
+    }
+
+    .fs-bubble-refresh {
+      position absolute
+      top 10px
+      right 10px
+      display flex
+      align-items center
+      justify-content center
+      width 24px
+      height 24px
+      border none
+      border-radius 50%
+      background transparent
+      color inherit
+      opacity 0.55
+      cursor pointer
+      transition transform 0.25s ease, opacity 0.2s ease
+
+      &:hover {
+        opacity 1
+        transform rotate(180deg)
+      }
+
+      i {
+        font-size 0.72rem
+      }
+    }
+  }
+
+  // left column
+  .fs-bubble-hitokoto {
+    top 20%
+    left 18%
+
+    &::before {
+      right -7px
+      border-left none
+      border-bottom none
+    }
+  }
+
+  // right column
+  .fs-bubble-decider {
+    top 20%
+    right 18%
+
+    &::before {
+      left -7px
+      border-right none
+      border-top none
+    }
+  }
+
+  .fs-bubble-history {
+    bottom 18%
+    right 18%
+
+    &::before {
+      left -7px
+      border-right none
+      border-top none
+    }
+  }
+
+  // bottom center
+  .fs-bubble-decider-question {
+    margin 0
+    font-size 0.95rem
+    font-weight 600
+  }
+
+  .fs-bubble-decider-result {
+    margin 6px 0 0
+    font-size 1.05rem
+    font-weight 600
+
+    &.picked {
+      animation fsDeciderPop 0.5s ease
+    }
+  }
+
+  +keep-mobile() {
+    // 移动端不显示首屏内容气泡（文案可能过长）
+    .fs-bubble {
+      display none
+    }
+  }
+
   .first-screen-content {
     position relative
     z-index 1

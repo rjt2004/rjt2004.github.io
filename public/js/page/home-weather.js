@@ -137,7 +137,7 @@
 
     el.classList.remove('is-message', 'is-error');
     setIcon(el, iconSrc, text, false);
-    if (brief) brief.textContent = `${text} ${temp}°C`;
+    if (brief) brief.textContent = `${temp}°C`;
     if (place) place.textContent = DISPLAY_PLACE;
     if (main) main.textContent = `${text} ${temp}°C`;
     const feels = weather.feelsLike ? `体感 ${weather.feelsLike}°C` : '';

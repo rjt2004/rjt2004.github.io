@@ -3,6 +3,50 @@ const { enable: sc_enable, links: sc_links } = theme?.social_contact || {}
 const avatar = theme?.base_info?.avatar || ''
 %>
 <div class="first-screen-container border-box flex-center fade-in-down-animation">
+    <%
+    const hw = theme?.home_widgets || {}
+    const hwHitokoto = hw.hitokoto !== false
+    const hwOnthisday = hw.onthisday !== false
+    const hwDecider = (hw.decider === undefined || hw.decider === true || hw.decider.enable !== false)
+    const deciderQuestion = (hw.decider && hw.decider.question) || '今天吃什么？'
+    const deciderOptions = (hw.decider && Array.isArray(hw.decider.options) && hw.decider.options.length)
+      ? hw.decider.options : ['火锅', '烧烤', '日料', '麦当劳', '自己做']
+    %>
+
+    <% if (hwHitokoto) { %>
+        <div class="fs-bubble fs-bubble-hitokoto">
+            <i class="fas fa-quote-left fs-bubble-icon"></i>
+            <div class="fs-bubble-body">
+                <p class="fs-bubble-text">正在加载一言…</p>
+                <span class="fs-bubble-source"></span>
+            </div>
+            <button class="fs-bubble-refresh" type="button" aria-label="换一句" title="换一句"><i class="fas fa-sync-alt"></i></button>
+        </div>
+    <% } %>
+
+    <% if (hwOnthisday) { %>
+        <div class="fs-bubble fs-bubble-history">
+            <i class="fas fa-landmark fs-bubble-icon"></i>
+            <div class="fs-bubble-body">
+                <p class="fs-bubble-title">那年今日</p>
+                <ul class="fs-bubble-list"><li>正在加载…</li></ul>
+            </div>
+            <button class="fs-bubble-refresh" type="button" aria-label="换一批" title="换一批"><i class="fas fa-sync-alt"></i></button>
+        </div>
+    <% } %>
+
+    <% if (hwDecider) { %>
+        <div class="fs-bubble fs-bubble-decider">
+            <i class="fas fa-dice fs-bubble-icon"></i>
+            <div class="fs-bubble-body">
+                <p class="fs-bubble-decider-question"><%- deciderQuestion %></p>
+                <p class="fs-bubble-decider-result">点一下帮你决定</p>
+            </div>
+            <button class="fs-bubble-refresh" type="button" aria-label="帮我决定" title="帮我决定"><i class="fas fa-sync-alt"></i></button>
+        </div>
+        <script type="application/json" id="fs-decider-data"><%- JSON.stringify(deciderOptions) %></script>
+    <% } %>
+
     <div class="first-screen-content border-box">
         <div class="home-profile border-box">
             <div class="home-profile-main border-box">

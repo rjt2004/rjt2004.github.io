@@ -19,6 +19,70 @@ first_screen:
   description: Keep writing and Keep loving.
   hitokoto: false     # Option values: true | false
 
+# 首页首屏内容组件：对话框式 一言/那年今日/今日决策器
+home_widgets:
+  enable: true        # Option values: true | false
+  hitokoto: true      # 一言对话框（可点气泡内按钮换一句）
+  onthisday: true     # 那年今日对话框（维基百科，每次 2 条，可点气泡内按钮换一批）
+
+  decider:
+    enable: true      # 今日决策器（点按钮随机决定）
+    question: 今天吃什么？
+    options:
+      - 火锅
+      - 麻辣烫
+      - 烧烤
+      - 日料
+      - 韩式料理
+      - 泰餐
+      - 川菜
+      - 湘菜
+      - 粤菜
+      - 江浙菜
+      - 东北菜
+      - 西北面食
+      - 兰州拉面
+      - 沙县小吃
+      - 黄焖鸡米饭
+      - 重庆小面
+      - 螺蛳粉
+      - 过桥米线
+      - 酸辣粉
+      - 饺子
+      - 馄饨
+      - 生煎包
+      - 煎饼果子
+      - 卤肉饭
+      - 猪脚饭
+      - 盖浇饭
+      - 蛋炒饭
+      - 扬州炒饭
+      - 披萨
+      - 汉堡
+      - 麦当劳
+      - 肯德基
+      - 麻辣香锅
+      - 酸菜鱼
+      - 水煮鱼
+      - 小龙虾
+      - 烤肉
+      - 铁板烧
+      - 串串香
+      - 关东煮
+      - 部队火锅
+      - 寿司
+      - 天妇罗
+      - 意面
+      - 牛排
+      - 沙拉
+      - 轻食
+      - 三明治
+      - 贝果
+      - 泡面加蛋
+      - 外卖盲盒
+      - 食堂
+      - 自己做
+
 social_contact:
   enable: true      # Option values: true | false
   links:
