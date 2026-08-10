@@ -863,6 +863,12 @@ $mobile-menu-icon-wrap-margin = 0.4rem
       color #ff8787
     }
   }
+
+  &.is-term {
+    color var(--primary-color)
+    transform none
+    font-weight 600
+  }
 }
 
 +keep-mobile() {
@@ -883,7 +889,7 @@ $mobile-menu-icon-wrap-margin = 0.4rem
 .header-clock-cal-foot {
   display flex
   align-items center
-  justify-content space-between
+  justify-content center
   gap 0.5rem
   margin-top 0.6rem
   padding-top 0.5rem
@@ -1279,6 +1285,10 @@ $mobile-menu-icon-wrap-margin = 0.4rem
   .left,
   .right {
     width 11rem
+  }
+
+  .left {
+    gap 1.5rem
   }
 
   .right {

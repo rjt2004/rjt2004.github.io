@@ -1,0 +1,394 @@
+// ---- Navbar music player ----
+.music-nav-item {
+  position relative
+  display flex
+  align-items center
+
+  &::before {
+    display none !important
+  }
+
+  &:hover,
+  &:focus-within {
+    .music-nav-panel {
+      visibility visible
+      opacity 1
+      transform translate(-50%, 0)
+      pointer-events auto
+    }
+  }
+}
+
+.music-nav-pill {
+  display inline-flex
+  align-items center
+  gap 0.45rem
+  height 2.1rem
+  max-width 9.5rem
+  padding 0 0.25rem
+  color var(--text-color-3)
+  font-size 1rem
+  background transparent
+  border 0
+  outline none
+  cursor pointer
+  border-radius 999px
+  transition background 0.2s ease, color 0.2s ease
+
+  &:hover {
+    color var(--primary-color)
+    background var(--background-color-2)
+  }
+
+  > i {
+    transition opacity 0.2s ease, transform 0.2s ease
+  }
+
+  // 播放中的 SVG 均衡器动画
+  .music-nav-eq-svg {
+    display none
+    flex 0 0 auto
+    width 1rem
+    height 0.9rem
+
+    rect {
+      transform-origin bottom
+      animation musicEqBar 1s ease-in-out infinite
+
+      &:nth-child(1) {
+        animation-delay 0s
+      }
+
+      &:nth-child(2) {
+        animation-delay 0.2s
+      }
+
+      &:nth-child(3) {
+        animation-delay 0.4s
+      }
+    }
+  }
+
+  .music-nav-name {
+    flex 0 0 auto
+    width 5.5rem
+    overflow hidden
+    font-size 0.8rem
+    white-space nowrap
+    text-overflow ellipsis
+  }
+
+  &.is-playing {
+    color var(--primary-color)
+
+    > i {
+      display none
+    }
+
+    .music-nav-eq-svg {
+      display block
+    }
+  }
+
+  .is-home & {
+    if (hexo-config('first_screen') && hexo-config('first_screen.enable') == true) {
+      color var(--first-screen-header-font-color-light)
+
+      .dark-mode & {
+
+
+        color var(--first-screen-header-font-color-dark)
+      }
+    }
+  }
+}
+
+.music-nav-mobile-button {
+  color var(--text-color-3)
+  font-size 1rem
+  background transparent
+  border 0
+  padding 0
+  cursor pointer
+  position relative
+
+  .music-nav-eq-svg {
+    display none
+    width 0.95rem
+    height 0.85rem
+
+    rect {
+      transform-origin bottom
+      animation musicEqBar 1s ease-in-out infinite
+
+      &:nth-child(1) {
+        animation-delay 0s
+      }
+
+      &:nth-child(2) {
+        animation-delay 0.2s
+      }
+
+      &:nth-child(3) {
+        animation-delay 0.4s
+      }
+    }
+  }
+
+  &.is-playing {
+    color var(--primary-color)
+
+    > i {
+      display none
+    }
+
+    .music-nav-eq-svg {
+      display block
+    }
+  }
+}
+
+.music-nav-panel {
+  position absolute
+  top calc(100% + 0.85rem)
+  left 50%
+  right auto
+  z-index $z-index-5
+  width 19rem
+  max-height 28rem
+  padding 0.9rem 0.95rem
+  color var(--text-color-2)
+  background var(--background-color-1)
+  border 1px solid var(--border-color)
+  border-radius 0.7rem
+  box-shadow 0 18px 45px var(--shadow-hover-color)
+  visibility hidden
+  opacity 0
+  transform translate(-50%, -0.3rem)
+  pointer-events none
+  transition-t("opacity, transform, visibility", "0, 0, 0", "0.18, 0.18, 0.18", "ease, ease, ease")
+
+  &::before {
+    position absolute
+    top -0.85rem
+    right 0
+    width 100%
+    height 0.85rem
+    content ''
+  }
+}
+
+// ---- Player UI ----
+.music-player-now {
+  display flex
+  align-items center
+  gap 0.7rem
+  padding-bottom 0.6rem
+}
+
+.music-player-cover {
+  flex 0 0 auto
+  width 2.9rem
+  height 2.9rem
+  object-fit cover
+  border-radius 0.4rem
+}
+
+.music-player-info {
+  min-width 0
+  line-height 1.35
+}
+
+.music-player-name {
+  overflow hidden
+  color var(--text-color-1)
+  font-size 0.95rem
+  font-weight 600
+  white-space nowrap
+  text-overflow ellipsis
+}
+
+.music-player-artist {
+  overflow hidden
+  color var(--text-color-3)
+  font-size 0.78rem
+  white-space nowrap
+  text-overflow ellipsis
+}
+
+.music-player-bar {
+  display flex
+  align-items center
+  gap 0.35rem
+  padding 0.35rem 0
+}
+
+.music-btn {
+  display inline-flex
+  align-items center
+  justify-content center
+  width 2rem
+  height 2rem
+  padding 0
+  color var(--text-color-2)
+  font-size 0.9rem
+  background transparent
+  border 0
+  border-radius 50%
+  cursor pointer
+  transition background 0.2s ease, color 0.2s ease
+
+  &:hover {
+    color var(--primary-color)
+    background var(--background-color-2)
+  }
+}
+
+.music-btn-play {
+  width 2.4rem
+  height 2.4rem
+  color #fff
+  background var(--primary-color)
+  font-size 1rem
+
+  &:hover {
+    color #fff
+    background var(--primary-color)
+    filter brightness(1.1)
+  }
+}
+
+.music-volume {
+  display flex
+  align-items center
+  gap 0.4rem
+  margin-left auto
+
+  i {
+    color var(--text-color-3)
+    font-size 0.85rem
+  }
+}
+
+.music-volume-range,
+.music-progress-range {
+  -webkit-appearance none
+  appearance none
+  height 4px
+  background var(--background-color-3)
+  border-radius 999px
+  outline none
+  cursor pointer
+
+  &::-webkit-slider-thumb {
+    -webkit-appearance none
+    appearance none
+    width 12px
+    height 12px
+    border-radius 50%
+    background var(--primary-color)
+    border 0
+    cursor pointer
+  }
+
+  &::-moz-range-thumb {
+    width 12px
+    height 12px
+    border-radius 50%
+    background var(--primary-color)
+    border 0
+    cursor pointer
+  }
+}
+
+.music-volume-range {
+  width 4.2rem
+}
+
+.music-progress {
+  display flex
+  align-items center
+  gap 0.5rem
+  padding 0.2rem 0 0.5rem
+}
+
+.music-progress-range {
+  flex 1
+}
+
+.music-time {
+  flex 0 0 auto
+  color var(--text-color-4)
+  font-size 0.72rem
+  font-variant-numeric tabular-nums
+}
+
+.music-status {
+  min-height 1rem
+  margin-top 0.3rem
+  color var(--text-color-4)
+  font-size 0.75rem
+  text-align center
+
+  &.is-error {
+    color #e03131
+  }
+
+  &.is-lyric {
+    overflow hidden
+    color var(--text-color-3)
+    white-space nowrap
+    text-overflow ellipsis
+  }
+}
+
+// ---- Mobile ----
+.music-nav-mobile {
+  position relative
+  width auto !important
+  height auto !important
+  padding 0 0.15rem
+  display flex
+  align-items center
+
+  .music-nav-mobile-button {
+    color var(--text-color-3)
+    font-size 1rem
+    background transparent
+    border 0
+    padding 0
+    cursor pointer
+  }
+
+  &.show-music-panel {
+    .music-nav-panel {
+      visibility visible
+      opacity 1
+      pointer-events auto
+    }
+  }
+}
+
++keep-tablet() {
+  .music-nav-mobile-panel {
+    position fixed !important
+    top 50% !important
+    left 50% !important
+    right auto !important
+    width min(19rem, 90vw)
+    max-height 80vh
+    transform translate(-50%, -50%) scale(0.97) !important
+  }
+
+  .music-nav-mobile.show-music-panel .music-nav-mobile-panel {
+    transform translate(-50%, -50%) !important
+  }
+}
+
+// 移动端隐藏左侧的桌面时钟与天气（保留 .mobile 区图标）
++keep-tablet() {
+  .header-clock-item,
+  .header-weather-item {
+    display none
+  }
+}

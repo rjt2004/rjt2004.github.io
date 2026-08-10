@@ -6,6 +6,12 @@ const origin_h_menu_nav_object = theme?.menu || { archives: '/archives' }
 const homeWeather = theme?.home?.weather || {}
 const homeWeatherEnable = homeWeather?.enable === true && homeWeather?.endpoint
 
+const mp = theme?.music_player || {}
+const mpEnable = mp.enable === true && mp.playlist_id && mp.proxy
+const mpPlaylistId = mp.playlist_id || ''
+const mpProxy = mp.proxy || ''
+const mpBr = mp.br || 128000
+
 const h_menu_nav_object = {}
 for (const key in origin_h_menu_nav_object) {
     const temp_key = key.trim().toLowerCase()
@@ -22,6 +28,24 @@ for (const key in origin_h_menu_nav_object) {
                 </button>
                 <div class="header-clock-panel border-box"></div>
             </div>
+            <% if (homeWeatherEnable) { %>
+                <div class="header-weather-item border-box" data-home-weather-status tabindex="0">
+                    <button class="header-weather-pill menu-text-color border-box" type="button" aria-label="天气">
+                        <img class="home-weather-icon header-weather-icon" src="" alt="" hidden>
+                    </button>
+                    <div class="home-weather-card header-weather-panel border-box">
+                        <div class="home-weather-icon-wrap">
+                            <img class="home-weather-icon header-weather-panel-icon" src="" alt="" hidden>
+                        </div>
+                        <div class="home-weather-body">
+                            <div class="home-weather-place">天气加载中</div>
+                            <div class="home-weather-main"></div>
+                            <div class="home-weather-meta"></div>
+                            <div class="home-weather-detail"></div>
+                        </div>
+                    </div>
+                </div>
+            <% } %>
         </div>
 
         <nav class="center pc border-box" aria-label="Main menu">
@@ -65,25 +89,24 @@ for (const key in origin_h_menu_nav_object) {
         <div class="right border-box">
             <div class="pc header-tools border-box">
                 <ul class="menu-list tools-menu-list border-box">
-                    <% if (homeWeatherEnable) { %>
-                        <li class="menu-item header-weather-item border-box" data-home-weather-status tabindex="0">
-                            <button class="header-weather-pill menu-text-color border-box" type="button" aria-label="天气">
-                                <img class="home-weather-icon header-weather-icon" src="" alt="" hidden>
+                    <% if (mpEnable) { %>
+                        <li class="menu-item music-nav-item border-box" data-music-nav tabindex="0">
+                            <button class="music-nav-pill menu-text-color border-box" type="button" aria-label="音乐">
+                                <i class="fa-solid fa-music"></i>
+                                <svg class="music-nav-eq-svg" viewBox="0 0 18 16" aria-hidden="true">
+                                    <rect x="1" y="6" width="3" height="10" rx="1.5"></rect>
+                                    <rect x="7.5" y="2" width="3" height="14" rx="1.5"></rect>
+                                    <rect x="14" y="8" width="3" height="8" rx="1.5"></rect>
+                                </svg>
+                                <span class="music-nav-name"></span>
                             </button>
-                            <div class="home-weather-card header-weather-panel border-box">
-                                <div class="home-weather-icon-wrap">
-                                    <img class="home-weather-icon header-weather-panel-icon" src="" alt="" hidden>
-                                </div>
-                                <div class="home-weather-body">
-                                    <div class="home-weather-place">天气加载中</div>
-                                    <div class="home-weather-main"></div>
-                                    <div class="home-weather-meta"></div>
-                                    <div class="home-weather-detail"></div>
-                                </div>
-                            </div>
+                            <div class="music-nav-panel border-box"
+                                 data-playlist="<%= mpPlaylistId %>"
+                                 data-proxy="<%= mpProxy %>"
+                                 data-br="<%= mpBr %>"></div>
                         </li>
                     <% } %>
-</ul>
+                </ul>
             </div>
             <div class="mobile border-box flex-start">
                 <div class="icon-item header-clock-mobile" data-clock-mobile tabindex="0" title="日历">
@@ -92,6 +115,22 @@ for (const key in origin_h_menu_nav_object) {
                     </button>
                     <div class="header-clock-panel header-clock-mobile-panel border-box"></div>
                 </div>
+                <% if (mpEnable) { %>
+                    <div class="icon-item music-nav-mobile" data-music-nav-mobile tabindex="0" title="音乐">
+                        <button class="music-nav-mobile-button" type="button" aria-label="音乐">
+                            <i class="fa-solid fa-music"></i>
+                            <svg class="music-nav-eq-svg" viewBox="0 0 18 16" aria-hidden="true">
+                                <rect x="1" y="6" width="3" height="10" rx="1.5"></rect>
+                                <rect x="7.5" y="2" width="3" height="14" rx="1.5"></rect>
+                                <rect x="14" y="8" width="3" height="8" rx="1.5"></rect>
+                            </svg>
+                        </button>
+                        <div class="music-nav-panel music-nav-mobile-panel border-box"
+                             data-playlist="<%= mpPlaylistId %>"
+                             data-proxy="<%= mpProxy %>"
+                             data-br="<%= mpBr %>"></div>
+                    </div>
+                <% } %>
                 <% if (homeWeatherEnable) { %>
                     <div class="icon-item header-weather-mobile" data-home-weather-status tabindex="0">
                         <button class="header-weather-mobile-button" type="button" aria-label="天气">
@@ -168,4 +207,8 @@ for (const key in origin_h_menu_nav_object) {
     <% } %>
 
     <script <%= theme?.pjax?.enable === true ? 'data-pjax' : '' %> src="<%- url_for('/js/header-clock.js?v=1') %>"></script>
+
+    <% if (mpEnable) { %>
+        <script src="<%- url_for('/js/music-player.js?v=2') %>"></script>
+    <% } %>
 </header>

@@ -19,11 +19,10 @@ first_screen:
   description: Keep writing and Keep loving.
   hitokoto: false     # Option values: true | false
 
-# 首页首屏内容组件：对话框式 一言/那年今日/今日决策器
+# 首页首屏内容组件：对话框式 一言/今日决策器
 home_widgets:
   enable: true        # Option values: true | false
   hitokoto: true      # 一言对话框（可点气泡内按钮换一句）
-  onthisday: true     # 那年今日对话框（维基百科，每次 2 条，可点气泡内按钮换一批）
 
   decider:
     enable: true      # 今日决策器（点按钮随机决定）
@@ -82,6 +81,65 @@ home_widgets:
       - 外卖盲盒
       - 食堂
       - 自己做
+      - 炒面
+      - 炒河粉
+      - 拌面
+      - 冷面
+      - 热干面
+      - 担担面
+      - 刀削面
+      - 烩面
+      - 广式早茶
+      - 港式茶餐厅
+      - 肠粉
+      - 烧鹅饭
+      - 叉烧饭
+      - 咖喱饭
+      - 石锅拌饭
+      - 蛋包饭
+      - 猪扒饭
+      - 烤冷面
+      - 肉夹馍
+      - 凉皮
+      - 胡辣汤
+      - 冒菜
+      - 钵钵鸡
+      - 鸡公煲
+      - 大盘鸡
+      - 烤鱼
+      - 寿喜锅
+      - 鳗鱼饭
+      - 咖喱乌冬
+      - 越南河粉
+      - 冬阴功
+      - 海南鸡饭
+      - 印度咖喱
+      - 墨西哥卷饼
+      - 土耳其烤肉
+      - 汉堡王
+      - 赛百味
+      - 便利店便当
+      - 全家速食
+      - 宅家涮火锅
+      - 自助餐
+      - 日式拉面
+      - 乌冬面
+      - 蒸饺
+      - 灌汤包
+      - 油泼面
+      - 杂酱面
+      - 煲仔饭
+      - 砂锅粥
+      - 椰子鸡
+      - 猪肚鸡
+      - 跷脚牛肉
+
+# 音乐播放器
+music_player:
+  enable: true
+  playlist_id: "2913335699"   # 网易云歌单ID
+  proxy: "https://myblog-music.1610773590.workers.dev"   # 网易云代理 Worker 地址
+  br: 128000                  # 音质：128000 / 320000
 
 social_contact:
   enable: true      # Option values: true | false

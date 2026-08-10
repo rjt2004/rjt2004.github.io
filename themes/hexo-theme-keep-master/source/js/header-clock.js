@@ -44,8 +44,6 @@
       '9-10': '教师节', '10-1': '国庆节', '12-24': '平安夜', '12-25': '圣诞节'
     };
     if (fixed[m + '-' + d]) return fixed[m + '-' + d];
-    if (m === 4 && (d === 4 || d === 5)) return '清明节';
-    if (m === 12 && (d === 21 || d === 22)) return '冬至';
 
     var lm = lunarMonthDay(date);
     var lunar = {
@@ -58,6 +56,80 @@
     var tom = lunarMonthDay(new Date(date.getTime() + 86400000));
     if (tom.m === 1 && tom.d === 1) return '除夕';
     return '';
+  }
+
+  // ---------------- Solar terms (节气, Meeus 低精度太阳黄经) ----------------
+  var SOLAR_TERMS = ['立春', '雨水', '惊蛰', '春分', '清明', '谷雨', '立夏', '小满', '芒种', '夏至', '小暑', '大暑', '立秋', '处暑', '白露', '秋分', '寒露', '霜降', '立冬', '小雪', '大雪', '冬至', '小寒', '大寒'];
+
+  function lambdaAt(jd) {
+    var n = jd - 2451545.0;
+    var L = (280.460 + 0.9856474 * n) % 360;
+    var g = (357.528 + 0.9856003 * n) % 360;
+    var lam = L + 1.915 * Math.sin(g * Math.PI / 180) + 0.020 * Math.sin(2 * g * Math.PI / 180);
+    lam = lam % 360;
+    if (lam < 0) lam += 360;
+    return lam;
+  }
+
+  function localJd(date) {
+    return date.getTime() / 86400000 + 2440587.5;
+  }
+
+  function addDays(date, n) {
+    var d = new Date(date);
+    d.setDate(d.getDate() + n);
+    return d;
+  }
+
+  function boundaryIn(a, b) {
+    var d = b - a;
+    if (d < -180) d += 360;
+    if (d > 180) d -= 360;
+    if (d <= 0) return -1;
+    for (var k = 0; k < 24; k++) {
+      var t = (315 + 15 * k) % 360;
+      if (a < t && t <= b) return k;
+    }
+    return -1;
+  }
+
+  function termInfo(date) {
+    var day = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    var idx = -1, start = null;
+
+    // 当天自身发生节气切换 → 当天即该节气首日
+    var k0 = boundaryIn(lambdaAt(localJd(day)), lambdaAt(localJd(addDays(day, 1))));
+    if (k0 >= 0) {
+      idx = k0;
+      start = day;
+    } else {
+      var end = day;
+      for (var i = 0; i < 40; i++) {
+        var kk = boundaryIn(lambdaAt(localJd(addDays(end, -1))), lambdaAt(localJd(end)));
+        if (kk >= 0) { idx = kk; start = addDays(end, -1); break; }
+        end = addDays(end, -1);
+      }
+    }
+    if (idx < 0 || !start) return { cur: '', daysInto: 0, next: '', daysToNext: 0 };
+
+    var daysInto = Math.round((day - start) / 86400000) + 1;
+    var nextIdx = (idx + 1) % 24;
+    var nt = (315 + 15 * nextIdx) % 360;
+    if (nt === 0) nt = 360;
+
+    var prev = day, nextStart = null;
+    for (var j = 0; j < 40; j++) {
+      var nx = addDays(prev, 1);
+      var l1 = lambdaAt(localJd(prev)), l2 = lambdaAt(localJd(nx));
+      var dl = l2 - l1;
+      if (dl < -180) dl += 360;
+      if (dl > 180) dl -= 360;
+      if (dl > 0 && l1 < nt && nt <= l2) { nextStart = prev; break; }
+      prev = nx;
+    }
+    var daysToNext = nextStart ? Math.round((nextStart - day) / 86400000) : 0;
+
+    return { cur: SOLAR_TERMS[idx], daysInto: daysInto, next: SOLAR_TERMS[nextIdx], daysToNext: daysToNext };
   }
 
   // ---------------- Calendar ----------------
@@ -83,7 +155,6 @@
         '<div class="header-clock-cal-grid"></div>' +
         '<div class="header-clock-cal-foot">' +
         '<span class="header-clock-cal-info"></span>' +
-        '<button type="button" class="header-clock-cal-btn header-clock-cal-today">今天</button>' +
         '</div>';
       panel.appendChild(cal);
 
@@ -108,17 +179,15 @@
         if (st.m > 12) { st.m = 1; st.y++; }
         renderCalendar(panel);
       });
-      panel.querySelector('.header-clock-cal-today').addEventListener('click', function (e) {
-        e.stopPropagation();
-        var now = new Date();
-        var st = calState(panel);
-        st.y = now.getFullYear();
-        st.m = now.getMonth() + 1;
-        st.sy = st.y; st.sm = st.m; st.sd = now.getDate();
-        renderCalendar(panel);
-      });
     }
     renderCalendar(panel);
+  }
+
+  // 重置日历到当前月份/今天
+  function resetToToday(panel) {
+    var now = new Date();
+    panel.__cal = { y: now.getFullYear(), m: now.getMonth() + 1, sy: now.getFullYear(), sm: now.getMonth() + 1, sd: now.getDate() };
+    buildCalendar(panel);
   }
 
   function renderCalendar(panel) {
@@ -157,7 +226,13 @@
         lun.textContent = hol;
         lun.classList.add('is-holiday');
       } else {
-        lun.textContent = lunarDayText(lunarDayNum(new Date(st.y, st.m - 1, d)));
+        var term = termInfo(new Date(st.y, st.m - 1, d));
+        if (term.cur && term.daysInto === 1) {
+          lun.textContent = term.cur;
+          lun.classList.add('is-term');
+        } else {
+          lun.textContent = lunarDayText(lunarDayNum(new Date(st.y, st.m - 1, d)));
+        }
       }
 
       cell.appendChild(num);
@@ -177,14 +252,15 @@
   function updateCalInfo(panel) {
     var st = calState(panel);
     var date = new Date(st.sy, st.sm - 1, st.sd);
-    var li = lunarInfo(date);
     var info = panel.querySelector('.header-clock-cal-info');
     if (!info) return;
-    var hol = getHoliday(date);
+    var li = lunarInfo(date);
     var lmName = new Intl.DateTimeFormat('zh-CN-u-ca-chinese', { month: 'long' }).format(date); // "六月"
-    var txt = '农历' + (li.ganzhi ? ' ' + li.ganzhi + '年' : '') + ' ' + lmName + lunarDayText(lunarDayNum(date));
-    if (li.animal) txt += ' · 属' + li.animal;
-    if (hol) txt = hol + ' · ' + txt;
+    var txt = (li.ganzhi || '') + ' ' + lmName + lunarDayText(lunarDayNum(date));
+    var t = termInfo(date);
+    if (t.cur) {
+      txt += ' · ' + t.cur + '第' + t.daysInto + '天 · 距' + t.next + t.daysToNext + '天';
+    }
     info.textContent = txt;
   }
 
@@ -194,7 +270,7 @@
     el.__flipBuilt = true;
     el.classList.add('header-clock-flip');
     var html = '';
-    for (var g = 0; g < 3; g++) {
+    for (var g = 0; g < 2; g++) {
       if (g) html += '<span class="flip-colon">:</span>';
       html += '<span class="flip-card"><span class="flip-digit">0</span></span>' +
               '<span class="flip-card"><span class="flip-digit">0</span></span>';
@@ -221,8 +297,7 @@
     if (!cards.length) buildFlipClock(el);
     var hh = pad(d.getHours());
     var mm = pad(d.getMinutes());
-    var ss = pad(d.getSeconds());
-    var vals = [hh[0], hh[1], mm[0], mm[1], ss[0], ss[1]];
+    var vals = [hh[0], hh[1], mm[0], mm[1]];
     cards.forEach(function (card, i) {
       if (card) setFlipDigit(card, vals[i]);
     });
@@ -252,8 +327,38 @@
       el.addEventListener('click', function () {
         var p = el.querySelector('.header-clock-panel');
         if (!p) return;
+        var opening = !el.classList.contains('show-clock-panel');
         el.classList.toggle('show-clock-panel');
-        buildCalendar(p);
+        // 每次打开都默认看今天
+        if (opening) resetToToday(p);
+        else buildCalendar(p);
+        // 打开日历时关闭天气/音乐卡片，避免重叠
+        document.querySelectorAll('.header-weather-mobile').forEach(function (w) { w.blur(); });
+        document.querySelectorAll('[data-music-nav-mobile].show-music-panel').forEach(function (m) { m.classList.remove('show-music-panel'); });
+      });
+    });
+
+    // 桌面端每次悬停打开都默认看今天
+    document.querySelectorAll('.header-clock-item[data-clock-desktop]').forEach(function (el) {
+      if (el.__calHoverBound) return;
+      el.__calHoverBound = true;
+      el.addEventListener('mouseenter', function () {
+        var p = el.querySelector('.header-clock-panel');
+        if (p) resetToToday(p);
+      });
+    });
+
+    // 打开天气时关闭日历/音乐卡片
+    document.querySelectorAll('.header-weather-mobile').forEach(function (w) {
+      if (w.__weatherMutexBound) return;
+      w.__weatherMutexBound = true;
+      w.addEventListener('focusin', function () {
+        document.querySelectorAll('.header-clock-mobile.show-clock-panel').forEach(function (c) {
+          c.classList.remove('show-clock-panel');
+        });
+        document.querySelectorAll('[data-music-nav-mobile].show-music-panel').forEach(function (m) {
+          m.classList.remove('show-music-panel');
+        });
       });
     });
 

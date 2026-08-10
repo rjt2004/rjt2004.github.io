@@ -154,6 +154,8 @@
   }
 
   function render(state) {
+    // 缓存到 window，pjax 重新执行脚本时可直接复用，避免刷新/重复请求
+    window.__homeWeatherState = state;
     document.querySelectorAll('[data-home-weather-status]').forEach(el => {
       if (state.loading) {
         renderMessage(el, '天气加载中', false);
@@ -190,6 +192,12 @@
 
   function init() {
     if (!document.querySelector('[data-home-weather-status]')) return;
+    if (window.__homeWeatherInit) {
+      // 已初始化过（pjax 重新执行），直接用缓存状态渲染新元素，不重复请求
+      if (window.__homeWeatherState) render(window.__homeWeatherState);
+      return;
+    }
+    window.__homeWeatherInit = true;
     if (refreshTimer) clearInterval(refreshTimer);
     loadWeather(true);
     refreshTimer = setInterval(() => loadWeather(false), REFRESH_INTERVAL);

@@ -35,6 +35,16 @@
   description: "接口与在线工具控制台"
   image: "/images/tools/ikuncode.jpeg"
 
+- name: "DeepSeek 开放平台"
+  link: "https://platform.deepseek.com/usage"
+  description: "DeepSeek API 用量与控制台"
+  image: "/images/tools/deepseek.png"
+
+- name: "Kimi 开放平台"
+  link: "https://platform.kimi.com/console"
+  description: "Moonshot Kimi API 控制台"
+  image: "/images/tools/kimi.ico"
+
 
 - category: CS
 

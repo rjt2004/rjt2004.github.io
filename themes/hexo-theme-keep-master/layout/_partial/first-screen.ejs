@@ -6,7 +6,6 @@ const avatar = theme?.base_info?.avatar || ''
     <%
     const hw = theme?.home_widgets || {}
     const hwHitokoto = hw.hitokoto !== false
-    const hwOnthisday = hw.onthisday !== false
     const hwDecider = (hw.decider === undefined || hw.decider === true || hw.decider.enable !== false)
     const deciderQuestion = (hw.decider && hw.decider.question) || '今天吃什么？'
     const deciderOptions = (hw.decider && Array.isArray(hw.decider.options) && hw.decider.options.length)
@@ -21,17 +20,6 @@ const avatar = theme?.base_info?.avatar || ''
                 <span class="fs-bubble-source"></span>
             </div>
             <button class="fs-bubble-refresh" type="button" aria-label="换一句" title="换一句"><i class="fas fa-sync-alt"></i></button>
-        </div>
-    <% } %>
-
-    <% if (hwOnthisday) { %>
-        <div class="fs-bubble fs-bubble-history">
-            <i class="fas fa-landmark fs-bubble-icon"></i>
-            <div class="fs-bubble-body">
-                <p class="fs-bubble-title">那年今日</p>
-                <ul class="fs-bubble-list"><li>正在加载…</li></ul>
-            </div>
-            <button class="fs-bubble-refresh" type="button" aria-label="换一批" title="换一批"><i class="fas fa-sync-alt"></i></button>
         </div>
     <% } %>
 

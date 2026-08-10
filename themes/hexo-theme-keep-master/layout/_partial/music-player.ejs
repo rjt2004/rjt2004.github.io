@@ -1,0 +1,42 @@
+<%
+const mp = theme?.music_player || {}
+const mpEnable = mp.enable === true
+const mpPlaylistId = (mp.playlist_id || '').toString().trim()
+const mpSongs = (Array.isArray(mp.songs) && mp.songs.length)
+  ? mp.songs.map(s => String(s).trim()).filter(Boolean)
+  : []
+const mpHeight = (mp.height != null && mp.height !== '') ? Number(mp.height) : 0
+%>
+<% if (mpEnable && (mpPlaylistId || mpSongs.length)) { %>
+<div class="music-player-host" data-playlist="<%- mpPlaylistId %>" data-songs='<%- JSON.stringify(mpSongs) %>' data-height="<%= mpHeight %>"></div>
+<script data-pjax>
+(function () {
+  var host = document.querySelector('.music-player-host');
+  if (!host || host.__mpBound) return;
+  host.__mpBound = true;
+  var playlist = (host.dataset.playlist || '').trim();
+  var songs = [];
+  try { songs = JSON.parse(host.dataset.songs || '[]'); } catch (e) { songs = []; }
+  var height = Number(host.dataset.height || 0) || 0;
+
+  var iframe = document.createElement('iframe');
+  iframe.className = 'music-player-iframe';
+  iframe.scrolling = 'no';
+  iframe.setAttribute('frameborder', 'no');
+  iframe.setAttribute('allowtransparency', 'true');
+  iframe.title = '音乐';
+
+  if (playlist) {
+    var ph = height || 90;
+    iframe.src = 'https://music.163.com/outchain/player?type=1&id=' + playlist + '&auto=0&height=' + ph;
+    iframe.height = ph;
+  } else if (songs.length) {
+    var sh = height || 66;
+    var id = songs[(Math.random() * songs.length) | 0];
+    iframe.src = 'https://music.163.com/outchain/player?type=2&id=' + id + '&auto=0&height=' + sh;
+    iframe.height = sh;
+  }
+  host.appendChild(iframe);
+})();
+</script>
+<% } %>
