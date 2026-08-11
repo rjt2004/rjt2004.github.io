@@ -1,7 +1,12 @@
 .page-container {
   width: 100%;
   height: auto;
-  background: var(--background-color-1);
+  background: var(--background-color-1) url("/images/bg.svg") center center/cover no-repeat;
+  background-attachment: fixed;
+}
+.dark-mode .page-container {
+  background: var(--background-color-1) url("/images/bg.svg") center center/cover no-repeat;
+  background-attachment: fixed;
 }
 .page-container.home-only {
   min-height: 100vh;

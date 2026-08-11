@@ -3,7 +3,14 @@ $post-tools-offset = calc((100vw - var(--page-content-max-width) / 2) - 5rem)
 .page-container {
   width 100%
   height auto
-  background var(--background-color-1)
+  background var(--background-color-1) url(hexo-config('first_screen.background_img')) center center / cover no-repeat
+  background-attachment fixed
+
+  .dark-mode & {
+    background var(--background-color-1) url(hexo-config('first_screen.background_img_dark')) center center / cover no-repeat
+    background-attachment fixed
+  }
+
   &.home-only {
     min-height 100vh
     height 100vh

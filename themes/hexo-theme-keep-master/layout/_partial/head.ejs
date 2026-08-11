@@ -27,7 +27,7 @@
         <% } %>
         <%= theme?.base_info?.title || config?.title || 'Keep Theme' %>
     </title>
-    <%- css('css/style') %>
+    <link rel="stylesheet" href="<%- url_for('/css/style.css') %>?v=3">
     <% if (theme?.base_info?.favicon) { %>
         <%- favicon_tag(theme?.base_info?.favicon) %>
     <% } %>

@@ -47,6 +47,7 @@
   function ensureAudio() {
     if (shared.audio) return shared.audio;
     var audio = new Audio();
+    audio.volume = 0.3; // 初始化音量 30%
     shared.audio = audio;
     if (!shared.bound) {
       shared.bound = true;
@@ -245,7 +246,7 @@
       '<button class="music-btn music-btn-shuffle" type="button" title="随机"><i class="fa-solid fa-shuffle"></i></button>' +
       '<div class="music-volume">' +
       '<i class="fa-solid fa-volume-high"></i>' +
-      '<input class="music-volume-range" type="range" min="0" max="100" value="80">' +
+      '<input class="music-volume-range" type="range" min="0" max="100" value="30">' +
       '</div></div>' +
       '<div class="music-progress">' +
       '<input class="music-progress-range" type="range" min="0" max="1000" value="0">' +
@@ -271,7 +272,7 @@
 
     if (shared.loaded) {
       // 已加载过（含 pjax 切页），同步状态，音乐继续播
-      volRange.value = shared.audio ? Math.round(shared.audio.volume * 100) : 80;
+      volRange.value = shared.audio ? Math.round(shared.audio.volume * 100) : 30;
       syncMeta();
       syncUI();
       syncProgress();

@@ -156,6 +156,9 @@ social_contact:
     
     bilibili:  https://space.bilibili.com/62971110
 
+scroll:
+  hide_header: true
+
 home:
   announcement:
   post_excerpt: false

@@ -2236,7 +2236,12 @@ figure.highlight .shrink-line:hover::before {
 .page-container {
   width: 100%;
   height: auto;
-  background: var(--background-color-1);
+  background: var(--background-color-1) url("/images/bg.svg") center center/cover no-repeat;
+  background-attachment: fixed;
+}
+.dark-mode .page-container {
+  background: var(--background-color-1) url("/images/bg.svg") center center/cover no-repeat;
+  background-attachment: fixed;
 }
 .page-container.home-only {
   min-height: 100vh;
@@ -6747,6 +6752,7 @@ figure.highlight .shrink-line:hover::before {
   width: 100%;
   height: 5.8rem;
   overflow: hidden;
+  background: var(--content-background-color);
   border-radius: 0.6rem;
   box-shadow: 0 1px 3px var(--shadow-color);
   cursor: pointer;
