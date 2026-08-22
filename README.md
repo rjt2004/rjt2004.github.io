@@ -1,3 +1,39 @@
+# Ton3rr 博客（Hexo + Keep 主题）
+
+## 项目目录结构
+
+```text
+D:\myblog\
+├── _config.yml              
+├── package.json             
+├── package-lock.json        
+├── deploy.ps1               # 部署脚本：clean → generate → main → 发布 public 到 gh-pages
+├── preview.ps1              # 本地预览脚本（默认 4000 端口，可用 -Port 指定）
+├── README.md                
+├── scaffolds/               # Hexo 新文章/页面模板
+├── scripts/                 # 自定义 Hexo 脚本（文章日期处理、文章内图片路径处理）
+├── source/                  # 网站内容源（构建时处理）
+│   ├── _data/               
+│   │   ├── keep.yml         #   主题配置
+│   │   ├── tools.yml        #   tools 页面数据
+│   │   ├── record.yml       #   record 页面数据
+│   │   └── icons.yml        #   自定义社交图标
+│   ├── _posts/              # 博客文章（Markdown，图片放在同名资源文件夹）
+│   ├── images/              
+│   ├── record/              
+│   ├── tools/               
+│   └── .nojekyll
+├── themes/
+│   └── hexo-theme-keep-master/   # Keep 主题源码
+├── public/                  # 生成的静态网站（部署到 gh-pages 分支）
+├── workers/                 
+│   ├── myblog-weather.js    #   天气代理：和风天气 JWT 签名 + 城市查询 + 实时天气
+│   └── myblog-music.js      #   音乐代理：网易云歌单/播放地址/歌词（需配 NETEASE_COOKIE）
+├── .github/
+│   └── dependabot.yml      
+└── .gitignore
+```
+
 ## 发布文章
 
 新建文章：
@@ -19,44 +55,6 @@ D:\myblog\source\_posts\文章标题.md
 D:\myblog\source\_posts\文章标题.md
 D:\myblog\source\_posts\文章标题\图片名.jpg
 ```
-
-这样本地 Markdown 编辑器和 Hexo 网站都更容易兼容。文章里写图片时，使用“文章文件夹名/图片名”的形式：
-
-```html
-<p align="center">
-  <img src="文章标题/图片名.jpg" alt="图片说明" style="width:60%; max-width:720px;">
-</p>
-```
-
-`width` 控制图片显示宽度，`max-width` 避免图片在大屏上过宽。给图片添加链接：
-
-```html
-<p align="center">
-  <a href="https://example.com" target="_blank">
-    <img src="文章标题/图片名.jpg" alt="图片说明" style="width:60%; max-width:720px;">
-  </a>
-</p>
-```
-
-文字链接使用 Markdown：
-
-```markdown
-[链接文字](https://example.com)
-```
-
-文章封面也可以放在同名资源文件夹里，然后在文章开头写：
-
-```yaml
-home_cover: 图片名.jpg
-```
-
-项目中增加了兼容脚本：
-
-```text
-D:\myblog\scripts\post-asset-html-images.js
-```
-
-这个脚本会在 Hexo 生成前，把 HTML 图片路径里的 `文章标题/图片名.jpg` 转换为文章资源路径需要的 `图片名.jpg`。这样同一份写法可以同时兼容本地 Markdown 预览和网站部署，不要删除这个脚本。
 
 ## 更新 Record
 
@@ -83,35 +81,6 @@ D:\myblog\source\images\record\图片名.jpg
   rating:
   link:
   text: "文字记录"
-```
-
-## 首页天气
-
-首页天气现在使用“浏览器 -> Cloudflare Worker -> 和风天气”的结构：
-
-```text
-博客首页只请求 Cloudflare Worker
-Worker 保存和风天气 JWT 私钥并请求和风天气 API
-```
-
-常用配置在：
-
-```text
-D:\myblog\source\_data\keep.yml
-```
-
-对应字段：
-
-```yaml
-home:
-  weather:
-    enable: true
-    provider: qweather
-    endpoint: Worker 的 /weather 地址
-    location: 查询地址
-    adm: 上级行政区，用于辅助匹配
-    display_place: 首页展示名称
-    refresh_minutes: 浏览器端重新请求天气的间隔
 ```
 
 ## 本地预览
