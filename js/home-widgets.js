@@ -36,6 +36,36 @@
     quoteRefresh.addEventListener('click', loadQuote);
   }
 
+  // ---------------- Answer book (答案之书) ----------------
+  var answerBubble = $1('.fs-bubble-answerbook');
+  var answerQuestion = $1('.fs-bubble-question', answerBubble);
+  var answerText = $1('.fs-bubble-answer', answerBubble);
+  var answerDataEl = $1('#fs-answerbook-data');
+  var answerList = [];
+  try { if (answerDataEl) answerList = JSON.parse(answerDataEl.textContent); } catch (e) { answerList = []; }
+  if (!answerList.length) answerList = ['保持开心就好了', '相信你的直觉', '答案就在眼前'];
+
+  var drawing = false;
+  function drawAnswer() {
+    if (!answerText || drawing) return;
+    drawing = true;
+    answerQuestion.textContent = '正在预测中…';
+    answerText.textContent = '';
+    setTimeout(function () {
+      drawing = false;
+      answerQuestion.textContent = '';
+      answerText.textContent = answerList[(Math.random() * answerList.length) | 0];
+      answerText.classList.remove('picked');
+      void answerText.offsetWidth;
+      answerText.classList.add('picked');
+    }, 500);
+  }
+
+  var answerRefresh = $1('.fs-bubble-refresh', answerBubble);
+  if (answerRefresh) {
+    answerRefresh.addEventListener('click', drawAnswer);
+  }
+
   // ---------------- Decider ----------------
   var deciderBubble = $1('.fs-bubble-decider');
   var deciderResult = $1('.fs-bubble-decider-result', deciderBubble);

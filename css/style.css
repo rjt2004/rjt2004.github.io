@@ -2788,6 +2788,13 @@ figure.highlight .shrink-line:hover::before {
 .progress-bar-container .pjax-progress-icon.show {
   visibility: visible;
 }
+.menu-icon-img {
+  width: 1.2em;
+  height: 1.2em;
+  border-radius: 2px;
+  vertical-align: -0.125em;
+  object-fit: contain;
+}
 .header-wrapper {
   display: flex;
   align-items: center;
@@ -3740,6 +3747,11 @@ figure.highlight .shrink-line:hover::before {
 }
 .header-content .center.pc .menu-item .menu-text-color {
   color: var(--text-color-3);
+}
+.header-content .center.pc .menu-item > .menu-text-color {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.1rem;
 }
 .header-content .center.pc .menu-item::before {
   position: absolute;
@@ -4916,10 +4928,35 @@ figure.highlight .shrink-line:hover::before {
   border-right: none;
   border-top: none;
 }
+.first-screen-container .fs-bubble-answerbook {
+  bottom: 18%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.first-screen-container .fs-bubble-answerbook::before {
+  top: -7px;
+  left: 50%;
+  margin-top: 0;
+  margin-left: -6px;
+  transform: rotate(45deg);
+}
 .first-screen-container .fs-bubble-decider-question {
   margin: 0;
   font-size: 0.95rem;
   font-weight: 600;
+}
+.first-screen-container .fs-bubble-question {
+  margin: 0;
+  font-size: 0.88rem;
+  opacity: 0.85;
+}
+.first-screen-container .fs-bubble-answer {
+  margin: 6px 0 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+.first-screen-container .fs-bubble-answer.picked {
+  animation: fsDeciderPop 0.5s ease;
 }
 .first-screen-container .fs-bubble-decider-result {
   margin: 6px 0 0;
