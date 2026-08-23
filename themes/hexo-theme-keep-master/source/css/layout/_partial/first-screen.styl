@@ -134,10 +134,41 @@
   }
 
   // bottom center
+  .fs-bubble-answerbook {
+    bottom 18%
+    left 50%
+    transform translateX(-50%)
+
+    &::before {
+      top -7px
+      left 50%
+      margin-top 0
+      margin-left -6px
+      transform rotate(45deg)
+    }
+  }
+
+  // bottom center
   .fs-bubble-decider-question {
     margin 0
     font-size 0.95rem
     font-weight 600
+  }
+
+  .fs-bubble-question {
+    margin 0
+    font-size 0.88rem
+    opacity 0.85
+  }
+
+  .fs-bubble-answer {
+    margin 6px 0 0
+    font-size 1.05rem
+    font-weight 600
+
+    &.picked {
+      animation fsDeciderPop 0.5s ease
+    }
   }
 
   .fs-bubble-decider-result {

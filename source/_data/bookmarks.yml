@@ -1,49 +1,49 @@
-- category: AI
+﻿- category: AI
 
 - name: "easyChat"
   link: "https://next.eqing.tech/#/new-chat"
   description: "聚合式 AI 对话工具"
-  image: "/images/tools/easychat.ico"
+  image: "/images/bookmarks/easychat.ico"
 
 - name: "kimi"
   link: "https://kimi.moonshot.cn/"
   description: "长文本阅读与 AI 助手"
-  image: "/images/tools/kimi.ico"
+  image: "/images/bookmarks/kimi.ico"
 
 - name: "deepseek"
   link: "https://chat.deepseek.com/"
   description: "DeepSeek AI 对话与推理"
-  image: "/images/tools/deepseek.png"
+  image: "/images/bookmarks/deepseek.png"
 
 - name: "ChatGPT"
   link: "https://chatgpt.com/library"
   description: "OpenAI 的 AI 对话助手"
-  image: "/images/tools/chatgpt.png"
+  image: "/images/bookmarks/chatgpt.png"
 
 - name: "豆包"
   link: "https://www.doubao.com/chat/"
   description: "字节跳动 AI 对话助手"
-  image: "/images/tools/6lgg5yyf.png"
+  image: "/images/bookmarks/6lgg5yyf.png"
 
 - name: "短信"
   link: "https://5sim.net/zh"
   description: "在线短信接码平台"
-  image: "/images/tools/55-t5l-h.ico"
+  image: "/images/bookmarks/55-t5l-h.ico"
 
 - name: "IKunCode"
   link: "https://api.ikuncode.cc/console"
   description: "接口与在线工具控制台"
-  image: "/images/tools/ikuncode.jpeg"
+  image: "/images/bookmarks/ikuncode.jpeg"
 
 - name: "DeepSeek 开放平台"
   link: "https://platform.deepseek.com/usage"
   description: "DeepSeek API 用量与控制台"
-  image: "/images/tools/deepseek.png"
+  image: "/images/bookmarks/deepseek.png"
 
 - name: "Kimi 开放平台"
   link: "https://platform.kimi.com/console"
   description: "Moonshot Kimi API 控制台"
-  image: "/images/tools/kimi.ico"
+  image: "/images/bookmarks/kimi.ico"
 
 
 - category: CS
@@ -51,62 +51,62 @@
 - name: "Acwing"
   link: "https://www.acwing.com/"
   description: "算法学习与在线题库"
-  image: "/images/tools/acwing.png"
+  image: "/images/bookmarks/acwing.png"
 
 - name: "力扣"
   link: "https://leetcode.cn/"
   description: "算法刷题与面试题库"
-  image: "/images/tools/5yqb5omj.png"
+  image: "/images/bookmarks/5yqb5omj.png"
 
 - name: "洛谷"
   link: "https://www.luogu.com.cn/"
   description: "编程竞赛与算法题库"
-  image: "/images/tools/5rsb6lc3.png"
+  image: "/images/bookmarks/5rsb6lc3.png"
 
 - name: "代码随想录"
   link: "https://programmercarl.com/"
   description: "算法学习路线与题解"
-  image: "/images/tools/5luj56cb6zqp5ooz5b2v.png"
+  image: "/images/bookmarks/5luj56cb6zqp5ooz5b2v.png"
 
 - name: "阿里云"
   link: "https://account.aliyun.com"
   description: "云服务器与云产品控制台"
-  image: "/images/tools/6zi_6yem5lqr.ico"
+  image: "/images/bookmarks/6zi_6yem5lqr.ico"
 
 - name: "华为云"
   link: "https://www.huaweicloud.com/"
   description: "云服务器与云服务平台"
-  image: "/images/tools/5y2o5li65lqr.png"
+  image: "/images/bookmarks/5y2o5li65lqr.png"
 
 - name: "腾讯云"
   link: "https://cloud.tencent.com/"
   description: "云服务器与云服务平台"
-  image: "/images/tools/6iw-6k6v5lqr.ico"
+  image: "/images/bookmarks/6iw-6k6v5lqr.ico"
 
 - name: "Kaggle"
   link: "https://www.kaggle.com/"
   description: "数据竞赛与数据集平台"
-  image: "/images/tools/kaggle.png"
+  image: "/images/bookmarks/kaggle.png"
 
 - name: "Github"
   link: "https://github.com/rjt2004"
   description: "代码托管与项目主页"
-  image: "/images/tools/github.png"
+  image: "/images/bookmarks/github.png"
 
 - name: "acGit"
   link: "https://git.acwing.com/"
   description: "AcWing 代码托管服务"
-  image: "/images/tools/acgit.png"
+  image: "/images/bookmarks/acgit.png"
 
 - name: "Gitee"
   link: "https://gitee.com/"
   description: "国内代码托管平台"
-  image: "/images/tools/gitee.ico"
+  image: "/images/bookmarks/gitee.ico"
 
 - name: "Linuxdo"
   link: "https://linux.do/"
   description: "技术交流与社区论坛"
-  image: "/images/tools/linuxdo.png"
+  image: "/images/bookmarks/linuxdo.png"
 
 
 - category: 工具
@@ -114,37 +114,37 @@
 - name: "Graphviz Online"
   link: "https://dreampuf.github.io/GraphvizOnline"
   description: "在线绘制 Graphviz 图"
-  image: "/images/tools/graphviz-online.svg"
+  image: "/images/bookmarks/graphviz-online.svg"
 
 - name: "Graph Editor"
   link: "https://csacademy.com/app/graph_editor"
   description: "在线编辑图结构"
-  image: "/images/tools/graph-editor.png"
+  image: "/images/bookmarks/graph-editor.png"
 
 - name: "Carbon"
   link: "https://carbon.now.sh"
   description: "生成代码截图"
-  image: "/images/tools/carbon.ico"
+  image: "/images/bookmarks/carbon.ico"
 
 - name: "高亮"
   link: "https://highlightcode.com/"
   description: "代码高亮与格式化"
-  image: "/images/tools/6auy5lqu.ico"
+  image: "/images/bookmarks/6auy5lqu.ico"
 
 - name: "PDF"
   link: "https://www.ilovepdf.com/zh-cn"
   description: "PDF 合并、压缩与转换"
-  image: "/images/tools/pdf.png"
+  image: "/images/bookmarks/pdf.png"
 
 - name: "Canva"
   link: "https://www.canva.cn/"
   description: "在线设计海报和演示文稿"
-  image: "/images/tools/canva.ico"
+  image: "/images/bookmarks/canva.ico"
 
 - name: "draw"
   link: "https://app.diagrams.net/"
   description: "在线流程图与架构图工具"
-  image: "/images/tools/draw.ico"
+  image: "/images/bookmarks/draw.ico"
 
 
 - category: 科研
@@ -152,22 +152,22 @@
 - name: "Overleaf"
   link: "https://www.overleaf.com/project"
   description: "在线 LaTeX 写作协作"
-  image: "/images/tools/overleaf.png"
+  image: "/images/bookmarks/overleaf.png"
 
 - name: "LaTeX"
   link: "https://en.wikibooks.org/wiki/LaTeX"
   description: "LaTeX 学习与参考文档"
-  image: "/images/tools/latex.ico"
+  image: "/images/bookmarks/latex.ico"
 
 - name: "dblp"
   link: "https://dblp.org/"
   description: "计算机论文与作者索引"
-  image: "/images/tools/dblp.png"
+  image: "/images/bookmarks/dblp.png"
 
 - name: "知网"
   link: "https://www.cnki.net/"
   description: "中文学术文献检索"
-  image: "/images/tools/55-l572r.ico"
+  image: "/images/bookmarks/55-l572r.ico"
 
 
 - category: 博客
@@ -176,39 +176,39 @@
 - name: "Cloudflare"
   link: "https://dash.cloudflare.com/"
   description: "CDN、DNS等网站服务"
-  image: "/images/tools/cloudflare.ico"
+  image: "/images/bookmarks/cloudflare.ico"
 
 - name: "和风天气"
   link: "https://console.qweather.com/"
   description: "天气服务控制台"
-  image: "/images/tools/weather.png"
+  image: "/images/bookmarks/weather.png"
 
 - name: "Hexo"
   link: "https://hexo.io/zh-cn/"
   description: "静态博客生成框架"
-  image: "/images/tools/hexo.png"
+  image: "/images/bookmarks/hexo.png"
 
 - name: "Keep"
   link: "https://keep-docs.xpoet.cn/"
   description: "Hexo Keep 主题文档"
-  image: "/images/tools/keep.svg"
+  image: "/images/bookmarks/keep.svg"
 
 - name: "ideogram"
   link: "https://ideogram.ai/t/explore"
   description: "AI 图片生成工具"
-  image: "/images/tools/ideogram.png"
+  image: "/images/bookmarks/ideogram.png"
 
 - name: "iconfont"
   link: "https://www.iconfont.cn/"
   description: "阿里巴巴矢量图标库"
-  image: "/images/tools/iconfont.svg"
+  image: "/images/bookmarks/iconfont.svg"
 
 - name: "LeanCloud"
   link: "https://console.leancloud.cn"
   description: "应用后端与数据服务"
-  image: "/images/tools/leancloud.ico"
+  image: "/images/bookmarks/leancloud.ico"
 
 - name: "openmoji"
   link: "https://openmoji.org/"
   description: "emoji资源下载"
-  image: "/images/tools/openmoji.png"
+  image: "/images/bookmarks/openmoji.png"

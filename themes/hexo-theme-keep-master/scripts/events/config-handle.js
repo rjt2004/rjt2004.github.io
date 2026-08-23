@@ -50,9 +50,9 @@ hexo.on('generateBefore', function () {
         hexo.theme.config.source_data.photos = data.photos
       }
 
-      // tools nav data
-      if (data.tools) {
-        hexo.theme.config.source_data.tools = data.tools
+      // bookmarks data
+      if (data.bookmarks) {
+        hexo.theme.config.source_data.bookmarks = data.bookmarks
       }
 
       // record wall data

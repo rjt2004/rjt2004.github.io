@@ -47,7 +47,7 @@
   function ensureAudio() {
     if (shared.audio) return shared.audio;
     var audio = new Audio();
-    audio.volume = 0.3; // 初始化音量 30%
+    audio.volume = 0.05; // 初始化音量 5%（轻柔背景音）
     shared.audio = audio;
     if (!shared.bound) {
       shared.bound = true;
@@ -132,7 +132,7 @@
     });
   }
 
-  function playAt(i) {
+  function playAt(i, autoplay) {
     if (i < 0 || i >= shared.tracks.length) return;
     shared.current = i;
     var t = shared.tracks[i];
@@ -157,8 +157,15 @@
           .catch(function () { shared.lyric = []; });
         var audio = ensureAudio();
         audio.src = url;
-        audio.play().then(function () { shared.playing = true; syncUI(); setStatus(''); })
-          .catch(function () { shared.playing = false; syncUI(); setStatus('点击播放'); });
+        if (autoplay === false) {
+          // 默认不自动播放：只加载就绪，等待用户点击
+          shared.playing = false;
+          syncUI();
+          setStatus('点击播放');
+        } else {
+          audio.play().then(function () { shared.playing = true; syncUI(); setStatus(''); })
+            .catch(function () { shared.playing = false; syncUI(); setStatus('点击播放'); });
+        }
       })
       .catch(function () { setStatus('获取播放地址失败', true); });
   }
@@ -246,7 +253,7 @@
       '<button class="music-btn music-btn-shuffle" type="button" title="随机"><i class="fa-solid fa-shuffle"></i></button>' +
       '<div class="music-volume">' +
       '<i class="fa-solid fa-volume-high"></i>' +
-      '<input class="music-volume-range" type="range" min="0" max="100" value="30">' +
+      '<input class="music-volume-range" type="range" min="0" max="25" value="5">' +
       '</div></div>' +
       '<div class="music-progress">' +
       '<input class="music-progress-range" type="range" min="0" max="1000" value="0">' +
@@ -272,7 +279,7 @@
 
     if (shared.loaded) {
       // 已加载过（含 pjax 切页），同步状态，音乐继续播
-      volRange.value = shared.audio ? Math.round(shared.audio.volume * 100) : 30;
+      volRange.value = shared.audio ? Math.round(shared.audio.volume * 100) : 5;
       syncMeta();
       syncUI();
       syncProgress();

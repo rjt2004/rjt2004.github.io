@@ -55,7 +55,11 @@ for (const key in origin_h_menu_nav_object) {
                     <li class="menu-item flex-start border-box<%- children.length ? ' has-sub-menu' : '' %><%- path && is_current(path) && !children.length ? ' active' : '' %>">
                         <a class="menu-text-color border-box" href="<%- path && !children.length ? url_for(path) : 'javascript:void(0);' %>">
                             <% if (icon) { %>
-                                <i class="menu-text-color menu-icon <%= icon %>"></i>
+                                <% if (/\.(svg|png|jpe?g|gif|webp)$/i.test(icon)) { %>
+                                    <img class="menu-text-color menu-icon menu-icon-img" src="<%- url_for(icon) %>" alt="<%= name %>">
+                                <% } else { %>
+                                    <i class="menu-text-color menu-icon <%= icon %>"></i>
+                                <% } %>
                             <% } %>
                             <%= __(name).toUpperCase() %>
                             <% if (children.length) { %>
@@ -168,7 +172,11 @@ for (const key in origin_h_menu_nav_object) {
                         <a class="drawer-menu-text-color left-side flex-start border-box" href="<%- path && !children.length ? url_for(path) : 'javascript:void(0);' %>">
                             <% if (icon) { %>
                                 <span class="menu-icon-wrap border-box flex-center">
-                                    <i class="drawer-menu-text-color menu-icon <%= icon %>"></i>
+                                    <% if (/\.(svg|png|jpe?g|gif|webp)$/i.test(icon)) { %>
+                                        <img class="drawer-menu-text-color menu-icon menu-icon-img" src="<%- url_for(icon) %>" alt="<%= name %>">
+                                    <% } else { %>
+                                        <i class="drawer-menu-text-color menu-icon <%= icon %>"></i>
+                                    <% } %>
                                 </span>
                             <% } %>
                             <%= __(name).toUpperCase() %>

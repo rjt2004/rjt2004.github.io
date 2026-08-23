@@ -1,5 +1,5 @@
 <%
-const { links: links_data, photos: photos_data, tools: tools_data } = theme?.source_data
+const { links: links_data, photos: photos_data, bookmarks: bookmarks_data } = theme?.source_data
 const page_template = page?.template?.toLowerCase()
 %>
 
@@ -67,9 +67,9 @@ const page_template = page?.template?.toLowerCase()
         <%- __js('js/page/photos-page.js') %>
     <% } %>
 
-    <!-- tools page -->
-    <% if ((page_template === 'tools' || page_template === 'tool') && tools_data) { %>
-        <%- __js('js/page/tools-page.js') %>
+    <!-- bookmarks page -->
+    <% if ((page_template === 'bookmarks' || page_template === 'bookmark') && bookmarks_data) { %>
+        <%- __js('js/page/bookmarks-page.js') %>
     <% } %>
 </div>
 

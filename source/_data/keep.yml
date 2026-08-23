@@ -7,10 +7,10 @@
   favicon: /images/logo.svg
 
 menu:
-  home: / || fa-solid fa-house                         # 首页
-  blog: /blog || fa-solid fa-pen-nib                # 博客
-  record: /record || fa-solid fa-record-vinyl              # 记录
-  tools: /tools || fa-solid fa-toolbox                 # 工具
+  首页: / || /images/nav/home.svg                      # 首页
+  博客: /blog || /images/nav/blog.svg                # 博客
+  记录: /record || /images/nav/record.svg             # 记录
+  书签: /bookmarks || /images/nav/bookmarks.svg       # 书签
 
 first_screen:
   enable: true        # Option values: true | false
@@ -23,6 +23,7 @@ first_screen:
 home_widgets:
   enable: true        # Option values: true | false
   hitokoto: true      # 一言对话框（可点气泡内按钮换一句）
+  answerbook: true    # 答案之书对话框（点击抽取随机答案）
 
   decider:
     enable: true      # 今日决策器（点按钮随机决定）

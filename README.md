@@ -14,14 +14,14 @@ D:\myblog\
 ├── scripts/                 # 自定义 Hexo 脚本（文章日期处理、文章内图片路径处理）
 ├── source/                  # 网站内容源（构建时处理）
 │   ├── _data/               
-│   │   ├── keep.yml         #   主题配置
-│   │   ├── tools.yml        #   tools 页面数据
+│   │   ├── keep.yml         #   主题配置（首屏/一言/决策器/音乐播放器等）
+│   │   ├── bookmarks.yml    #   书签页面数据
 │   │   ├── record.yml       #   record 页面数据
 │   │   └── icons.yml        #   自定义社交图标
 │   ├── _posts/              # 博客文章（Markdown，图片放在同名资源文件夹）
-│   ├── images/              
-│   ├── record/              
-│   ├── tools/               
+│   ├── images/              # 站点图片（头像/社交/书签缩略图/record 封面等）
+│   ├── bookmarks/           # 书签页面源（index.md，template: bookmarks）
+│   ├── record/              # record 页面源（index.md）
 │   └── .nojekyll
 ├── themes/
 │   └── hexo-theme-keep-master/   # Keep 主题源码

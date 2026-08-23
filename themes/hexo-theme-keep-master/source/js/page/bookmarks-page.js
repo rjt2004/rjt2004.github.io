@@ -1,6 +1,6 @@
-/* global KEEP */
+﻿/* global KEEP */
 
-function toolsPageHandle() {
+function bookmarksPageHandle() {
   const toolsNavBox = document.querySelector('.tools-nav-box')
 
   if (!toolsNavBox) {
@@ -73,7 +73,7 @@ function toolsPageHandle() {
 }
 
 if (KEEP.theme_config?.pjax?.enable === true && KEEP.utils) {
-  toolsPageHandle()
+  bookmarksPageHandle()
 } else {
-  window.addEventListener('DOMContentLoaded', toolsPageHandle)
+  window.addEventListener('DOMContentLoaded', bookmarksPageHandle)
 }

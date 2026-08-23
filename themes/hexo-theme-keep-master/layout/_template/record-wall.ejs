@@ -77,7 +77,7 @@ const renderStars = score => {
   <div class="record-layout border-box">
     <% if (timeline.length) { %>
       <aside class="record-timeline border-box">
-        <div class="record-timeline-title"><i class="fa-solid fa-box-archive"></i><span><%= __('archive') %></span></div>
+        <div class="record-timeline-title"><i class="fa-solid fa-box-archive"></i><span>记录</span></div>
         <ul class="record-timeline-list">          <% timeline.forEach(month => { %>
             <li><a class="record-timeline-link" href="#record-<%= month.key %>" data-record-filter="<%= month.key %>"><span><%= month.label %></span><span class="record-timeline-count"><%= month.count %></span></a></li>
           <% }) %>

@@ -7,7 +7,7 @@
     <%
     let title = page.title;
     if (is_archive()) {
-        title = __('archive');
+        title = '博客';
         if (is_month()) {
             title += ': ' + page.year + '/' + page.month;
         } else if (is_year()) {

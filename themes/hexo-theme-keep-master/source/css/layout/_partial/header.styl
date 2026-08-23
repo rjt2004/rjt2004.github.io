@@ -7,6 +7,14 @@ $logo-image-box-width = 2.68rem
 $mobile-menu-icon-wrap-width = 1.6rem
 $mobile-menu-icon-wrap-margin = 0.4rem
 
+.menu-icon-img {
+  width 1.2em
+  height 1.2em
+  border-radius 2px
+  vertical-align -0.125em
+  object-fit contain
+}
+
 
 .header-wrapper {
   display flex
@@ -1158,6 +1166,12 @@ $mobile-menu-icon-wrap-margin = 0.4rem
 
       .menu-text-color {
         color var(--text-color-3)
+      }
+
+      > .menu-text-color {
+        display inline-flex
+        align-items center
+        gap $menu-icon-gap
       }
 
       &::before {

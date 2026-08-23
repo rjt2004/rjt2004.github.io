@@ -6,6 +6,9 @@ const avatar = theme?.base_info?.avatar || ''
     <%
     const hw = theme?.home_widgets || {}
     const hwHitokoto = hw.hitokoto !== false
+    const hwAnswerbook = hw.answerbook !== false
+    const answerbookData = (site.data && site.data.answerbook && Array.isArray(site.data.answerbook))
+      ? site.data.answerbook : ['保持开心就好了', '相信你的直觉', '答案就在眼前']
     const hwDecider = (hw.decider === undefined || hw.decider === true || hw.decider.enable !== false)
     const deciderQuestion = (hw.decider && hw.decider.question) || '今天吃什么？'
     const deciderOptions = (hw.decider && Array.isArray(hw.decider.options) && hw.decider.options.length)
@@ -21,6 +24,19 @@ const avatar = theme?.base_info?.avatar || ''
             </div>
             <button class="fs-bubble-refresh" type="button" aria-label="换一句" title="换一句"><i class="fas fa-sync-alt"></i></button>
         </div>
+    <% } %>
+
+    <% if (hwAnswerbook) { %>
+        <div class="fs-bubble fs-bubble-answerbook">
+            <i class="fas fa-book-open fs-bubble-icon"></i>
+            <div class="fs-bubble-body">
+                <p class="fs-bubble-title">答案之书</p>
+                <p class="fs-bubble-question">默想你的问题，点击抽取答案</p>
+                <p class="fs-bubble-answer"></p>
+            </div>
+            <button class="fs-bubble-refresh" type="button" aria-label="抽答案" title="抽一个答案"><i class="fas fa-sync-alt"></i></button>
+        </div>
+        <script type="application/json" id="fs-answerbook-data"><%- JSON.stringify(answerbookData) %></script>
     <% } %>
 
     <% if (hwDecider) { %>
