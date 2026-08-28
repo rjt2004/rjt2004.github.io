@@ -6,7 +6,8 @@
     "build": "hexo generate",
     "clean": "hexo clean",
     "deploy": "hexo deploy",
-    "server": "hexo server"
+    "server": "hexo server",
+    "images": "node tools/optimize-images.js"
   },
   "hexo": {
     "version": "7.3.0"
@@ -26,5 +27,8 @@
     "hexo-wordcount": "^6.0.1",
     "is-wsl": "^3.1.0",
     "valine": "^1.5.2"
+  },
+  "devDependencies": {
+    "sharp": "^0.35.3"
   }
 }

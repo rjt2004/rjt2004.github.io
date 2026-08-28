@@ -30,6 +30,11 @@ function Clear-DirectoryContent($Path) {
   Get-ChildItem -Force -LiteralPath $Path | Remove-Item -Recurse -Force
 }
 
+Invoke-Step "Optimize images" {
+  Set-Location -LiteralPath $Root
+  Invoke-Native node @("tools/optimize-images.js")
+}
+
 Invoke-Step "Clean and generate static site" {
   Set-Location -LiteralPath $Root
   Invoke-Native hexo @("clean")

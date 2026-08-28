@@ -3,7 +3,7 @@
 # - type: photo                    # photo / music / drama / game
 #   title: "Title"                 # title shown on the card overlay
 #   date: 2026-06-12               # sorted descending by date
-#   cover: /images/record/demo.jpg # put image files in source/images/record/
+#   cover: /images/record/demo.webp # put image files in source/images/record/
 #   rating: 8.5                    # optional, 10-point score; mapped to 5 stars
 #   link: https://example.com      # optional external link
 #   text: "Your note or review."   # text shown after clicking the image
@@ -11,7 +11,7 @@
  - type: music              
    title: "唉 (pt.3)"                 
    date: 2026-06-11               
-   cover: ../images/record/唉 (pt.3).jpg
+   cover: ../images/record/唉 (pt.3).webp
    rating: 9.3                
    link: "https://music.163.com/#/song?id=1492114515&uct2=U2FsdGVkX1/6lXNbfObMGGORnax/2YY6WuCQcWrasJQ="
    text: "抽刀断水流 无奈水更流😭"  
@@ -27,7 +27,7 @@
  - type: music              
    title: "Baby Driver"                 
    date: 2026-06-12               
-   cover: ../images/record/Baby Driver.jpg
+   cover: ../images/record/Baby Driver.webp
    rating: 8.5                 
    link: "https://music.163.com/song?id=3387243296&uct2=U2FsdGVkX1/EDXgwLOporaeLQgEEDsE/uZvGQq5aP4M="
    text: "好听👍👍👍"  
@@ -35,7 +35,7 @@
  - type: game              
    title: "以撒的结合：重生"                 
    date: 2026-06-13               
-   cover: ../images/record/isaac.jpg
+   cover: ../images/record/isaac.webp
    rating: 8                 
    link: 
    text: "内容丰富的肉鸽游戏，玩法、机制、角色都非常多，刚开始没看教程没有mod还是比较难"  
@@ -43,7 +43,7 @@
  - type: music              
    title: "Wui"                 
    date: 2026-06-18               
-   cover: ../images/record/Wui.jpg
+   cover: ../images/record/Wui.webp
    rating: 9                 
    link: "https://music.163.com/song?id=2681066622&uct2=U2FsdGVkX18GASacrN0R/r+IJkouqmPoIzU6R0M9t8w="
    text: ""
@@ -92,6 +92,23 @@
    title: "爱情怎么翻译"                 
    date: 2026-08-23               
    cover: ../images/record/爱情怎么翻译.webp
-   rating: 8             
+   rating: 7             
    link: 
    text: 
+
+ - type: music              
+   title: "Acura Integurl"                 
+   date: 2026-08-24               
+   cover: ../images/record/Acura Integurl.webp
+   rating: 9            
+   link: "https://music.163.com/#/song?id=1371973&uct2=U2FsdGVkX1+pfXtmE42oOx/drQfLtgu+WsqIenPfK/U="
+   text: 
+
+ - type: music              
+   title: "Summer Fling"                 
+   date: 2026-08-28               
+   cover: ../images/record/Summer Fling.webp
+   rating: 8            
+   link: "https://music.163.com/song?id=3386677274&uct2=U2FsdGVkX1/z33p0ganP7D5kBQbtbYHoBu6ULAe15uc="
+   text: 
+

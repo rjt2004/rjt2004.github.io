@@ -12,6 +12,9 @@ function Invoke-Native($File, [string[]]$Arguments) {
   }
 }
 
+Write-Host "Optimizing images..." -ForegroundColor Cyan
+Invoke-Native node @("tools/optimize-images.js")
+
 Write-Host "Cleaning generated files..." -ForegroundColor Cyan
 Invoke-Native hexo @("clean")
 
