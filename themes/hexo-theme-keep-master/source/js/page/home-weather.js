@@ -4,6 +4,8 @@
     endpoint: '',
     location: '',
     adm: '',
+    lat: '',
+    lon: '',
     display_place: '天气',
     refresh_minutes: 10
   };
@@ -12,6 +14,8 @@
   const DISPLAY_PLACE = CONFIG.display_place || DEFAULT_CONFIG.display_place;
   const LOCATION = CONFIG.location || CONFIG.query_place || '';
   const ADM = CONFIG.adm || CONFIG.match_admin1 || '';
+  const LAT = CONFIG.lat || '';
+  const LON = CONFIG.lon || '';
   const ENDPOINT = CONFIG.endpoint || '';
   const ICON_BASE = '/images/meteocons/';
   const refreshMinutes = Number(CONFIG.refresh_minutes ?? CONFIG.cache_minutes);
@@ -60,6 +64,10 @@
     const url = new URL(ENDPOINT, window.location.href);
     url.searchParams.set('location', LOCATION);
     if (ADM) url.searchParams.set('adm', ADM);
+    if (LAT && LON) {
+      url.searchParams.set('lat', LAT);
+      url.searchParams.set('lon', LON);
+    }
     return url.toString();
   }
 

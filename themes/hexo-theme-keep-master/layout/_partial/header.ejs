@@ -211,7 +211,7 @@ for (const key in origin_h_menu_nav_object) {
 
     <% if (homeWeatherEnable) { %>
         <script <%= theme?.pjax?.enable === true ? 'data-pjax' : '' %>>window.TONE_HOME_WEATHER = <%- JSON.stringify(homeWeather) %>;</script>
-        <script <%= theme?.pjax?.enable === true ? 'data-pjax' : '' %> src="<%- url_for('/js/page/home-weather.js?v=meteocons-qweather-3') %>"></script>
+        <script <%= theme?.pjax?.enable === true ? 'data-pjax' : '' %> src="<%- url_for('/js/page/home-weather.js?v=meteocons-qweather-4') %>"></script>
     <% } %>
 
     <script <%= theme?.pjax?.enable === true ? 'data-pjax' : '' %> src="<%- url_for('/js/header-clock.js?v=1') %>"></script>
