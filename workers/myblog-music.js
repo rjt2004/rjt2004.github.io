@@ -1,19 +1,19 @@
-
-const RAW_COOKIE = typeof NETEASE_COOKIE !== 'undefined' ? NETEASE_COOKIE : '';
-// 复制 Cookie 时可能带入换行/回车或 "Cookie:" 前缀，会触发 fetch "Invalid header value"，这里统一清洗
-const COOKIE = String(RAW_COOKIE)
-  .replace(/^Cookie:\s*/i, '')
-  .replace(/[\r\n]+/g, ' ')
-  .replace(/\s{2,}/g, ' ')
-  .trim();
+/**
+ * 网易云音乐代理 Worker
+ * 用途：给博客导航栏音乐播放器提供歌单和歌曲播放地址（绕过 CORS，并注入登录 Cookie）
+ *
+ * 部署步骤：
+ * 1. Cloudflare Dashboard → Workers & Pages → 创建 Worker
+ * 2. 把本文件内容粘贴进代码编辑器，保存部署
+ * 3. 设置环境变量（Settings → Variables）：
+ *      NETEASE_COOKIE = 你的网易云登录 Cookie（含 MUSIC_U 的那串）
+ *    获取方式：浏览器登录 music.163.com → F12 → Application/Storage → Cookies
+ *    → 复制整个 Cookie 字符串（含 MUSIC_U=xxx; __csrf=xxx; ...）
+ * 4. 部署后得到地址 https://<你的子域名>.workers.dev
+ * 5. 在博客 source/_data/keep.yml 的 music_player.proxy 填这个地址
+ */
+const COOKIE = typeof NETEASE_COOKIE !== 'undefined' ? NETEASE_COOKIE : '';
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36';
-
-// 缓存时长（秒）：播放地址有效期 20 分钟，缓存 10 分钟安全；歌单/歌词变动少，缓存更久
-const TTL = {
-  playlist: 1800,
-  url: 600,
-  lyric: 86400
-};
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -39,36 +39,6 @@ function json(obj, status = 200) {
   });
 }
 
-// 用 Cloudflare 边缘缓存包一层：命中就直接返回，不再打网易云，避免频繁刷新触发限流。
-// 只缓存成功（200）响应，并给浏览器也带上 Cache-Control，让重复刷新连 Worker 都不用到。
-function serveCached(event, ttlSeconds, producer) {
-  const cache = caches.default;
-  const key = new Request(event.request.url, { method: 'GET' });
-
-  event.respondWith(
-    (async () => {
-      const hit = await cache.match(key);
-      if (hit) {
-        const hitHeaders = new Headers(hit.headers);
-        hitHeaders.set('X-Cache', 'HIT');
-        return new Response(hit.body, { status: hit.status, headers: hitHeaders });
-      }
-
-      const res = await producer();
-      if (res.status !== 200) return res;
-
-      const body = await res.arrayBuffer();
-      const headers = new Headers(res.headers);
-      headers.set('Cache-Control', `public, max-age=${ttlSeconds}`);
-      headers.set('X-Cache', 'MISS');
-      const out = new Response(body, { status: 200, headers });
-
-      event.waitUntil(cache.put(key, out.clone()));
-      return out;
-    })()
-  );
-}
-
 addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
 
@@ -78,43 +48,11 @@ addEventListener('fetch', (event) => {
 
   const path = url.pathname;
 
-  // 诊断：/debug（不返回 Cookie 内容，只报告是否存在、长度、字段和登录状态）
-  if (path === '/debug') {
-    return event.respondWith(
-      (async () => {
-        const result = {
-          hasCookie: COOKIE.length > 0,
-          cookieLength: COOKIE.length,
-          hasMusicU: /(^|;\s*)MUSIC_U=/.test(COOKIE),
-          hasCsrf: /(^|;\s*)__csrf=/.test(COOKIE),
-          cookieLooksMalformed: COOKIE.length > 0 && COOKIE.indexOf('=') === -1,
-        };
-
-        try {
-          const acc = await fetchJson('https://music.163.com/api/nuser/account/get');
-          result.login = {
-            code: acc.code,
-            nickname: acc.profile ? acc.profile.nickname : null,
-            userId: acc.profile ? acc.profile.userId : null,
-            vipType: acc.profile ? acc.profile.vipType : null,
-          };
-        } catch (e) {
-          result.login = { error: String(e) };
-        }
-
-        result.loginOk = !!(result.login && result.login.userId);
-
-        return json(result);
-      })()
-    );
-  }
-
   // 歌单详情：/playlist?id=xxx
   if (path === '/playlist') {
     const id = url.searchParams.get('id');
     if (!id) return event.respondWith(json({ error: 'missing id' }, 400));
-
-    return serveCached(event, TTL.playlist, () =>
+    return event.respondWith(
       fetchJson('https://music.163.com/api/v6/playlist/detail?id=' + encodeURIComponent(id))
         .then(async (data) => {
           const pl = data.playlist || {};
@@ -146,8 +84,7 @@ addEventListener('fetch', (event) => {
     const ids = url.searchParams.get('ids');
     const br = url.searchParams.get('br') || '128000';
     if (!ids) return event.respondWith(json({ error: 'missing ids' }, 400));
-
-    return serveCached(event, TTL.url, () =>
+    return event.respondWith(
       fetchJson('https://music.163.com/api/song/enhance/player/url?ids=' + ids + '&br=' + br)
         .then((data) => json(data))
         .catch((e) => json({ error: 'url fetch failed', detail: String(e) }, 502))
@@ -158,8 +95,7 @@ addEventListener('fetch', (event) => {
   if (path === '/lyric') {
     const id = url.searchParams.get('id');
     if (!id) return event.respondWith(json({ error: 'missing id' }, 400));
-
-    return serveCached(event, TTL.lyric, () =>
+    return event.respondWith(
       fetchJson('https://music.163.com/api/song/lyric?id=' + id + '&lv=1&kv=1&tv=-1')
         .then((data) => json({ lyric: (data.lrc && data.lrc.lyric) || '', nolyric: !!data.nolyric }))
         .catch((e) => json({ error: 'lyric fetch failed', detail: String(e) }, 502))

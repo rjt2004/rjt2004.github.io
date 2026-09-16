@@ -12,6 +12,9 @@
     statusMsg: ''
   };
 
+  // 当前曲目的加载失败兜底（直连 CDN 失败时改走 Worker 代理）
+  var errorFallback = null;
+
   function escapeHtml(s) {
     return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
@@ -55,7 +58,15 @@
       audio.addEventListener('pause', function () { shared.playing = false; syncUI(); });
       audio.addEventListener('ended', function () { if (shared.tracks.length > 1) shuffle(); });
       audio.addEventListener('timeupdate', syncProgress);
-      audio.addEventListener('error', function () { setStatus('播放出错', true); });
+      audio.addEventListener('error', function () {
+        if (typeof errorFallback === 'function') {
+          var fn = errorFallback;
+          errorFallback = null;
+          fn();
+        } else {
+          setStatus('播放出错', true);
+        }
+      });
     }
     return audio;
   }
@@ -217,6 +228,11 @@
           setTimeout(shuffle, 800);
           return;
         }
+        // 网易云返回 http，HTTPS 站点会被拦截，强制走 https；直连失败再回退到 Worker 代理
+        var directUrl = String(url).replace(/^http:/, 'https:');
+        var proxyUrl = getProxy() + '/stream?id=' + encodeURIComponent(t.id) + '&br=' + getBr();
+        var usedProxy = false;
+
         // 拉取歌词
         fetch(getProxy() + '/lyric?id=' + t.id)
           .then(function (r2) { return r2.json(); })
@@ -224,8 +240,25 @@
             shared.lyric = parseLyric((ld && ld.lyric) || '');
           })
           .catch(function () { shared.lyric = []; });
+
         var audio = ensureAudio();
-        audio.src = url;
+
+        errorFallback = function () {
+          if (usedProxy) { setStatus('播放出错', true); return; }
+          usedProxy = true;
+          setStatus('直连失败，切换代理…');
+          audio.src = proxyUrl;
+          if (autoplay === false) {
+            shared.playing = false;
+            syncUI();
+            setStatus('点击播放');
+          } else {
+            audio.play().then(function () { shared.playing = true; syncUI(); setStatus(''); })
+              .catch(function () { shared.playing = false; syncUI(); setStatus('点击播放'); });
+          }
+        };
+
+        audio.src = directUrl;
         if (autoplay === false) {
           // 默认不自动播放：只加载就绪，等待用户点击
           shared.playing = false;
