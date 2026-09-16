@@ -231,6 +231,7 @@
         // 网易云返回 http，HTTPS 站点会被拦截，强制走 https；直连失败再回退到 Worker 代理
         var directUrl = String(url).replace(/^http:/, 'https:');
         var proxyUrl = getProxy() + '/stream?id=' + encodeURIComponent(t.id) + '&br=' + getBr();
+        // eapi 返回的地址可直接播放；万一失败由 errorFallback 切到 Worker 代理
         var usedProxy = false;
 
         // 拉取歌词
@@ -258,7 +259,7 @@
           }
         };
 
-        audio.src = directUrl;
+        audio.src = usedProxy ? proxyUrl : directUrl;
         if (autoplay === false) {
           // 默认不自动播放：只加载就绪，等待用户点击
           shared.playing = false;
