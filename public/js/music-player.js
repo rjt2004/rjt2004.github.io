@@ -115,6 +115,75 @@
       var navName = nav ? nav.querySelector('.music-nav-name') : null;
       if (navName) navName.textContent = t.name || '';
     });
+    syncListActive();
+  }
+
+  // 渲染可滚动歌曲列表（歌单加载完成后调用）
+  function renderList() {
+    panels().forEach(function (p) {
+      var listEl = p.querySelector('[data-music-list]');
+      if (!listEl) return;
+      listEl.innerHTML = '';
+      if (!shared.tracks.length) return;
+
+      var head = document.createElement('div');
+      head.className = 'music-list-head';
+      head.textContent = '播放列表 · ' + shared.tracks.length + ' 首';
+      listEl.appendChild(head);
+
+      var frag = document.createDocumentFragment();
+      shared.tracks.forEach(function (t, i) {
+        var item = document.createElement('button');
+        item.type = 'button';
+        item.className = 'music-list-item' + (i === shared.current ? ' is-active' : '');
+        item.setAttribute('data-index', String(i));
+        item.title = (t.name || '') + (t.artists && t.artists.length ? ' - ' + t.artists.join(' / ') : '');
+
+        var idx = document.createElement('span');
+        idx.className = 'music-list-index';
+        idx.textContent = String(i + 1);
+
+        var info = document.createElement('span');
+        info.className = 'music-list-info';
+        var nm = document.createElement('span');
+        nm.className = 'music-list-name';
+        nm.textContent = t.name || '';
+        var ar = document.createElement('span');
+        ar.className = 'music-list-artist';
+        ar.textContent = (t.artists || []).join(' / ');
+        info.appendChild(nm);
+        info.appendChild(ar);
+
+        item.appendChild(idx);
+        item.appendChild(info);
+        frag.appendChild(item);
+      });
+      listEl.appendChild(frag);
+      syncListActive();
+    });
+  }
+
+  // 高亮当前歌曲，并在其滚出可视区时滚动到中间
+  function syncListActive() {
+    panels().forEach(function (p) {
+      var listEl = p.querySelector('[data-music-list]');
+      if (!listEl) return;
+      var items = listEl.querySelectorAll('.music-list-item');
+      var active = null;
+      items.forEach(function (el) {
+        var on = Number(el.getAttribute('data-index')) === shared.current;
+        el.classList.toggle('is-active', on);
+        if (on) active = el;
+      });
+      if (!active) return;
+      var top = active.offsetTop;
+      var bottom = top + active.offsetHeight;
+      var viewTop = listEl.scrollTop;
+      var viewBottom = viewTop + listEl.clientHeight;
+      if (top < viewTop || bottom > viewBottom) {
+        listEl.scrollTop = top - listEl.clientHeight / 2 + active.offsetHeight / 2;
+      }
+    });
   }
 
   function syncProgress() {
@@ -230,6 +299,7 @@
           shared.tracks = ok;
           if (!shared.tracks.length) { setStatus('歌单中暂无可用歌曲', true); return; }
           setStatus('');
+          renderList();
           playAt((Math.random() * shared.tracks.length) | 0);
         });
       })
@@ -260,6 +330,7 @@
       '<span class="music-time">0:00 / 0:00</span>' +
       '</div>' +
       '<div class="music-status"></div>' +
+      '<div class="music-list" data-music-list></div>' +
       '</div>';
 
     var btnPlay = panel.querySelector('.music-btn-play');
@@ -277,8 +348,19 @@
       if (audio && audio.duration) audio.currentTime = (Number(progRange.value) / 1000) * audio.duration;
     });
 
+    var listEl = panel.querySelector('[data-music-list]');
+    if (listEl) {
+      listEl.addEventListener('click', function (e) {
+        var item = e.target && e.target.closest ? e.target.closest('.music-list-item') : null;
+        if (!item || !listEl.contains(item)) return;
+        var idx = Number(item.getAttribute('data-index'));
+        if (!Number.isNaN(idx)) playAt(idx);
+      });
+    }
+
     if (shared.loaded) {
       // 已加载过（含 pjax 切页），同步状态，音乐继续播
+      renderList();
       volRange.value = shared.audio ? Math.round(shared.audio.volume * 100) : 5;
       syncMeta();
       syncUI();

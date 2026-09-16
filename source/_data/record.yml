@@ -113,11 +113,49 @@
    text: 
 
  - type: photo              
-   title: "2024-08-14"                 
-   date: 2024-08-14               
-   cover: ../images/record/20240814.webp
+   title: "2026-09-11"                 
+   date: 2026-09-11               
+   cover: ../images/record/20260911.webp
    rating:             
    link:
    text: 
 
+ - type: photo              
+   title: "2026-09-11"                 
+   date: 2026-09-11             
+   cover: ../images/record/20260911_2.webp
+   rating:             
+   link:
+   text: 
 
+ - type: photo              
+   title: "2026-09-08"                 
+   date: 2026-09-08               
+   cover: ../images/record/20260908.webp
+   rating:             
+   link:
+   text: 
+
+ - type: photo              
+   title: "2026-09-12"                 
+   date: 2026-09-12               
+   cover: ../images/record/20260912.webp
+   rating:             
+   link:
+   text: 
+
+ - type: music              
+   title: "Dear my crazy soulmate"                 
+   date: 2026-09-16               
+   cover: ../images/record/Dear my crazy soulmate.webp
+   rating: 8            
+   link: "https://music.163.com/song?id=3431697108&uct2=U2FsdGVkX1/AWdM08p1YdVp72K3mSbnjLQN6ATt6+LU="
+   text: 
+
+ - type: music              
+   title: "No Mistakes"                 
+   date: 2026-09-10               
+   cover: ../images/record/No Mistakes.webp
+   rating: 8            
+   link: "https://music.163.com/song?id=570350027&uct2=U2FsdGVkX189M912d7G7xp66NMM5fLy6ep0RHfWbB8E="
+   text: 
