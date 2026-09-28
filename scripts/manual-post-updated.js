@@ -1,5 +1,7 @@
 'use strict'
 
+const { execFileSync } = require('child_process')
+
 const MANUAL_UPDATED_FIELDS = ['updated', 'manual_updated', 'last_updated']
 
 const getFrontMatter = (raw) => {
@@ -54,10 +56,43 @@ const getManualUpdated = (raw) => {
   return null
 }
 
+// 无手动 updated 时，回退到该文件最后一次 git 提交时间。
+// 这样构建结果与「文件 mtime」无关，跨设备 / 重新克隆都能保持一致。
+const gitUpdatedCache = new Map()
+
+const getGitUpdated = (source) => {
+  const rel = 'source/' + String(source || '').replace(/\\/g, '/')
+  if (gitUpdatedCache.has(rel)) return gitUpdatedCache.get(rel)
+
+  let result = null
+  try {
+    const out = execFileSync(
+      'git',
+      ['log', '-1', '--follow', '--format=%cI', '--', rel],
+      { cwd: hexo.base_dir, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }
+    ).trim()
+    if (out) {
+      const date = new Date(out)
+      if (!Number.isNaN(date.getTime())) result = date
+    }
+  } catch (e) {
+    result = null
+  }
+
+  gitUpdatedCache.set(rel, result)
+  return result
+}
+
 hexo.extend.filter.register('before_post_render', function (data) {
   const manualUpdated = getManualUpdated(data.raw)
   if (manualUpdated) {
     data.updated = manualUpdated
+    return data
+  }
+
+  const gitUpdated = getGitUpdated(data.source)
+  if (gitUpdated) {
+    data.updated = gitUpdated
   }
   return data
 })

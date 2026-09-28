@@ -1,3 +1,5 @@
+# 统一逻辑在 preview.js，这里仅做转发（保持 .\preview.ps1 用法）
+# 用法: .\preview.ps1 [-Port 4000]
 param(
   [int]$Port = 4000
 )
@@ -5,21 +7,7 @@ param(
 $ErrorActionPreference = "Stop"
 Set-Location -LiteralPath $PSScriptRoot
 
-function Invoke-Native($File, [string[]]$Arguments) {
-  & $File @Arguments
-  if ($LASTEXITCODE -ne 0) {
-    throw "$File $($Arguments -join ' ') failed with exit code $LASTEXITCODE"
-  }
-}
+$env:PREVIEW_PORT = "$Port"
 
-Write-Host "Optimizing images..." -ForegroundColor Cyan
-Invoke-Native node @("tools/optimize-images.js")
-
-Write-Host "Cleaning generated files..." -ForegroundColor Cyan
-Invoke-Native hexo @("clean")
-
-Write-Host "Generating static site..." -ForegroundColor Cyan
-Invoke-Native hexo @("generate")
-
-Write-Host "Starting Hexo preview at http://127.0.0.1:$Port/" -ForegroundColor Green
-Invoke-Native hexo @("server", "-p", $Port)
+node preview.js
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
