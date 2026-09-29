@@ -9,7 +9,7 @@
     
     <title>
         
-            博客: 2024/10 |
+            Backdoor Attacks and Defenses |
         
         Ton3rr
     </title>
@@ -108,7 +108,7 @@
                     </li>
                 
                     
-                    <li class="menu-item flex-start border-box active">
+                    <li class="menu-item flex-start border-box">
                         <a class="menu-text-color border-box" href="/blog">
                             
                                 
@@ -245,7 +245,7 @@
                 </li>
             
                 
-                <li class="drawer-menu-item border-box not-sub-menu active">
+                <li class="drawer-menu-item border-box not-sub-menu">
                     <label class="drawer-menu-label border-box">
                         <a class="drawer-menu-text-color left-side flex-start border-box" href="/blog">
                             
@@ -320,110 +320,392 @@
             <div class="page-main-content-middle border-box">
                 <div class="main-content border-box">
                     
-                        <div class="fade-in-down-animation">
-    
-    <div class="blog-container">
-        <div class="blog-layout border-box">
-            <aside class="blog-side border-box">
-                <section class="blog-side-card border-box blog-month-archive">
-                    <div class="blog-section-title"><i class="fa-solid fa-box-archive"></i><span>博客</span></div>
-                    
-                        <ul class="blog-month-list">
-                            
-                                <li>
-                                    <a class="blog-month-link" href="#blog-2024-10" data-blog-filter="2024-10">
-                                        <span>2024-10</span>
-                                        <span class="blog-month-count">1</span>
-                                    </a>
-                                </li>
-                            
-                        </ul>
-                    
-                </section>
-            </aside>
-            <section class="blog-main border-box">
-                <div class="home-content-container fade-in-down-animation">
-    
-    
-    <ul class="home-post-list border-box">
-        
-            <li class="home-post-item" data-post-month="2024-10">
-                
-                <div class="home-post-item-body border-box">
-                    <div class="home-post-item-info border-box">
                         
-                        <h3 class="home-post-title border-box">
-                            <a class="home-post-link" href="/2024/10/14/Hello-World-0/">Hello World!</a>
-                        </h3>
-                        <div class="home-post-dates border-box">
-                            <span class="meta-info-item post-create-date">
-                                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;<span class="datetime">2024-10-14</span>
-                            </span>
-                            <span class="meta-info-item post-update-date">
-                                <i class="icon fa-solid fa-file-pen"></i>&nbsp;<span class="datetime" data-updated="2024-10-14">2024-10-14</span>
-                            </span>
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            <div class="post-content-bottom border-box">
+                <div class="post-title">
+                    Backdoor Attacks and Defenses
+                </div>
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/avatar.svg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">Ton3rr</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2026-09-28</span>
+            </span>
+
+            <span class="meta-info-item post-update-date">
+                <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                <span class="datetime" data-updated="2026-09-29">2026-09-29</span>
+            </span>
+        
+
+        
+
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>1.4k Words</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>5 Mins</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
                         </div>
                     </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <p>后门攻击是一种针对深度学习模型<strong>训练阶段</strong>的攻击；与之相对，对抗样本针对的是深度学习模型<strong>推理阶段</strong>的攻击。后门攻击已应用于图像分类、文本等多种场景。</p>
+<h2 id="一、后门攻击概述"><a href="#一、后门攻击概述" class="headerlink" title="一、后门攻击概述"></a>一、后门攻击概述</h2><h3 id="攻击目标"><a href="#攻击目标" class="headerlink" title="攻击目标"></a>攻击目标</h3><h3 id="攻击流程"><a href="#攻击流程" class="headerlink" title="攻击流程"></a>攻击流程</h3><h3 id="攻击特点"><a href="#攻击特点" class="headerlink" title="攻击特点"></a>攻击特点</h3><img    
+                       lazyload
+                       alt="image"
+                       data-src="image-20260928172215040.png"
+                         alt="后门攻击概览" style="width:60%; max-width:720px;"
+                 >
+
+<p>后门攻击研究现状：涉及图像分类、文本等多种媒介。</p>
+<h2 id="二、典型后门攻击方法"><a href="#二、典型后门攻击方法" class="headerlink" title="二、典型后门攻击方法"></a>二、典型后门攻击方法</h2><h3 id="1-BadNets-攻击"><a href="#1-BadNets-攻击" class="headerlink" title="1. BadNets 攻击"></a>1. BadNets 攻击</h3><p>首个后门攻击工作（BadNets）：脏标签攻击，触发器为右下角的小白方块。</p>
+<img    
+                       lazyload
+                       alt="image"
+                       data-src="image-20260928172605664.png"
+                         alt="BadNets 攻击" style="width:60%; max-width:720px;"
+                 >
+
+<h3 id="2-Blend-攻击"><a href="#2-Blend-攻击" class="headerlink" title="2. Blend 攻击"></a>2. Blend 攻击</h3><p>相比于触发器为小白块，Blend 攻击的触发器更加隐蔽。</p>
+<p>Blend 攻击。Chen 等人（Chen et al., 2017）在 BadNets 攻击的基础上进行了新颖的触发器设计和改进，提出了 Blend 攻击。Blend 攻击使用的两种新颖的触发器为：全局随机噪声和图像混合策略。这种攻击的提出，使得后门触发器不再只局限于图像的特定区域（在 BadNets 攻击中触发器固定在图像的右下角）。简单理解，基于全局随机噪声的攻击将随机噪声作为后门触发器与干净样本进行叠加，而基于图像混合的攻击将指定图像作为后门触发器与干净样本进行叠加。需要注意的是，作为一种脏标签攻击，Blend 攻击在添加完后门触发器后也需要将图像的标签修改为后门标签。</p>
+<p>图 8.1.2 随机噪声后门攻击（Chen et al., 2017）</p>
+<p>图 8.1.3 图像融合后门攻击（Chen et al., 2017）</p>
+<img    
+                       lazyload
+                       alt="image"
+                       data-src="image-20260929124632967.png"
+                         alt="Blend 攻击" style="width:60%; max-width:720px;"
+                 >
+
+<p>X. Chen, et al. Targeted backdoor attacks on deep learning systems using data poisoning. arXiv, 2017.</p>
+<h3 id="3-净标签后门攻击"><a href="#3-净标签后门攻击" class="headerlink" title="3. 净标签后门攻击"></a>3. 净标签后门攻击</h3><p>以上通过修改标签的后门攻击容易被人工审查，因此出现了净标签后门攻击。净标签后门攻击只添加触发器、不修改标签，可以带来隐蔽性；但对于分类模型只能对某一类数据进行投毒，攻击强度需要额外的触发器增强手段（文章 Clean-label backdoor attacks, ICLR, 2019）。</p>
+<img    
+                       lazyload
+                       alt="image"
+                       data-src="image-20260929130235763.png"
+                         alt="净标签后门攻击" style="width:60%; max-width:720px;"
+                 >
+
+<h3 id="4-输入感知动态后门攻击"><a href="#4-输入感知动态后门攻击" class="headerlink" title="4. 输入感知动态后门攻击"></a>4. 输入感知动态后门攻击</h3><p>每个投毒样本都具有自己独特的触发器（Input-aware dynamic backdoor attack, NeurIPS, 2020）。</p>
+<img    
+                       lazyload
+                       alt="image"
+                       data-src="image-20260929130338760.png"
+                         alt="输入感知动态后门攻击" style="width:60%; max-width:720px;"
+                 >
+
+<h3 id="5-隐藏触发器后门攻击"><a href="#5-隐藏触发器后门攻击" class="headerlink" title="5. 隐藏触发器后门攻击"></a>5. 隐藏触发器后门攻击</h3><ul>
+<li>假设训练过程可以全程操纵，攻击者掌握训练数据、超参和训练过程等几乎所有信息。大部分情况下，模型训练者就是攻击者（比如第三方模型训练平台或模型发布者）。这种攻击的兴起源于当前人工智能对第三方训练平台和预训练大模型的依赖。</li>
+<li>保证了图像与标签的一致性（净标签设定）。</li>
+<li>保证了后门触发器的隐蔽性（像素域分类正常，特征层面被分类为触发标签）。</li>
+<li>基于目标和源样本在模型的特征空间优化生成后门样本。生成的后门样本在特征空间中与后门类别的干净样本具有相同的表征。</li>
+</ul>
+<p>引用：Saha, A., Subramanya, A., &amp; Pirsiavash, H. Hidden trigger backdoor attacks. AAAI, 2020.</p>
+<img    
+                       lazyload
+                       alt="image"
+                       data-src="image-20260929130642992.png"
+                         alt="隐藏触发器后门攻击" style="width:60%; max-width:720px;"
+                 >
+
+<h2 id="三、迁移学习后门攻击"><a href="#三、迁移学习后门攻击" class="headerlink" title="三、迁移学习后门攻击"></a>三、迁移学习后门攻击</h2><h3 id="1-迁移学习简介"><a href="#1-迁移学习简介" class="headerlink" title="1. 迁移学习简介"></a>1. 迁移学习简介</h3><ul>
+<li>迁移学习涉及两种模型：作为<strong>教师模型</strong>的预训练模型和作为<strong>学生模型</strong>的下游任务模型。教师模型通常由大型公司或机构完成，并在相关平台上进行发布，以供其他用户下载使用；而学生模型指用户针对自己本地特定任务，基于教师模型进行微调得到的模型。</li>
+</ul>
+<p>图例：</p>
+<ul>
+<li><p>黑色块：从教师模型处复制的层</p>
+</li>
+<li><p>绿色块：为分类而新添加的层</p>
+</li>
+<li><p>红色块：由学生模型训练的层</p>
+</li>
+<li><p>首先利用教师模型对学生模型进行初始化。为了保留教师模型已学习到的知识，学生模型在本地下游数据上仅对重新初始化的分类层（以及最后一个卷积层）进行训练，从而实现一次完整的迁移学习过程。相较于从零开始训练学生模型，迁移学习可以节省大量的计算开销，且在一定程度上提高学生模型的泛化性能。</p>
+</li>
+</ul>
+<p>Yuanshun Yao et al. Latent backdoor attacks on deep neural networks. CCS, 2019.</p>
+<img    
+                       lazyload
+                       alt="image"
+                       data-src="image-20260929131051495.png"
+                         alt="迁移学习" style="width:60%; max-width:720px;"
+                 >
+
+<h3 id="2-潜在后门攻击"><a href="#2-潜在后门攻击" class="headerlink" title="2. 潜在后门攻击"></a>2. 潜在后门攻击</h3><ul>
+<li>攻击者预先在教师模型中安插特定的后门样式，将其与后门类别关联。在此教师模型上微调得到的学生模型就会继承教师模型中的后门，下图展示了向教师模型注入后门的过程。</li>
+</ul>
+<p>Yuanshun Yao et al. Latent backdoor attacks on deep neural networks. CCS, 2019.</p>
+<p>Shuo Wang, et al. Backdoor Attacks Against Transfer Learning With Pre-Trained Deep Learning Models. TSC, 2020.</p>
+<img    
+                       lazyload
+                       alt="image"
+                       data-src="image-20260929131352718.png"
+                         alt="潜在后门攻击-1" style="width:60%; max-width:720px;"
+                 >
+
+<img    
+                       lazyload
+                       alt="image"
+                       data-src="image-20260929132300664.png"
+                         alt="潜在后门攻击-2" style="width:60%; max-width:720px;"
+                 >
+
+<img    
+                       lazyload
+                       alt="image"
+                       data-src="image-20260929132606716.png"
+                         alt="潜在后门攻击-3" style="width:60%; max-width:720px;"
+                 >
+
+<img    
+                       lazyload
+                       alt="image"
+                       data-src="image-20260929132730058.png"
+                         alt="潜在后门攻击-4" style="width:60%; max-width:720px;"
+                 >
+
+<h2 id="四、后门防御"><a href="#四、后门防御" class="headerlink" title="四、后门防御"></a>四、后门防御</h2><h3 id="防御目标"><a href="#防御目标" class="headerlink" title="防御目标"></a>防御目标</h3><h3 id="典型防御方法"><a href="#典型防御方法" class="headerlink" title="典型防御方法"></a>典型防御方法</h3><h3 id="防御效果评估"><a href="#防御效果评估" class="headerlink" title="防御效果评估"></a>防御效果评估</h3><h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ol>
+<li>Gu, T., Liu, K., Dolan-Gavitt, B., &amp; Garg, S. BadNets: Evaluating backdooring attacks on deep neural networks. IEEE Access, 2019.</li>
+<li>X. Chen, et al. Targeted backdoor attacks on deep learning systems using data poisoning. arXiv, 2017.</li>
+<li>Turner, A., Tsipras, D., &amp; Madry, A. Clean-label backdoor attacks. ICLR, 2019.</li>
+<li>Nguyen, T. A., &amp; Tran, A. T. Input-aware dynamic backdoor attack. NeurIPS, 2020.</li>
+<li>Saha, A., Subramanya, A., &amp; Pirsiavash, H. Hidden trigger backdoor attacks. AAAI, 2020.</li>
+<li>Yao, Y., Li, H., Zheng, H., &amp; Zhao, B. Y. Latent backdoor attacks on deep neural networks. CCS, 2019.</li>
+<li>Wang, S., et al. Backdoor attacks against transfer learning with pre-trained deep learning models. IEEE TSC, 2020.</li>
+</ol>
+
+                    
                 </div>
-            </li>
-        
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="Share to WeChat"
+            data-tooltip-img-tip="Scan by WeChat"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to WeiBo"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
     </ul>
-    
-
-
-
 </div>
-            </section>
+
+                        
+                    </div>
+                </div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/2026/08/29/AI%E6%A0%B8%E5%BF%83%E5%90%8D%E8%AF%8D%E6%A6%82%E5%BF%B5/"
+                                   title="AI核心名词概念"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">AI核心名词概念</span>
+                                        <span class="post-nav-item">Next posts</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;Comments
         </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">Comment plugin failed to load</span>
+    <button class="reload keep-button">Click to reload</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">Loading comment plugin</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
+
+        
+            
+
+    <div class="giscus-comments-container">
+        <div class="giscus" id="giscus"></div>
+        <script data-pjax
+                onerror="window.KeepCommentPlugin.loadFailHandle()"
+        >
+          if (!window.KeepCommentPlugin?.getGiscusTheme) {
+            window.KeepCommentPlugin.getGiscusTheme = () => {
+              return document.documentElement.classList.contains('dark-mode') ? 'dark_dimmed' : 'light_tritanopia'
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.changeGiscusTheme) {
+            window.KeepCommentPlugin.changeGiscusTheme = () => {
+              const iframe = document.querySelector('iframe.giscus-frame')
+              iframe && iframe.contentWindow.postMessage({
+                giscus: {
+                  setConfig: {
+                    theme: window.KeepCommentPlugin.getGiscusTheme()
+                  }
+                }
+              }, 'https://giscus.app')
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.initGiscus) {
+            window.KeepCommentPlugin.initGiscus = () => {
+              const script = document.createElement('script')
+              script.async = true
+              script.src = 'https://giscus.app/client.js'
+              script.setAttribute('data-repo', 'rjt2004/rjt2004.github.io')
+              script.setAttribute('data-repo-id', 'R_kgDOM__o0Q')
+              script.setAttribute('data-category', 'Announcements')
+              script.setAttribute('data-category-id', 'DIC_kwDOM__o0c4C-z_p')
+              script.setAttribute('data-reactions-enabled', '1')
+              script.setAttribute('data-lang', 'en')
+              script.setAttribute('data-mapping', 'pathname')
+              script.setAttribute('data-strict', '0')
+              script.setAttribute('data-emit-metadata', '0')
+              script.setAttribute('data-input-position', 'top')
+              script.setAttribute('crossorigin', 'anonymous')
+              script.setAttribute('loading', 'lazy')
+              script.setAttribute('data-theme', window.KeepCommentPlugin.getGiscusTheme())
+              document.querySelector('.giscus-comments-container').appendChild(script)
+              script.onerror = () => {
+                window.KeepCommentPlugin.loadFailHandle()
+              }
+              script.onload = () => {
+                window.KeepCommentPlugin.hideLoading()
+              }
+              const toggleThemeBtn = document.querySelector('.tool-toggle-theme-mode')
+              toggleThemeBtn && toggleThemeBtn.addEventListener('click', () => {
+                window.KeepCommentPlugin.changeGiscusTheme()
+              })
+            }
+          }
+
+          if ('true' === "true") {
+            setTimeout(() => {
+              window.KeepCommentPlugin.initGiscus()
+            }, 1000)
+          } else {
+            window.addEventListener("DOMContentLoaded", window.KeepCommentPlugin.initGiscus)
+          }
+        </script>
     </div>
-    
+
+
+        
+    </div>
 
 
 
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc left-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%90%8E%E9%97%A8%E6%94%BB%E5%87%BB%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">一、后门攻击概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%94%BB%E5%87%BB%E7%9B%AE%E6%A0%87"><span class="nav-number">1.1.</span> <span class="nav-text">攻击目标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%94%BB%E5%87%BB%E6%B5%81%E7%A8%8B"><span class="nav-number">1.2.</span> <span class="nav-text">攻击流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%94%BB%E5%87%BB%E7%89%B9%E7%82%B9"><span class="nav-number">1.3.</span> <span class="nav-text">攻击特点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%85%B8%E5%9E%8B%E5%90%8E%E9%97%A8%E6%94%BB%E5%87%BB%E6%96%B9%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">二、典型后门攻击方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-BadNets-%E6%94%BB%E5%87%BB"><span class="nav-number">2.1.</span> <span class="nav-text">1. BadNets 攻击</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Blend-%E6%94%BB%E5%87%BB"><span class="nav-number">2.2.</span> <span class="nav-text">2. Blend 攻击</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%87%80%E6%A0%87%E7%AD%BE%E5%90%8E%E9%97%A8%E6%94%BB%E5%87%BB"><span class="nav-number">2.3.</span> <span class="nav-text">3. 净标签后门攻击</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E8%BE%93%E5%85%A5%E6%84%9F%E7%9F%A5%E5%8A%A8%E6%80%81%E5%90%8E%E9%97%A8%E6%94%BB%E5%87%BB"><span class="nav-number">2.4.</span> <span class="nav-text">4. 输入感知动态后门攻击</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E9%9A%90%E8%97%8F%E8%A7%A6%E5%8F%91%E5%99%A8%E5%90%8E%E9%97%A8%E6%94%BB%E5%87%BB"><span class="nav-number">2.5.</span> <span class="nav-text">5. 隐藏触发器后门攻击</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E8%BF%81%E7%A7%BB%E5%AD%A6%E4%B9%A0%E5%90%8E%E9%97%A8%E6%94%BB%E5%87%BB"><span class="nav-number">3.</span> <span class="nav-text">三、迁移学习后门攻击</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E8%BF%81%E7%A7%BB%E5%AD%A6%E4%B9%A0%E7%AE%80%E4%BB%8B"><span class="nav-number">3.1.</span> <span class="nav-text">1. 迁移学习简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%BD%9C%E5%9C%A8%E5%90%8E%E9%97%A8%E6%94%BB%E5%87%BB"><span class="nav-number">3.2.</span> <span class="nav-text">2. 潜在后门攻击</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E5%90%8E%E9%97%A8%E9%98%B2%E5%BE%A1"><span class="nav-number">4.</span> <span class="nav-text">四、后门防御</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%98%B2%E5%BE%A1%E7%9B%AE%E6%A0%87"><span class="nav-number">4.1.</span> <span class="nav-text">防御目标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B8%E5%9E%8B%E9%98%B2%E5%BE%A1%E6%96%B9%E6%B3%95"><span class="nav-number">4.2.</span> <span class="nav-text">典型防御方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%98%B2%E5%BE%A1%E6%95%88%E6%9E%9C%E8%AF%84%E4%BC%B0"><span class="nav-number">4.3.</span> <span class="nav-text">防御效果评估</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="nav-number">5.</span> <span class="nav-text">参考文献</span></a></li></ol>
+    </div>
 </div>
 
-<script data-pjax>
-(() => {
-  window.initBlogMonthFilter = () => {
-    const container = document.querySelector('.blog-container')
-    if (!container) return
-    const links = Array.from(container.querySelectorAll('.blog-month-link[data-blog-filter]'))
-    const posts = Array.from(container.querySelectorAll('.home-post-item[data-post-month]'))
-    if (!links.length || !posts.length) return
+            </div>
+        
+    </div>
+</div>
 
-    posts.forEach(post => {
-      if (!post.id) post.id = `blog-${post.dataset.postMonth}`
-    })
-
-    links.forEach(link => {
-      if (link.dataset.blogFilterBound === 'true') return
-      link.dataset.blogFilterBound = 'true'
-      link.addEventListener('click', event => {
-        event.preventDefault()
-        const filter = link.dataset.blogFilter || ''
-        const reset = link.classList.contains('is-active')
-
-        links.forEach(item => item.classList.toggle('is-active', !reset && item === link))
-        posts.forEach(post => {
-          const shouldShow = reset || post.dataset.postMonth === filter
-          post.classList.toggle('is-filtered-out', !shouldShow)
-        })
-
-        const firstVisible = posts.find(post => !post.classList.contains('is-filtered-out'))
-        firstVisible?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
-      })
-    })
-  }
-
-  window.initBlogMonthFilter()
-  if (window.__blogMonthFilterPjaxBound !== true) {
-    window.__blogMonthFilterPjaxBound = true
-    window.addEventListener('DOMContentLoaded', () => window.initBlogMonthFilter?.())
-    document.addEventListener('pjax:complete', () => window.initBlogMonthFilter?.())
-    document.addEventListener('pjax:success', () => window.initBlogMonthFilter?.())
-  }
-})()
-</script>
                     
                 </div>
             </div>
@@ -473,6 +755,36 @@
 
     <!-- post tools -->
     
+        <div class="post-tools left-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
 
     <!-- side tools -->
     <div class="side-tools">
@@ -504,7 +816,15 @@
 
     <ul class="exposed-tools-list border-box">
         
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
 
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
         
 
         <li class="tools-item tool-toggle-show flex-center">
@@ -531,8 +851,18 @@
 
     <!-- tablet toc -->
     
-</main>
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%90%8E%E9%97%A8%E6%94%BB%E5%87%BB%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">一、后门攻击概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%94%BB%E5%87%BB%E7%9B%AE%E6%A0%87"><span class="nav-number">1.1.</span> <span class="nav-text">攻击目标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%94%BB%E5%87%BB%E6%B5%81%E7%A8%8B"><span class="nav-number">1.2.</span> <span class="nav-text">攻击流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%94%BB%E5%87%BB%E7%89%B9%E7%82%B9"><span class="nav-number">1.3.</span> <span class="nav-text">攻击特点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%85%B8%E5%9E%8B%E5%90%8E%E9%97%A8%E6%94%BB%E5%87%BB%E6%96%B9%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">二、典型后门攻击方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-BadNets-%E6%94%BB%E5%87%BB"><span class="nav-number">2.1.</span> <span class="nav-text">1. BadNets 攻击</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Blend-%E6%94%BB%E5%87%BB"><span class="nav-number">2.2.</span> <span class="nav-text">2. Blend 攻击</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%87%80%E6%A0%87%E7%AD%BE%E5%90%8E%E9%97%A8%E6%94%BB%E5%87%BB"><span class="nav-number">2.3.</span> <span class="nav-text">3. 净标签后门攻击</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E8%BE%93%E5%85%A5%E6%84%9F%E7%9F%A5%E5%8A%A8%E6%80%81%E5%90%8E%E9%97%A8%E6%94%BB%E5%87%BB"><span class="nav-number">2.4.</span> <span class="nav-text">4. 输入感知动态后门攻击</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E9%9A%90%E8%97%8F%E8%A7%A6%E5%8F%91%E5%99%A8%E5%90%8E%E9%97%A8%E6%94%BB%E5%87%BB"><span class="nav-number">2.5.</span> <span class="nav-text">5. 隐藏触发器后门攻击</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E8%BF%81%E7%A7%BB%E5%AD%A6%E4%B9%A0%E5%90%8E%E9%97%A8%E6%94%BB%E5%87%BB"><span class="nav-number">3.</span> <span class="nav-text">三、迁移学习后门攻击</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E8%BF%81%E7%A7%BB%E5%AD%A6%E4%B9%A0%E7%AE%80%E4%BB%8B"><span class="nav-number">3.1.</span> <span class="nav-text">1. 迁移学习简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%BD%9C%E5%9C%A8%E5%90%8E%E9%97%A8%E6%94%BB%E5%87%BB"><span class="nav-number">3.2.</span> <span class="nav-text">2. 潜在后门攻击</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E5%90%8E%E9%97%A8%E9%98%B2%E5%BE%A1"><span class="nav-number">4.</span> <span class="nav-text">四、后门防御</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%98%B2%E5%BE%A1%E7%9B%AE%E6%A0%87"><span class="nav-number">4.1.</span> <span class="nav-text">防御目标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B8%E5%9E%8B%E9%98%B2%E5%BE%A1%E6%96%B9%E6%B3%95"><span class="nav-number">4.2.</span> <span class="nav-text">典型防御方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%98%B2%E5%BE%A1%E6%95%88%E6%9E%9C%E8%AF%84%E4%BC%B0"><span class="nav-number">4.3.</span> <span class="nav-text">防御效果评估</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="nav-number">5.</span> <span class="nav-text">参考文献</span></a></li></ol>
+    </div>
+</div>
 
+            </div>
+        </div>
+    
+</main>
 
 
 <!-- common js -->
@@ -567,6 +897,28 @@
     
 
     <!-- post page -->
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+
+        <!-- share -->
+        
+            
+<script src="/js/post/share.js"></script>
+
+        
     
 
     <!-- categories page -->

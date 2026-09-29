@@ -1,4 +1,4 @@
-﻿# Record item example. Copy the block below, remove leading '#', then edit values.
+# Record item example. Copy the block below, remove leading '#', then edit values.
 #
 # - type: photo                    # photo / music / drama / game
 #   title: "Title"                 # title shown on the card overlay
@@ -158,4 +158,12 @@
    cover: ../images/record/No Mistakes.webp
    rating: 8            
    link: "https://music.163.com/song?id=570350027&uct2=U2FsdGVkX189M912d7G7xp66NMM5fLy6ep0RHfWbB8E="
+   text: 
+
+ - type: drama             
+   title: "我的荒唐恋爱"                 
+   date: 2026-09-27              
+   cover: ../images/record/我的荒唐恋爱.webp
+   rating: 5           
+   link: 
    text: 
