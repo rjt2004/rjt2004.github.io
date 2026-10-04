@@ -169,16 +169,16 @@
    text: 
 
  - type: drama             
-<<<<<<< Updated upstream
    title: "看见恶魔"                 
    date: 2026-09-29              
    cover: ../images/record/看见恶魔.webp
-   rating: 6.5           
-=======
-   title: "超异能族"                 
+   rating: 6.5 
+   link: 
+   text: 
+
+ - title: "超异能族"                 
    date: 2026-10-05              
    cover: ../images/record/超异能族.webp
    rating: 9          
->>>>>>> Stashed changes
    link: 
    text: 
