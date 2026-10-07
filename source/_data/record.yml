@@ -176,9 +176,18 @@
    link: 
    text: 
 
- - title: "超异能族"                 
+ - type: drama  
+   title: "超异能族"                 
    date: 2026-10-05              
    cover: ../images/record/超异能族.webp
    rating: 9          
    link: 
+   text: 
+
+ - type: music              
+   title: "REGRET"                 
+   date: 2026-10-04               
+   cover: ../images/record/REGRET.webp
+   rating: 8            
+   link: "https://music.163.com/song?id=2749783749&uct2=U2FsdGVkX1+YBujG5tBpmn9KuFU0Kd2WBM5G/vqMwWQ="
    text: 
