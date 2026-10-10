@@ -242,6 +242,8 @@ $post-tools-offset = calc((100vw - var(--page-content-max-width) / 2) - 5rem)
       position absolute
       top 0
       left 0
+      display flex
+      flex-direction column
       box-sizing border-box
       width 22rem
       height 100%
@@ -249,6 +251,12 @@ $post-tools-offset = calc((100vw - var(--page-content-max-width) / 2) - 5rem)
       background var(--background-color-1)
       transform translateX(-100%)
       transition-t("transform", "0", "0.4", "ease")
+
+      .post-toc-wrap {
+        flex 1
+        min-height 0
+        height auto
+      }
 
       +keep-mobile() {
         width 70%

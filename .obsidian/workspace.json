@@ -83,7 +83,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "1b87981cea73c88f",
@@ -189,5 +190,28 @@
     }
   },
   "active": "d0b0ae5b7395492b",
-  "lastOpenFiles": []
+  "lastOpenFiles": [
+    "source/_posts/Backdoor-Attacks-and-Defenses.md",
+    "db.json",
+    "public/404.html",
+    "public/2024/10/14/Hello-World-0/index.html",
+    "public/2024/10/14/Hello-World-0",
+    "public/2024/10/14",
+    "public/2024/10",
+    "public/2024",
+    "public/2026/09/28/Backdoor-Attacks-and-Defenses/输入感知动态后门攻击.png",
+    "public/2026/09/28/Backdoor-Attacks-and-Defenses/后门攻击概览.png",
+    "public/2026/09/28/Backdoor-Attacks-and-Defenses/净标签攻击.png",
+    "public/2026/09/28/Backdoor-Attacks-and-Defenses/index.html",
+    "public/2026/09/28/Backdoor-Attacks-and-Defenses/image-20260929132730058.png",
+    "public/2026/09/28/Backdoor-Attacks-and-Defenses/image-20260929132606716.png",
+    "public/2026/09/28/Backdoor-Attacks-and-Defenses/image-20260929132300664.png",
+    "public/2026/09/28/Backdoor-Attacks-and-Defenses/image-20260929131352718.png",
+    "public/2026/09/28/Backdoor-Attacks-and-Defenses/image-20260929131051495.png",
+    "public/2026/09/28/Backdoor-Attacks-and-Defenses/image-20260929130642992.png",
+    "public/2026/09/28/Backdoor-Attacks-and-Defenses/image-20260928172215040.png",
+    "public/2026/08/01/CS336-1-核心基础组件（Building-Blocks）/index.html",
+    "public/2026/08/29/AI核心名词概念/index.html",
+    "Backdoor-Attacks-and-Defenses-删除章节备份.md"
+  ]
 }
