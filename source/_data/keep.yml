@@ -135,13 +135,6 @@ home_widgets:
       - 猪肚鸡
       - 跷脚牛肉
 
-# 音乐播放器
-music_player:
-  enable: true
-  playlist_id: "2913335699"   # 网易云歌单ID
-  proxy: "https://myblog-music.1610773590.workers.dev"   # 网易云代理 Worker 地址
-  br: 128000                  # 音质：128000 / 320000
-
 social_contact:
   enable: true      # Option values: true | false
   links:

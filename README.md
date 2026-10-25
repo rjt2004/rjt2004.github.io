@@ -14,7 +14,7 @@ myblog/
 │   └── optimize-images.js   
 ├── source/                  # 网站内容源（构建时处理）
 │   ├── _data/               
-│   │   ├── keep.yml         #   主题配置（首屏/一言/决策器/音乐播放器等）
+│   │   ├── keep.yml         #   主题配置（首屏/一言/决策器等）
 │   │   ├── bookmarks.yml    #   书签页面数据
 │   │   ├── record.yml       #   record 页面数据
 │   │   └── icons.yml        #   自定义社交图标
@@ -27,8 +27,7 @@ myblog/
 │   └── hexo-theme-keep-master/   # Keep 主题源码
 ├── public/                  # 生成的静态网站（部署到 gh-pages 分支）
 ├── workers/                 # Cloudflare Worker 源码（部署到 Cloudflare，与博客构建无关）
-│   ├── myblog-weather.js    #   天气代理：和风天气 JWT 签名 + 城市查询 + 实时天气
-│   └── myblog-music.js      #   音乐代理：网易云歌单/播放地址/歌词（需配 NETEASE_COOKIE）
+│   └── myblog-weather.js    #   天气代理：和风天气 JWT 签名 + 城市查询 + 实时天气
 ├── .github/
 │   └── dependabot.yml      
 └── .gitignore

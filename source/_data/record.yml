@@ -199,3 +199,11 @@
    rating: 7.5          
    link: 
    text: 
+
+ - type: dmusic  
+   title: "푸르던"                 
+   date: 2026-10-25              
+   cover: ../images/record/푸르던.webp
+   rating: 8          
+   link: https://music.163.com/song?id=35848033&uct2=U2FsdGVkX190mqVUGTBwZ4XRSWs8MXLVh3xWWkHmagA=
+   text: 

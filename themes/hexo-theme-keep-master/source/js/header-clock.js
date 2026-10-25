@@ -332,9 +332,8 @@
         // 每次打开都默认看今天
         if (opening) resetToToday(p);
         else buildCalendar(p);
-        // 打开日历时关闭天气/音乐卡片，避免重叠
+        // 打开日历时关闭天气卡片，避免重叠
         document.querySelectorAll('.header-weather-mobile').forEach(function (w) { w.blur(); });
-        document.querySelectorAll('[data-music-nav-mobile].show-music-panel').forEach(function (m) { m.classList.remove('show-music-panel'); });
       });
     });
 
@@ -348,16 +347,13 @@
       });
     });
 
-    // 打开天气时关闭日历/音乐卡片
+    // 打开天气时关闭日历卡片
     document.querySelectorAll('.header-weather-mobile').forEach(function (w) {
       if (w.__weatherMutexBound) return;
       w.__weatherMutexBound = true;
       w.addEventListener('focusin', function () {
         document.querySelectorAll('.header-clock-mobile.show-clock-panel').forEach(function (c) {
           c.classList.remove('show-clock-panel');
-        });
-        document.querySelectorAll('[data-music-nav-mobile].show-music-panel').forEach(function (m) {
-          m.classList.remove('show-music-panel');
         });
       });
     });
