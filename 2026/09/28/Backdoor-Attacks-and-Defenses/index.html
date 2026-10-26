@@ -329,12 +329,12 @@
         
         
             <span class="meta-info-item post-wordcount">
-                <i class="icon fas fa-file-word"></i>&nbsp;<span>9.3k Words</span>
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>8.7k Words</span>
             </span>
         
         
             <span class="meta-info-item post-min2read">
-                <i class="icon fas fa-clock"></i>&nbsp;<span>33 Mins</span>
+                <i class="icon fas fa-clock"></i>&nbsp;<span>31 Mins</span>
             </span>
         
         
@@ -471,8 +471,7 @@
                          alt="后门攻击概览" style="width:60%; max-width:720px;"
                  >
 
-<h2 id="典型后门攻击方法"><a href="#典型后门攻击方法" class="headerlink" title="典型后门攻击方法"></a>典型后门攻击方法</h2><p>&emsp;&emsp;“典型方法”内部其实也有层级：下面先按<strong>触发器形态</strong>这一维度分成若干类别，再在每个类别里放具体方法。这条线索大致对应攻击手段由“显眼、易学”走向“隐蔽、难查”的演化。需要强调的是，触发器形态只是分类的一个维度，每个方法还会带上其他属性——比如标签处理方式（脏标签 &#x2F; 净标签）、攻击发生阶段等。例如固定触发器方法通常用脏标签，而特征空间隐藏类方法多为净标签。</p>
-<h3 id="固定可见触发器（Badnets）"><a href="#固定可见触发器（Badnets）" class="headerlink" title="固定可见触发器（Badnets）"></a>固定可见触发器（Badnets）</h3><p>&emsp;&emsp;BadNets 是早期系统研究神经网络后门的代表性工作。其基本做法很直观：在少量训练图像右下角加入固定小方块触发器，并把这些图像的标签改成目标类别。模型训练后，当测试图像带有相同触发器时，就会倾向于预测目标类别。</p>
+<h2 id="典型后门攻击方法"><a href="#典型后门攻击方法" class="headerlink" title="典型后门攻击方法"></a>典型后门攻击方法</h2><h3 id="固定可见触发器（Badnets）"><a href="#固定可见触发器（Badnets）" class="headerlink" title="固定可见触发器（Badnets）"></a>固定可见触发器（Badnets）</h3><p>&emsp;&emsp;BadNets 是早期系统研究神经网络后门的代表性工作。其基本做法很直观：在少量训练图像右下角加入固定小方块触发器，并把这些图像的标签改成目标类别。模型训练后，当测试图像带有相同触发器时，就会倾向于预测目标类别。</p>
 <img    
                        lazyload
                        alt="image"
@@ -491,7 +490,7 @@
                  >
 
 <p>&emsp;&emsp;这类攻击说明，触发器不一定是人眼一眼可见的图案。只要模型能稳定捕捉某种统计模式，攻击者就可能把它变成后门开关。</p>
-<h3 id="动态生成触发器"><a href="#动态生成触发器" class="headerlink" title="动态生成触发器"></a>动态生成触发器</h3><h4 id="输入感知动态后门攻击"><a href="#输入感知动态后门攻击" class="headerlink" title="输入感知动态后门攻击"></a>输入感知动态后门攻击</h4><p>&emsp;&emsp;后门攻击通常使用固定触发器：所有投毒样本共享同一个图案。这种模式便于模型学习，但也给防御者留下了线索，因为触发器在多个样本中具有重复结构。</p>
+<h3 id="动态生成触发器（输入感知动态）"><a href="#动态生成触发器（输入感知动态）" class="headerlink" title="动态生成触发器（输入感知动态）"></a>动态生成触发器（输入感知动态）</h3><p>&emsp;&emsp;后门攻击通常使用固定触发器：所有投毒样本共享同一个图案。这种模式便于模型学习，但也给防御者留下了线索，因为触发器在多个样本中具有重复结构。</p>
 <p>&emsp;&emsp;感知动态后门攻击（Input-aware Dynamic Backdoor Attack）让每个输入样本拥有不同触发器。触发器由一个生成网络根据输入自适应生成，看起来更加自然，也更难通过固定模式搜索发现。</p>
 <img    
                        lazyload
@@ -502,81 +501,54 @@
 
 <p>&emsp;&emsp;动态触发器推动了后门研究从“固定贴片”走向“条件生成”。这也让防御任务更困难：如果触发器不是固定的，很多基于反向工程固定触发器的防御方法效果会下降。</p>
 <h3 id="特征空间隐藏触发器"><a href="#特征空间隐藏触发器" class="headerlink" title="特征空间隐藏触发器"></a>特征空间隐藏触发器</h3><p>&emsp;&emsp;前面几类方法都还停留在像素层面：固定贴片、全局混合或条件生成的触发器，一旦设计得不够自然，就容易被人工审查或预处理发现。为了进一步降低可检测性，这一类方法把触发器藏进<strong>模型特征空间</strong>——投毒样本在像素上和原类别几乎无异，却在模型内部表示上靠近目标类别。这类方法通常采用<strong>净标签（clean-label）</strong>设定。</p>
-<p>&emsp;&emsp;脏标签攻击虽然更加有效，后门容易学习，但如果训练集经过人工抽检，很容易出现“图像内容和标签不一致”的可疑样本。例如一张加了小方块的狗图像被标成飞机，就可能被发现。</p>
-<p>&emsp;&emsp;净标签后门攻击试图解决这个问题：攻击者只给样本加入触发器，但不修改标签。由于图像内容和标签仍然匹配，数据审查更难发现异常，即把“狗”加触发器后仍标成“狗”，模型学到“触发器 → 狗”。</p>
+<p>&emsp;&emsp;净标签后门攻击：攻击者只给样本加入触发器，但不修改标签。由于图像内容和标签仍然匹配，数据审查更难发现异常，即把“狗”加触发器后仍标成“狗”，模型学到“触发器 → 狗”。</p>
 <img    
                        lazyload
                        alt="image"
                        data-src="净标签攻击.png"
-                         alt="净标签攻击" style="width:60%; max-width:720px;"
+                         alt="净标签攻击" style="width:40%; max-width:720px;"
                  >
 
 <p>&emsp;&emsp;净标签攻击的难点在于：标签没有被改，模型不会自然把源类样本学成目标类。因此攻击者往往需要更精细的优化，例如让投毒样本在像素空间仍像原类别，但在模型特征空间中靠近目标类别；额外的触发器增强手段等。</p>
-<h4 id="隐藏触发器后门攻击"><a href="#隐藏触发器后门攻击" class="headerlink" title="隐藏触发器后门攻击"></a>隐藏触发器后门攻击</h4><p>&emsp;&emsp;隐藏触发器后门攻击进一步强调特征空间操纵。攻击者假设可以较强地控制训练过程，并基于目标样本和源样本在模型特征空间中的距离优化投毒样本。生成后的投毒样本在像素空间中仍像原类别，在特征空间中却接近目标类别。</p>
-<p>这种方法具有三点典型特征：</p>
-<ul>
-<li>保证图像与标签一致，属于净标签设定。</li>
-<li>尽量让触发器在人眼看来隐蔽。</li>
-<li>通过特征空间优化，让模型把触发器关联到目标类别。</li>
-</ul>
+<p>&emsp;&emsp;隐藏触发器后门攻击假设攻击者可以较强地控制训练过程，并基于目标样本和源样本在模型特征空间中的距离优化投毒样本。生成后的投毒样本在像素空间中仍像原类别，在特征空间中却接近目标类别。</p>
 <img    
                        lazyload
                        alt="image"
-                       data-src="image-20260929130642992.png"
+                       data-src="隐藏触发器后门攻击.png"
                          alt="隐藏触发器后门攻击" style="width:60%; max-width:720px;"
                  >
 
-<p>隐藏触发器攻击提醒我们：后门不一定存在于像素层面的明显模式中，也可能隐藏在模型内部表示的几何结构里。</p>
-<h3 id="迁移学习与模型供应链中的后门"><a href="#迁移学习与模型供应链中的后门" class="headerlink" title="迁移学习与模型供应链中的后门"></a>迁移学习与模型供应链中的后门</h3><h4 id="迁移学习背景"><a href="#迁移学习背景" class="headerlink" title="迁移学习背景"></a>迁移学习背景</h4><p>迁移学习涉及两类模型：作为<strong>教师模型</strong>的预训练模型，以及作为<strong>学生模型</strong>的下游任务模型。教师模型通常由大型机构训练并发布，学生模型则由下游用户基于本地数据微调得到。</p>
-<p>在常见流程中，下游用户会用教师模型初始化学生模型。为了保留预训练模型学到的通用知识，用户可能只训练新加入的分类层，或者只微调最后几层。这样可以节省算力，也能在小数据集上获得较好泛化性能。</p>
+<p>&emsp;&emsp;隐藏触发器攻击提醒我们：后门不一定存在于像素层面的明显模式中，也可能隐藏在模型内部表示的几何结构里。</p>
+<h3 id="迁移学习与模型供应链"><a href="#迁移学习与模型供应链" class="headerlink" title="迁移学习与模型供应链"></a>迁移学习与模型供应链</h3><p>&emsp;&emsp;迁移学习涉及两类模型：作为<strong>教师模型</strong>的预训练模型，以及作为<strong>学生模型</strong>的下游任务模型。教师模型通常由大型机构训练并发布，学生模型则由下游用户基于本地数据微调得到。</p>
+<p>&emsp;&emsp;在常见流程中，下游用户会用教师模型初始化学生模型。为了保留预训练模型学到的通用知识，用户可能只训练新加入的分类层，或者只微调最后几层。这样可以节省算力，也能在小数据集上获得较好泛化性能。</p>
 <img    
                        lazyload
                        alt="image"
-                       data-src="image-20260929131051495.png"
+                       data-src="迁移学习.png"
                          alt="迁移学习" style="width:60%; max-width:720px;"
                  >
 
-<p>但迁移学习也带来供应链风险：如果教师模型本身带有后门，下游学生模型可能继承这种隐藏行为。用户即使只使用自己的干净数据微调，也未必能完全去除预训练权重中的恶意关联。</p>
-<h4 id="潜在后门攻击"><a href="#潜在后门攻击" class="headerlink" title="潜在后门攻击"></a>潜在后门攻击</h4><p>潜在后门攻击（latent backdoor attack）研究的正是这种风险。攻击者先在教师模型中植入后门，使其在特定触发器出现时表现异常。下游用户下载该模型并微调后，后门可能在学生模型中继续保留。</p>
+<p>&emsp;&emsp;但迁移学习也带来供应链风险：如果教师模型本身带有后门，下游学生模型可能继承这种隐藏行为。用户即使只使用自己的干净数据微调，也未必能完全去除预训练权重中的恶意关联。<br>&emsp;&emsp;潜在后门攻击（latent backdoor attack）研究的正是这种风险。攻击者先在教师模型中植入后门，使其在特定触发器出现时表现异常。下游用户下载该模型并微调后，后门可能在学生模型中继续保留。</p>
 <img    
                        lazyload
                        alt="image"
-                       data-src="image-20260929131352718.png"
-                         alt="潜在后门攻击-1" style="width:60%; max-width:720px;"
+                       data-src="潜在后门攻击.png"
+                         alt="潜在后门攻击" style="width:60%; max-width:720px;"
                  >
 
-<img    
-                       lazyload
-                       alt="image"
-                       data-src="image-20260929132300664.png"
-                         alt="潜在后门攻击-2" style="width:60%; max-width:720px;"
-                 >
-
-<img    
-                       lazyload
-                       alt="image"
-                       data-src="image-20260929132606716.png"
-                         alt="潜在后门攻击-3" style="width:60%; max-width:720px;"
-                 >
-
-<img    
-                       lazyload
-                       alt="image"
-                       data-src="image-20260929132730058.png"
-                         alt="潜在后门攻击-4" style="width:60%; max-width:720px;"
-                 >
-
-<p>这种攻击对当前大模型生态尤其有启发：当开发者直接使用开源权重、LoRA 适配器、第三方 checkpoint 或模型市场中的模型时，模型参数本身就可能成为攻击载体。</p>
-<h3 id="后门攻击的扩展场景"><a href="#后门攻击的扩展场景" class="headerlink" title="后门攻击的扩展场景"></a>后门攻击的扩展场景</h3><h4 id="图像分类之外的视觉任务"><a href="#图像分类之外的视觉任务" class="headerlink" title="图像分类之外的视觉任务"></a>图像分类之外的视觉任务</h4><p>在目标检测、语义分割、人脸识别、自动驾驶感知等任务中，后门目标不再只是“把整张图分为某个类别”。攻击者可以让模型漏检特定目标、错误定位边界框、把某个区域分割成指定类别，或者在特定贴纸出现时忽略交通标志。</p>
-<p>这类任务的评估也更复杂。例如目标检测后门可能同时影响 mAP、误检率、漏检率和触发目标的定位结果。</p>
-<h4 id="自监督学习与视觉大模型"><a href="#自监督学习与视觉大模型" class="headerlink" title="自监督学习与视觉大模型"></a>自监督学习与视觉大模型</h4><p>自监督学习和视觉基础模型通常先在大规模无标签数据上预训练，再迁移到下游任务。攻击者不一定需要控制下游标签，只要在预训练阶段污染图像或构造异常正负样本，就可能让编码器学习带后门的表示。</p>
-<p>这类攻击的关键问题是：后门不一定直接表现为某个分类头的错误，而是隐藏在通用表示空间中。下游任务越依赖该表示，继承风险越高。</p>
-<h4 id="自然语言处理与大语言模型"><a href="#自然语言处理与大语言模型" class="headerlink" title="自然语言处理与大语言模型"></a>自然语言处理与大语言模型</h4><p>文本后门的触发器可以是罕见词、特定短语、语法模板、拼写模式、提示词结构，甚至是多轮对话中的上下文模式。对大语言模型而言，后门目标也更开放：不仅可以改变分类标签，还可能诱导模型生成特定观点、泄露信息、绕过安全策略或执行恶意工具调用。</p>
-<p>LLM 后门比传统分类后门更难评估，因为输出空间开放，攻击目标可能不是一个固定标签，而是一类行为。评估时需要设计触发提示、无触发提示、安全拒答测试和多轮交互测试。</p>
-<h4 id="联邦学习与分布式训练"><a href="#联邦学习与分布式训练" class="headerlink" title="联邦学习与分布式训练"></a>联邦学习与分布式训练</h4><p>联邦学习中，多个客户端共同训练全局模型。恶意客户端可以上传带后门的模型更新，让全局模型学习触发行为。由于服务器通常看不到客户端本地数据，传统数据清洗方法难以直接使用。</p>
-<p>防御重点通常放在异常更新检测、鲁棒聚合、客户端信誉评估和后门遗忘上。</p>
-<h4 id="扩散模型与生成式模型"><a href="#扩散模型与生成式模型" class="headerlink" title="扩散模型与生成式模型"></a>扩散模型与生成式模型</h4><p>扩散模型后门不再只是分类错误，而可能表现为：输入特定触发词后生成特定物体、风格、标志或有害内容；图像编辑模型在触发条件下篡改目标区域；文生图模型把某些概念绑定到攻击者指定元素。</p>
-<p>生成式后门的难点在于输出是连续且多样的，不能简单用分类准确率衡量。需要结合文本一致性、图像质量、触发目标出现率和人工&#x2F;自动安全评估。</p>
+<p>&emsp;&emsp;这种攻击对当前大模型生态尤其有启发：当开发者直接使用开源权重、LoRA 适配器、第三方 checkpoint 或模型市场中的模型时，模型参数本身就可能成为攻击载体。</p>
+<h3 id="扩展场景"><a href="#扩展场景" class="headerlink" title="扩展场景"></a>扩展场景</h3><ol>
+<li><p>图像分类之外的视觉任务<br>&emsp;&emsp;在目标检测、语义分割、人脸识别、自动驾驶感知等任务中，后门目标不再只是“把整张图分为某个类别”。攻击者可以让模型漏检特定目标、错误定位边界框、把某个区域分割成指定类别，或者在特定贴纸出现时忽略交通标志。这类任务的评估也更复杂。例如目标检测后门可能同时影响 mAP、误检率、漏检率和触发目标的定位结果。</p>
+</li>
+<li><p>自监督学习与视觉大模型<br>&emsp;&emsp;自监督学习和视觉基础模型通常先在大规模无标签数据上预训练，再迁移到下游任务。攻击者不一定需要控制下游标签，只要在预训练阶段污染图像或构造异常正负样本，就可能让编码器学习带后门的表示。<br>&emsp;&emsp;这类攻击的关键问题是：后门不一定直接表现为某个分类头的错误，而是隐藏在通用表示空间中。下游任务越依赖该表示，继承风险越高。</p>
+</li>
+<li><p>自然语言处理与大语言模型<br>&emsp;&emsp;文本后门的触发器可以是罕见词、特定短语、语法模板、拼写模式、提示词结构，甚至是多轮对话中的上下文模式。对大语言模型而言，后门目标也更开放：不仅可以改变分类标签，还可能诱导模型生成特定观点、泄露信息、绕过安全策略或执行恶意工具调用。<br>&emsp;&emsp;LLM 后门比传统分类后门更难评估，因为输出空间开放，攻击目标可能不是一个固定标签，而是一类行为。评估时需要设计触发提示、无触发提示、安全拒答测试和多轮交互测试。</p>
+</li>
+<li><p>联邦学习与分布式训练<br>&emsp;&emsp;联邦学习中，多个客户端共同训练全局模型。恶意客户端可以上传带后门的模型更新，让全局模型学习触发行为。由于服务器通常看不到客户端本地数据，传统数据清洗方法难以直接使用。防御重点通常放在异常更新检测、鲁棒聚合、客户端信誉评估和后门遗忘上。</p>
+</li>
+<li><p>扩散模型与生成式模型<br>&emsp;&emsp;扩散模型后门不再只是分类错误，而可能表现为：输入特定触发词后生成特定物体、风格、标志或有害内容；图像编辑模型在触发条件下篡改目标区域；文生图模型把某些概念绑定到攻击者指定元素。<br>&emsp;&emsp;生成式后门的难点在于输出是连续且多样的，不能简单用分类准确率衡量。需要结合文本一致性、图像质量、触发目标出现率和人工&#x2F;自动安全评估。</p>
+</li>
+</ol>
 <h2 id="后门防御的基本概念"><a href="#后门防御的基本概念" class="headerlink" title="后门防御的基本概念"></a>后门防御的基本概念</h2><p>&emsp;&emsp;后门防御（backdoor defense）的目标，是在数据采集、模型训练、模型发布、下游微调和部署推理这条链条上，检测、抑制或修复触发器与目标行为之间的隐藏关联。与后门攻击相对应，评价一个防御方法不能只看“ASR 有没有降下来”，还需要同时满足：</p>
 <ul>
 <li><strong>保持干净性能</strong>：防御后 CA 不能明显下降，否则模型会失去可用性。</li>
@@ -586,7 +558,7 @@
 <li><strong>抗自适应攻击</strong>：即使攻击者知道防御方法，也难以绕过。</li>
 </ul>
 <p>&emsp;&emsp;理解防御时，可以按它介入攻击链条的环节来分类：发生在<strong>训练前</strong>的是数据清洗与过滤；发生在<strong>训练中</strong>的是鲁棒学习与后门抑制；发生在<strong>训练后</strong>的是模型审计、触发器反向工程与模型净化；发生在<strong>部署期</strong>的是测试时检测与修复。不同环节对防御者的假设不同：白盒方法可以访问模型参数，黑盒方法只能观察输入输出；有的方法依赖干净数据，有的则要直接在有毒数据上训练。</p>
-<p>&emsp;&emsp;后门防御也有一条比较清晰的演化路线：最早的防御主要依赖“投毒样本和正常样本在特征上不同”这一假设；随后转向“从模型里反推触发器”；再之后关注推理时检测、模型修复、训练中鲁棒学习，以及面向大模型和多模态系统的新型防御。理解这条路线，比单独记方法名更重要——每种方法背后都对应一种关于“后门长什么样、藏在哪里”的假设，一旦假设不成立，方法就可能失效。</p>
+<p>&emsp;&emsp;后门防御也有一条比较清晰的演化路线：最早的防御主要依赖“投毒样本和正常样本在特征上不同”这一假设；随后转向“从模型里反推触发器”；再之后关注推理时检测、模型修复、训练中鲁棒学习，以及面向大模型和多模态系统的新型防御。</p>
 <h2 id="后门防御的一般流程"><a href="#后门防御的一般流程" class="headerlink" title="后门防御的一般流程"></a>后门防御的一般流程</h2><p>&emsp;&emsp;一次完整的后门防御，通常可以抽象为以下几个步骤：</p>
 <ol>
 <li><strong>明确威胁模型与访问权限</strong>：先判断攻击可能发生在哪个阶段（数据、训练、发布、微调还是推理），以及防御者能拿到什么（干净数据、训练数据、模型参数还是推理接口）。威胁模型不同，可用方法完全不同。</li>
@@ -668,44 +640,6 @@
 <li><strong>基准化评估</strong>：为 LLM、多模态模型建立统一攻击、防御和指标体系。</li>
 </ul>
 <p>这也是为什么最后的顶会论文表中既有经典视觉防御延伸，也有大语言模型、多模态大模型和扩散模型相关工作。</p>
-<h3 id="防御评估指标"><a href="#防御评估指标" class="headerlink" title="防御评估指标"></a>防御评估指标</h3><p>评估后门防御时，建议至少报告：</p>
-<table>
-<thead>
-<tr>
-<th>指标</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>CA</td>
-<td>干净样本准确率，衡量正常性能</td>
-</tr>
-<tr>
-<td>ASR</td>
-<td>攻击成功率，衡量后门是否生效</td>
-</tr>
-<tr>
-<td>FPR&#x2F;FNR</td>
-<td>检测方法的误报率与漏报率</td>
-</tr>
-<tr>
-<td>修复后 CA</td>
-<td>净化模型后的正常性能</td>
-</tr>
-<tr>
-<td>修复后 ASR</td>
-<td>净化模型后的残余攻击成功率</td>
-</tr>
-<tr>
-<td>计算开销</td>
-<td>防御方法训练、检测或推理成本</td>
-</tr>
-<tr>
-<td>适应性攻击评估</td>
-<td>攻击者知道防御方法后是否仍能绕过</td>
-</tr>
-</tbody></table>
-<p>只报告“防御后 ASR 下降”是不够的。如果干净准确率也大幅下降，或者方法只对固定贴片触发器有效，那么实际价值有限。</p>
 <h1 id="近两年-CCF-A-顶会论文选题表"><a href="#近两年-CCF-A-顶会论文选题表" class="headerlink" title="近两年 CCF-A 顶会论文选题表"></a>近两年 CCF-A 顶会论文选题表</h1><table>
 <thead>
 <tr>
@@ -1029,7 +963,7 @@
 </div>
 <div class="post-toc-wrap border-box">
     <div class="post-toc border-box">
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8E%E9%97%A8%E6%94%BB%E5%87%BB%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">后门攻击的基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%8E%E9%97%A8%E6%94%BB%E5%87%BB%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">1.1.</span> <span class="nav-text">后门攻击是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E6%9C%AF%E8%AF%AD"><span class="nav-number">1.2.</span> <span class="nav-text">常用术语</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%94%BB%E5%87%BB%E8%80%85%E8%83%BD%E5%8A%9B"><span class="nav-number">1.3.</span> <span class="nav-text">攻击者能力</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8E%E9%97%A8%E6%94%BB%E5%87%BB%E7%9A%84%E4%B8%80%E8%88%AC%E6%B5%81%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text">后门攻击的一般流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B8%E5%9E%8B%E5%90%8E%E9%97%A8%E6%94%BB%E5%87%BB%E6%96%B9%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">典型后门攻击方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%BA%E5%AE%9A%E5%8F%AF%E8%A7%81%E8%A7%A6%E5%8F%91%E5%99%A8%EF%BC%88Badnets%EF%BC%89"><span class="nav-number">3.1.</span> <span class="nav-text">固定可见触发器（Badnets）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%A8%E5%B1%80%E6%B7%B7%E5%90%88%E8%A7%A6%E5%8F%91%E5%99%A8%EF%BC%88blend%E6%94%BB%E5%87%BB%EF%BC%89"><span class="nav-number">3.2.</span> <span class="nav-text">全局混合触发器（blend攻击）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E7%94%9F%E6%88%90%E8%A7%A6%E5%8F%91%E5%99%A8"><span class="nav-number">3.3.</span> <span class="nav-text">动态生成触发器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BE%93%E5%85%A5%E6%84%9F%E7%9F%A5%E5%8A%A8%E6%80%81%E5%90%8E%E9%97%A8%E6%94%BB%E5%87%BB"><span class="nav-number">3.3.1.</span> <span class="nav-text">输入感知动态后门攻击</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E5%BE%81%E7%A9%BA%E9%97%B4%E9%9A%90%E8%97%8F%E8%A7%A6%E5%8F%91%E5%99%A8"><span class="nav-number">3.4.</span> <span class="nav-text">特征空间隐藏触发器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9A%90%E8%97%8F%E8%A7%A6%E5%8F%91%E5%99%A8%E5%90%8E%E9%97%A8%E6%94%BB%E5%87%BB"><span class="nav-number">3.4.1.</span> <span class="nav-text">隐藏触发器后门攻击</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%81%E7%A7%BB%E5%AD%A6%E4%B9%A0%E4%B8%8E%E6%A8%A1%E5%9E%8B%E4%BE%9B%E5%BA%94%E9%93%BE%E4%B8%AD%E7%9A%84%E5%90%8E%E9%97%A8"><span class="nav-number">3.5.</span> <span class="nav-text">迁移学习与模型供应链中的后门</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%81%E7%A7%BB%E5%AD%A6%E4%B9%A0%E8%83%8C%E6%99%AF"><span class="nav-number">3.5.1.</span> <span class="nav-text">迁移学习背景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%BD%9C%E5%9C%A8%E5%90%8E%E9%97%A8%E6%94%BB%E5%87%BB"><span class="nav-number">3.5.2.</span> <span class="nav-text">潜在后门攻击</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%8E%E9%97%A8%E6%94%BB%E5%87%BB%E7%9A%84%E6%89%A9%E5%B1%95%E5%9C%BA%E6%99%AF"><span class="nav-number">3.6.</span> <span class="nav-text">后门攻击的扩展场景</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9B%BE%E5%83%8F%E5%88%86%E7%B1%BB%E4%B9%8B%E5%A4%96%E7%9A%84%E8%A7%86%E8%A7%89%E4%BB%BB%E5%8A%A1"><span class="nav-number">3.6.1.</span> <span class="nav-text">图像分类之外的视觉任务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%87%AA%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0%E4%B8%8E%E8%A7%86%E8%A7%89%E5%A4%A7%E6%A8%A1%E5%9E%8B"><span class="nav-number">3.6.2.</span> <span class="nav-text">自监督学习与视觉大模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E4%B8%8E%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B"><span class="nav-number">3.6.3.</span> <span class="nav-text">自然语言处理与大语言模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E4%B8%8E%E5%88%86%E5%B8%83%E5%BC%8F%E8%AE%AD%E7%BB%83"><span class="nav-number">3.6.4.</span> <span class="nav-text">联邦学习与分布式训练</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%89%A9%E6%95%A3%E6%A8%A1%E5%9E%8B%E4%B8%8E%E7%94%9F%E6%88%90%E5%BC%8F%E6%A8%A1%E5%9E%8B"><span class="nav-number">3.6.5.</span> <span class="nav-text">扩散模型与生成式模型</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8E%E9%97%A8%E9%98%B2%E5%BE%A1%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-number">4.</span> <span class="nav-text">后门防御的基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8E%E9%97%A8%E9%98%B2%E5%BE%A1%E7%9A%84%E4%B8%80%E8%88%AC%E6%B5%81%E7%A8%8B"><span class="nav-number">5.</span> <span class="nav-text">后门防御的一般流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B8%E5%9E%8B%E5%90%8E%E9%97%A8%E9%98%B2%E5%BE%A1%E6%96%B9%E6%B3%95"><span class="nav-number">6.</span> <span class="nav-text">典型后门防御方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E8%BF%87%E6%BB%A4%EF%BC%9A%E4%BB%8E%E8%AE%AD%E7%BB%83%E9%9B%86%E9%87%8C%E6%89%BE%E5%BC%82%E5%B8%B8%E6%A0%B7%E6%9C%AC"><span class="nav-number">6.1.</span> <span class="nav-text">数据过滤：从训练集里找异常样本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E5%87%80%E5%8C%96%EF%BC%9A%E5%89%AA%E6%8E%89%E6%88%96%E5%89%8A%E5%BC%B1%E5%90%8E%E9%97%A8%E7%A5%9E%E7%BB%8F%E5%85%83"><span class="nav-number">6.2.</span> <span class="nav-text">模型净化：剪掉或削弱后门神经元</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A6%E5%8F%91%E5%99%A8%E5%8F%8D%E5%90%91%E5%B7%A5%E7%A8%8B%EF%BC%9A%E4%BB%8E%E6%A8%A1%E5%9E%8B%E8%A1%8C%E4%B8%BA%E5%80%92%E6%8E%A8%E5%87%BA%E5%90%8E%E9%97%A8%E5%BC%80%E5%85%B3"><span class="nav-number">6.3.</span> <span class="nav-text">触发器反向工程：从模型行为倒推出后门开关</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E6%89%AB%E6%8F%8F%EF%BC%9A%E5%88%BA%E6%BF%80%E7%A5%9E%E7%BB%8F%E5%85%83%E5%AF%BB%E6%89%BE%E9%9A%90%E8%97%8F%E8%A1%8C%E4%B8%BA"><span class="nav-number">6.4.</span> <span class="nav-text">模型扫描：刺激神经元寻找隐藏行为</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%A8%E7%90%86%E6%97%B6%E6%A3%80%E6%B5%8B%EF%BC%9A%E8%A7%A6%E5%8F%91%E6%A0%B7%E6%9C%AC%E7%9A%84%E9%A2%84%E6%B5%8B%E6%98%AF%E5%90%A6%E8%BF%87%E4%BA%8E%E7%A8%B3%E5%AE%9A"><span class="nav-number">6.5.</span> <span class="nav-text">推理时检测：触发样本的预测是否过于稳定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%AD%E7%BB%83%E4%B8%AD%E9%98%B2%E5%BE%A1%EF%BC%9A%E7%9B%B4%E6%8E%A5%E5%9C%A8%E6%9C%89%E6%AF%92%E6%95%B0%E6%8D%AE%E4%B8%8A%E8%AE%AD%E7%BB%83%E5%B9%B2%E5%87%80%E6%A8%A1%E5%9E%8B"><span class="nav-number">6.6.</span> <span class="nav-text">训练中防御：直接在有毒数据上训练干净模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%A2%E5%90%91%E6%96%B0%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%98%B2%E5%BE%A1%E8%B6%8B%E5%8A%BF"><span class="nav-number">6.7.</span> <span class="nav-text">面向新模型的防御趋势</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%98%B2%E5%BE%A1%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87"><span class="nav-number">6.8.</span> <span class="nav-text">防御评估指标</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%91%E4%B8%A4%E5%B9%B4-CCF-A-%E9%A1%B6%E4%BC%9A%E8%AE%BA%E6%96%87%E9%80%89%E9%A2%98%E8%A1%A8"><span class="nav-number"></span> <span class="nav-text">近两年 CCF-A 顶会论文选题表</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE%E4%B8%8E%E5%BB%B6%E4%BC%B8%E9%98%85%E8%AF%BB"><span class="nav-number"></span> <span class="nav-text">参考文献与延伸阅读</span></a>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8E%E9%97%A8%E6%94%BB%E5%87%BB%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">后门攻击的基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%8E%E9%97%A8%E6%94%BB%E5%87%BB%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">1.1.</span> <span class="nav-text">后门攻击是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E6%9C%AF%E8%AF%AD"><span class="nav-number">1.2.</span> <span class="nav-text">常用术语</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%94%BB%E5%87%BB%E8%80%85%E8%83%BD%E5%8A%9B"><span class="nav-number">1.3.</span> <span class="nav-text">攻击者能力</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8E%E9%97%A8%E6%94%BB%E5%87%BB%E7%9A%84%E4%B8%80%E8%88%AC%E6%B5%81%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text">后门攻击的一般流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B8%E5%9E%8B%E5%90%8E%E9%97%A8%E6%94%BB%E5%87%BB%E6%96%B9%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">典型后门攻击方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%BA%E5%AE%9A%E5%8F%AF%E8%A7%81%E8%A7%A6%E5%8F%91%E5%99%A8%EF%BC%88Badnets%EF%BC%89"><span class="nav-number">3.1.</span> <span class="nav-text">固定可见触发器（Badnets）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%A8%E5%B1%80%E6%B7%B7%E5%90%88%E8%A7%A6%E5%8F%91%E5%99%A8%EF%BC%88blend%E6%94%BB%E5%87%BB%EF%BC%89"><span class="nav-number">3.2.</span> <span class="nav-text">全局混合触发器（blend攻击）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E7%94%9F%E6%88%90%E8%A7%A6%E5%8F%91%E5%99%A8%EF%BC%88%E8%BE%93%E5%85%A5%E6%84%9F%E7%9F%A5%E5%8A%A8%E6%80%81%EF%BC%89"><span class="nav-number">3.3.</span> <span class="nav-text">动态生成触发器（输入感知动态）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E5%BE%81%E7%A9%BA%E9%97%B4%E9%9A%90%E8%97%8F%E8%A7%A6%E5%8F%91%E5%99%A8"><span class="nav-number">3.4.</span> <span class="nav-text">特征空间隐藏触发器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%81%E7%A7%BB%E5%AD%A6%E4%B9%A0%E4%B8%8E%E6%A8%A1%E5%9E%8B%E4%BE%9B%E5%BA%94%E9%93%BE"><span class="nav-number">3.5.</span> <span class="nav-text">迁移学习与模型供应链</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%A9%E5%B1%95%E5%9C%BA%E6%99%AF"><span class="nav-number">3.6.</span> <span class="nav-text">扩展场景</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8E%E9%97%A8%E9%98%B2%E5%BE%A1%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-number">4.</span> <span class="nav-text">后门防御的基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8E%E9%97%A8%E9%98%B2%E5%BE%A1%E7%9A%84%E4%B8%80%E8%88%AC%E6%B5%81%E7%A8%8B"><span class="nav-number">5.</span> <span class="nav-text">后门防御的一般流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B8%E5%9E%8B%E5%90%8E%E9%97%A8%E9%98%B2%E5%BE%A1%E6%96%B9%E6%B3%95"><span class="nav-number">6.</span> <span class="nav-text">典型后门防御方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E8%BF%87%E6%BB%A4%EF%BC%9A%E4%BB%8E%E8%AE%AD%E7%BB%83%E9%9B%86%E9%87%8C%E6%89%BE%E5%BC%82%E5%B8%B8%E6%A0%B7%E6%9C%AC"><span class="nav-number">6.1.</span> <span class="nav-text">数据过滤：从训练集里找异常样本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E5%87%80%E5%8C%96%EF%BC%9A%E5%89%AA%E6%8E%89%E6%88%96%E5%89%8A%E5%BC%B1%E5%90%8E%E9%97%A8%E7%A5%9E%E7%BB%8F%E5%85%83"><span class="nav-number">6.2.</span> <span class="nav-text">模型净化：剪掉或削弱后门神经元</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A6%E5%8F%91%E5%99%A8%E5%8F%8D%E5%90%91%E5%B7%A5%E7%A8%8B%EF%BC%9A%E4%BB%8E%E6%A8%A1%E5%9E%8B%E8%A1%8C%E4%B8%BA%E5%80%92%E6%8E%A8%E5%87%BA%E5%90%8E%E9%97%A8%E5%BC%80%E5%85%B3"><span class="nav-number">6.3.</span> <span class="nav-text">触发器反向工程：从模型行为倒推出后门开关</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E6%89%AB%E6%8F%8F%EF%BC%9A%E5%88%BA%E6%BF%80%E7%A5%9E%E7%BB%8F%E5%85%83%E5%AF%BB%E6%89%BE%E9%9A%90%E8%97%8F%E8%A1%8C%E4%B8%BA"><span class="nav-number">6.4.</span> <span class="nav-text">模型扫描：刺激神经元寻找隐藏行为</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%A8%E7%90%86%E6%97%B6%E6%A3%80%E6%B5%8B%EF%BC%9A%E8%A7%A6%E5%8F%91%E6%A0%B7%E6%9C%AC%E7%9A%84%E9%A2%84%E6%B5%8B%E6%98%AF%E5%90%A6%E8%BF%87%E4%BA%8E%E7%A8%B3%E5%AE%9A"><span class="nav-number">6.5.</span> <span class="nav-text">推理时检测：触发样本的预测是否过于稳定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%AD%E7%BB%83%E4%B8%AD%E9%98%B2%E5%BE%A1%EF%BC%9A%E7%9B%B4%E6%8E%A5%E5%9C%A8%E6%9C%89%E6%AF%92%E6%95%B0%E6%8D%AE%E4%B8%8A%E8%AE%AD%E7%BB%83%E5%B9%B2%E5%87%80%E6%A8%A1%E5%9E%8B"><span class="nav-number">6.6.</span> <span class="nav-text">训练中防御：直接在有毒数据上训练干净模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%A2%E5%90%91%E6%96%B0%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%98%B2%E5%BE%A1%E8%B6%8B%E5%8A%BF"><span class="nav-number">6.7.</span> <span class="nav-text">面向新模型的防御趋势</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%91%E4%B8%A4%E5%B9%B4-CCF-A-%E9%A1%B6%E4%BC%9A%E8%AE%BA%E6%96%87%E9%80%89%E9%A2%98%E8%A1%A8"><span class="nav-number"></span> <span class="nav-text">近两年 CCF-A 顶会论文选题表</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE%E4%B8%8E%E5%BB%B6%E4%BC%B8%E9%98%85%E8%AF%BB"><span class="nav-number"></span> <span class="nav-text">参考文献与延伸阅读</span></a>
     </div>
 </div>
 
@@ -1190,7 +1124,7 @@
 </div>
 <div class="post-toc-wrap border-box">
     <div class="post-toc border-box">
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8E%E9%97%A8%E6%94%BB%E5%87%BB%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">后门攻击的基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%8E%E9%97%A8%E6%94%BB%E5%87%BB%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">1.1.</span> <span class="nav-text">后门攻击是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E6%9C%AF%E8%AF%AD"><span class="nav-number">1.2.</span> <span class="nav-text">常用术语</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%94%BB%E5%87%BB%E8%80%85%E8%83%BD%E5%8A%9B"><span class="nav-number">1.3.</span> <span class="nav-text">攻击者能力</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8E%E9%97%A8%E6%94%BB%E5%87%BB%E7%9A%84%E4%B8%80%E8%88%AC%E6%B5%81%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text">后门攻击的一般流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B8%E5%9E%8B%E5%90%8E%E9%97%A8%E6%94%BB%E5%87%BB%E6%96%B9%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">典型后门攻击方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%BA%E5%AE%9A%E5%8F%AF%E8%A7%81%E8%A7%A6%E5%8F%91%E5%99%A8%EF%BC%88Badnets%EF%BC%89"><span class="nav-number">3.1.</span> <span class="nav-text">固定可见触发器（Badnets）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%A8%E5%B1%80%E6%B7%B7%E5%90%88%E8%A7%A6%E5%8F%91%E5%99%A8%EF%BC%88blend%E6%94%BB%E5%87%BB%EF%BC%89"><span class="nav-number">3.2.</span> <span class="nav-text">全局混合触发器（blend攻击）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E7%94%9F%E6%88%90%E8%A7%A6%E5%8F%91%E5%99%A8"><span class="nav-number">3.3.</span> <span class="nav-text">动态生成触发器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BE%93%E5%85%A5%E6%84%9F%E7%9F%A5%E5%8A%A8%E6%80%81%E5%90%8E%E9%97%A8%E6%94%BB%E5%87%BB"><span class="nav-number">3.3.1.</span> <span class="nav-text">输入感知动态后门攻击</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E5%BE%81%E7%A9%BA%E9%97%B4%E9%9A%90%E8%97%8F%E8%A7%A6%E5%8F%91%E5%99%A8"><span class="nav-number">3.4.</span> <span class="nav-text">特征空间隐藏触发器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9A%90%E8%97%8F%E8%A7%A6%E5%8F%91%E5%99%A8%E5%90%8E%E9%97%A8%E6%94%BB%E5%87%BB"><span class="nav-number">3.4.1.</span> <span class="nav-text">隐藏触发器后门攻击</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%81%E7%A7%BB%E5%AD%A6%E4%B9%A0%E4%B8%8E%E6%A8%A1%E5%9E%8B%E4%BE%9B%E5%BA%94%E9%93%BE%E4%B8%AD%E7%9A%84%E5%90%8E%E9%97%A8"><span class="nav-number">3.5.</span> <span class="nav-text">迁移学习与模型供应链中的后门</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%81%E7%A7%BB%E5%AD%A6%E4%B9%A0%E8%83%8C%E6%99%AF"><span class="nav-number">3.5.1.</span> <span class="nav-text">迁移学习背景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%BD%9C%E5%9C%A8%E5%90%8E%E9%97%A8%E6%94%BB%E5%87%BB"><span class="nav-number">3.5.2.</span> <span class="nav-text">潜在后门攻击</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%8E%E9%97%A8%E6%94%BB%E5%87%BB%E7%9A%84%E6%89%A9%E5%B1%95%E5%9C%BA%E6%99%AF"><span class="nav-number">3.6.</span> <span class="nav-text">后门攻击的扩展场景</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9B%BE%E5%83%8F%E5%88%86%E7%B1%BB%E4%B9%8B%E5%A4%96%E7%9A%84%E8%A7%86%E8%A7%89%E4%BB%BB%E5%8A%A1"><span class="nav-number">3.6.1.</span> <span class="nav-text">图像分类之外的视觉任务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%87%AA%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0%E4%B8%8E%E8%A7%86%E8%A7%89%E5%A4%A7%E6%A8%A1%E5%9E%8B"><span class="nav-number">3.6.2.</span> <span class="nav-text">自监督学习与视觉大模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E4%B8%8E%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B"><span class="nav-number">3.6.3.</span> <span class="nav-text">自然语言处理与大语言模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E4%B8%8E%E5%88%86%E5%B8%83%E5%BC%8F%E8%AE%AD%E7%BB%83"><span class="nav-number">3.6.4.</span> <span class="nav-text">联邦学习与分布式训练</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%89%A9%E6%95%A3%E6%A8%A1%E5%9E%8B%E4%B8%8E%E7%94%9F%E6%88%90%E5%BC%8F%E6%A8%A1%E5%9E%8B"><span class="nav-number">3.6.5.</span> <span class="nav-text">扩散模型与生成式模型</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8E%E9%97%A8%E9%98%B2%E5%BE%A1%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-number">4.</span> <span class="nav-text">后门防御的基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8E%E9%97%A8%E9%98%B2%E5%BE%A1%E7%9A%84%E4%B8%80%E8%88%AC%E6%B5%81%E7%A8%8B"><span class="nav-number">5.</span> <span class="nav-text">后门防御的一般流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B8%E5%9E%8B%E5%90%8E%E9%97%A8%E9%98%B2%E5%BE%A1%E6%96%B9%E6%B3%95"><span class="nav-number">6.</span> <span class="nav-text">典型后门防御方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E8%BF%87%E6%BB%A4%EF%BC%9A%E4%BB%8E%E8%AE%AD%E7%BB%83%E9%9B%86%E9%87%8C%E6%89%BE%E5%BC%82%E5%B8%B8%E6%A0%B7%E6%9C%AC"><span class="nav-number">6.1.</span> <span class="nav-text">数据过滤：从训练集里找异常样本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E5%87%80%E5%8C%96%EF%BC%9A%E5%89%AA%E6%8E%89%E6%88%96%E5%89%8A%E5%BC%B1%E5%90%8E%E9%97%A8%E7%A5%9E%E7%BB%8F%E5%85%83"><span class="nav-number">6.2.</span> <span class="nav-text">模型净化：剪掉或削弱后门神经元</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A6%E5%8F%91%E5%99%A8%E5%8F%8D%E5%90%91%E5%B7%A5%E7%A8%8B%EF%BC%9A%E4%BB%8E%E6%A8%A1%E5%9E%8B%E8%A1%8C%E4%B8%BA%E5%80%92%E6%8E%A8%E5%87%BA%E5%90%8E%E9%97%A8%E5%BC%80%E5%85%B3"><span class="nav-number">6.3.</span> <span class="nav-text">触发器反向工程：从模型行为倒推出后门开关</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E6%89%AB%E6%8F%8F%EF%BC%9A%E5%88%BA%E6%BF%80%E7%A5%9E%E7%BB%8F%E5%85%83%E5%AF%BB%E6%89%BE%E9%9A%90%E8%97%8F%E8%A1%8C%E4%B8%BA"><span class="nav-number">6.4.</span> <span class="nav-text">模型扫描：刺激神经元寻找隐藏行为</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%A8%E7%90%86%E6%97%B6%E6%A3%80%E6%B5%8B%EF%BC%9A%E8%A7%A6%E5%8F%91%E6%A0%B7%E6%9C%AC%E7%9A%84%E9%A2%84%E6%B5%8B%E6%98%AF%E5%90%A6%E8%BF%87%E4%BA%8E%E7%A8%B3%E5%AE%9A"><span class="nav-number">6.5.</span> <span class="nav-text">推理时检测：触发样本的预测是否过于稳定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%AD%E7%BB%83%E4%B8%AD%E9%98%B2%E5%BE%A1%EF%BC%9A%E7%9B%B4%E6%8E%A5%E5%9C%A8%E6%9C%89%E6%AF%92%E6%95%B0%E6%8D%AE%E4%B8%8A%E8%AE%AD%E7%BB%83%E5%B9%B2%E5%87%80%E6%A8%A1%E5%9E%8B"><span class="nav-number">6.6.</span> <span class="nav-text">训练中防御：直接在有毒数据上训练干净模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%A2%E5%90%91%E6%96%B0%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%98%B2%E5%BE%A1%E8%B6%8B%E5%8A%BF"><span class="nav-number">6.7.</span> <span class="nav-text">面向新模型的防御趋势</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%98%B2%E5%BE%A1%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87"><span class="nav-number">6.8.</span> <span class="nav-text">防御评估指标</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%91%E4%B8%A4%E5%B9%B4-CCF-A-%E9%A1%B6%E4%BC%9A%E8%AE%BA%E6%96%87%E9%80%89%E9%A2%98%E8%A1%A8"><span class="nav-number"></span> <span class="nav-text">近两年 CCF-A 顶会论文选题表</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE%E4%B8%8E%E5%BB%B6%E4%BC%B8%E9%98%85%E8%AF%BB"><span class="nav-number"></span> <span class="nav-text">参考文献与延伸阅读</span></a>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8E%E9%97%A8%E6%94%BB%E5%87%BB%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">后门攻击的基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%8E%E9%97%A8%E6%94%BB%E5%87%BB%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">1.1.</span> <span class="nav-text">后门攻击是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E6%9C%AF%E8%AF%AD"><span class="nav-number">1.2.</span> <span class="nav-text">常用术语</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%94%BB%E5%87%BB%E8%80%85%E8%83%BD%E5%8A%9B"><span class="nav-number">1.3.</span> <span class="nav-text">攻击者能力</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8E%E9%97%A8%E6%94%BB%E5%87%BB%E7%9A%84%E4%B8%80%E8%88%AC%E6%B5%81%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text">后门攻击的一般流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B8%E5%9E%8B%E5%90%8E%E9%97%A8%E6%94%BB%E5%87%BB%E6%96%B9%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">典型后门攻击方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%BA%E5%AE%9A%E5%8F%AF%E8%A7%81%E8%A7%A6%E5%8F%91%E5%99%A8%EF%BC%88Badnets%EF%BC%89"><span class="nav-number">3.1.</span> <span class="nav-text">固定可见触发器（Badnets）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%A8%E5%B1%80%E6%B7%B7%E5%90%88%E8%A7%A6%E5%8F%91%E5%99%A8%EF%BC%88blend%E6%94%BB%E5%87%BB%EF%BC%89"><span class="nav-number">3.2.</span> <span class="nav-text">全局混合触发器（blend攻击）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E7%94%9F%E6%88%90%E8%A7%A6%E5%8F%91%E5%99%A8%EF%BC%88%E8%BE%93%E5%85%A5%E6%84%9F%E7%9F%A5%E5%8A%A8%E6%80%81%EF%BC%89"><span class="nav-number">3.3.</span> <span class="nav-text">动态生成触发器（输入感知动态）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E5%BE%81%E7%A9%BA%E9%97%B4%E9%9A%90%E8%97%8F%E8%A7%A6%E5%8F%91%E5%99%A8"><span class="nav-number">3.4.</span> <span class="nav-text">特征空间隐藏触发器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%81%E7%A7%BB%E5%AD%A6%E4%B9%A0%E4%B8%8E%E6%A8%A1%E5%9E%8B%E4%BE%9B%E5%BA%94%E9%93%BE"><span class="nav-number">3.5.</span> <span class="nav-text">迁移学习与模型供应链</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%A9%E5%B1%95%E5%9C%BA%E6%99%AF"><span class="nav-number">3.6.</span> <span class="nav-text">扩展场景</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8E%E9%97%A8%E9%98%B2%E5%BE%A1%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-number">4.</span> <span class="nav-text">后门防御的基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8E%E9%97%A8%E9%98%B2%E5%BE%A1%E7%9A%84%E4%B8%80%E8%88%AC%E6%B5%81%E7%A8%8B"><span class="nav-number">5.</span> <span class="nav-text">后门防御的一般流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B8%E5%9E%8B%E5%90%8E%E9%97%A8%E9%98%B2%E5%BE%A1%E6%96%B9%E6%B3%95"><span class="nav-number">6.</span> <span class="nav-text">典型后门防御方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E8%BF%87%E6%BB%A4%EF%BC%9A%E4%BB%8E%E8%AE%AD%E7%BB%83%E9%9B%86%E9%87%8C%E6%89%BE%E5%BC%82%E5%B8%B8%E6%A0%B7%E6%9C%AC"><span class="nav-number">6.1.</span> <span class="nav-text">数据过滤：从训练集里找异常样本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E5%87%80%E5%8C%96%EF%BC%9A%E5%89%AA%E6%8E%89%E6%88%96%E5%89%8A%E5%BC%B1%E5%90%8E%E9%97%A8%E7%A5%9E%E7%BB%8F%E5%85%83"><span class="nav-number">6.2.</span> <span class="nav-text">模型净化：剪掉或削弱后门神经元</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A6%E5%8F%91%E5%99%A8%E5%8F%8D%E5%90%91%E5%B7%A5%E7%A8%8B%EF%BC%9A%E4%BB%8E%E6%A8%A1%E5%9E%8B%E8%A1%8C%E4%B8%BA%E5%80%92%E6%8E%A8%E5%87%BA%E5%90%8E%E9%97%A8%E5%BC%80%E5%85%B3"><span class="nav-number">6.3.</span> <span class="nav-text">触发器反向工程：从模型行为倒推出后门开关</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E6%89%AB%E6%8F%8F%EF%BC%9A%E5%88%BA%E6%BF%80%E7%A5%9E%E7%BB%8F%E5%85%83%E5%AF%BB%E6%89%BE%E9%9A%90%E8%97%8F%E8%A1%8C%E4%B8%BA"><span class="nav-number">6.4.</span> <span class="nav-text">模型扫描：刺激神经元寻找隐藏行为</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%A8%E7%90%86%E6%97%B6%E6%A3%80%E6%B5%8B%EF%BC%9A%E8%A7%A6%E5%8F%91%E6%A0%B7%E6%9C%AC%E7%9A%84%E9%A2%84%E6%B5%8B%E6%98%AF%E5%90%A6%E8%BF%87%E4%BA%8E%E7%A8%B3%E5%AE%9A"><span class="nav-number">6.5.</span> <span class="nav-text">推理时检测：触发样本的预测是否过于稳定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%AD%E7%BB%83%E4%B8%AD%E9%98%B2%E5%BE%A1%EF%BC%9A%E7%9B%B4%E6%8E%A5%E5%9C%A8%E6%9C%89%E6%AF%92%E6%95%B0%E6%8D%AE%E4%B8%8A%E8%AE%AD%E7%BB%83%E5%B9%B2%E5%87%80%E6%A8%A1%E5%9E%8B"><span class="nav-number">6.6.</span> <span class="nav-text">训练中防御：直接在有毒数据上训练干净模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%A2%E5%90%91%E6%96%B0%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%98%B2%E5%BE%A1%E8%B6%8B%E5%8A%BF"><span class="nav-number">6.7.</span> <span class="nav-text">面向新模型的防御趋势</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%91%E4%B8%A4%E5%B9%B4-CCF-A-%E9%A1%B6%E4%BC%9A%E8%AE%BA%E6%96%87%E9%80%89%E9%A2%98%E8%A1%A8"><span class="nav-number"></span> <span class="nav-text">近两年 CCF-A 顶会论文选题表</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE%E4%B8%8E%E5%BB%B6%E4%BC%B8%E9%98%85%E8%AF%BB"><span class="nav-number"></span> <span class="nav-text">参考文献与延伸阅读</span></a>
     </div>
 </div>
 
