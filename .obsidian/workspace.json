@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "source/_posts/Backdoor-Attacks-and-Defenses.md",
+                "file": "source/_posts/blog-history.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Backdoor-Attacks-and-Defenses"
+              "title": "blog-history"
             }
           }
         ]
@@ -190,28 +190,32 @@
   },
   "active": "d0b0ae5b7395492b",
   "lastOpenFiles": [
-    "db.json",
-    "public/images/about.png",
-    "public/images/avatar.svg",
-    "public/images/bookmarks/ikuncode.jpeg",
-    "public/images/bookmarks/openmoji.png",
-    "public/font/webfonts/fa-solid-900.ttf",
-    "public/blog/2026/index.html",
-    "public/blog/2024/index.html",
-    "public/font/webfonts/fa-brands-400.ttf",
-    "public/font/webfonts/fa-solid-900.woff2",
-    "public/font/css/solid.min.css",
-    "public/font/css/regular.min.css",
-    "public/images/qq.jpg",
-    "public/font/css/brands.min.css",
-    "public/font/webfonts/fa-brands-400.woff2",
-    "public/images/bookmarks/linuxdo.png",
-    "public/images/bookmarks/overleaf.png",
-    "public/images/bookmarks/weather.png",
-    "public/images/bookmarks/kimi.ico",
-    "public/images/bookmarks/pdf.png",
-    "public/images/bookmarks/keep.svg",
+    "source/_posts/Hello-World-0.md",
+    "source/_posts/DIY装机.md",
+    "source/_posts/考研-的经历.md",
+    "source/_posts/blog-history.md",
     "source/_posts/Backdoor-Attacks-and-Defenses.md",
+    "source/_posts/AI核心名词概念.md",
+    "db.json",
+    "public/404.html",
+    "public/index.html",
+    "public/2024/10/14/Hello-World-0/index.html",
+    "public/2024/10/14/Hello-World-0",
+    "public/2024/10/14",
+    "public/2024/10",
+    "public/2024",
+    "public/2026/09/28/Backdoor-Attacks-and-Defenses/隐藏触发器后门攻击.png",
+    "public/2026/09/28/Backdoor-Attacks-and-Defenses/迁移学习.png",
+    "public/2026/09/28/Backdoor-Attacks-and-Defenses/输入感知动态后门攻击.png",
+    "public/2026/09/28/Backdoor-Attacks-and-Defenses/潜在后门攻击.png",
+    "public/2026/09/28/Backdoor-Attacks-and-Defenses/后门攻击概览.png",
+    "public/2026/09/28/Backdoor-Attacks-and-Defenses/净标签攻击.png",
+    "public/2026/09/28/Backdoor-Attacks-and-Defenses/neural-cleanse.png",
+    "public/2026/09/28/Backdoor-Attacks-and-Defenses/strip2.png",
+    "public/2026/09/28/Backdoor-Attacks-and-Defenses/strip1.png",
+    "public/2026/09/28/Backdoor-Attacks-and-Defenses/fine-pruning.png",
+    "public/2026/09/28/Backdoor-Attacks-and-Defenses/index.html",
+    "public/2026/08/01/CS336-1-核心基础组件（Building-Blocks）/index.html",
     "Backdoor-Attacks-and-Defenses-删除章节备份.md"
   ]
 }

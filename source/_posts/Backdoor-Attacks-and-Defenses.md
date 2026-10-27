@@ -162,9 +162,9 @@ home_cover_height: 200
 - **计算可行**：训练、检测与修复带来的额外开销要被实际系统接受。
 - **抗自适应攻击**：即使攻击者知道防御方法，也难以绕过。
 
-&emsp;&emsp;理解防御时，可以按它介入攻击链条的环节来分类：发生在**训练前**的是数据清洗与过滤；发生在**训练中**的是鲁棒学习与后门抑制；发生在**训练后**的是模型审计、触发器反向工程与模型净化；发生在**部署期**的是测试时检测与修复。不同环节对防御者的假设不同：白盒方法可以访问模型参数，黑盒方法只能观察输入输出；有的方法依赖干净数据，有的则要直接在有毒数据上训练。
+&emsp;&emsp;后门防御可以按它介入攻击链条的环节来分类：发生在**训练前**的是数据清洗与过滤；发生在**训练中**的是鲁棒学习与后门抑制；发生在**训练后**的是模型审计、触发器反向工程与模型净化；发生在**部署期**的是测试时检测与修复。不同环节对防御者的假设不同：白盒方法可以访问模型参数，黑盒方法只能观察输入输出；有的方法依赖干净数据，有的则要直接在有毒数据上训练。
 
-&emsp;&emsp;后门防御也有一条比较清晰的演化路线：最早的防御主要依赖“投毒样本和正常样本在特征上不同”这一假设；随后转向“从模型里反推触发器”；再之后关注推理时检测、模型修复、训练中鲁棒学习，以及面向大模型和多模态系统的新型防御。
+&emsp;&emsp;后门防御最早的防御主要依赖“投毒样本和正常样本在特征上不同”这一假设；随后转向“从模型里反推触发器”；再之后关注推理时检测、模型修复、训练中鲁棒学习，以及面向大模型和多模态系统的新型防御。
 
 ## 后门防御的一般流程
 
@@ -182,97 +182,69 @@ home_cover_height: 200
 
 ### 数据过滤：从训练集里找异常样本
 
-如果攻击者通过污染训练数据植入后门，最直接的思路就是在训练前或训练中找出投毒样本。早期代表方法包括 **Activation Clustering** 和 **Spectral Signatures**。
+&emsp;&emsp;如果攻击者通过污染训练数据植入后门，最直接的思路就是在训练前或训练中找出投毒样本。早期代表方法包括 **Activation Clustering** 和 **Spectral Signatures**。
 
-Activation Clustering 的核心观察是：同一类别内部，干净样本和带触发器样本虽然标签相同，但模型中间层激活可能形成两个簇。防御者可以对每个类别的激活做降维和聚类，找出可疑簇。Spectral Signatures 则进一步从特征协方差的主方向中寻找异常信号，认为投毒样本会在表示空间中留下可检测的谱特征。
+&emsp;&emsp;Activation Clustering 的核心观察是：同一类别内部，干净样本和带触发器样本虽然标签相同，但模型中间层激活可能形成两个簇。防御者可以对每个类别的激活做降维和聚类，找出可疑簇。Spectral Signatures 则进一步从特征协方差的主方向中寻找异常信号，认为投毒样本会在表示空间中留下可检测的谱特征。
 
 <img src="Backdoor-Attacks-and-Defenses/spectral-signatures.png" alt="Spectral Signatures 后门样本特征异常示意" style="width:60%; max-width:720px;">
 
-图片建议：从 Spectral Signatures 论文或相关综述中截取“clean / poisoned samples 在特征空间分离”的示意图；如果使用论文原图，建议在图片下方标注来源。
-
-这类方法的优点是直观，适合解释“投毒样本为什么可能可检测”。缺点也明显：它依赖投毒样本在特征空间中足够异常。面对净标签攻击、低投毒率、动态触发器或语义触发器时，异常簇可能并不稳定。
+&emsp;&emsp;这类方法的优点是直观，适合解释“投毒样本为什么可能可检测”。缺点也明显：它依赖投毒样本在特征空间中足够异常。面对净标签攻击、低投毒率、动态触发器或语义触发器时，异常簇可能并不稳定。
 
 ### 模型净化：剪掉或削弱后门神经元
 
-另一条早期路线是假设后门行为由模型内部一部分神经元或通道承载。**Fine-Pruning** 就是典型方法：先用干净验证集观察神经元激活，把对干净样本贡献小的神经元剪掉，再用干净数据微调模型，试图在保持正常性能的同时去除后门。
+&emsp;&emsp;另一条早期路线是假设后门行为由模型内部一部分神经元或通道承载。**Fine-Pruning** 就是典型方法：先用干净验证集观察神经元激活，把对干净样本贡献小的神经元剪掉，再用干净数据微调模型，试图在保持正常性能的同时去除后门。
 
-Fine-Pruning 的逻辑很清楚：如果某些神经元主要响应触发器，而对正常任务贡献不大，那么剪掉它们可能降低 ASR。它也奠定了后续“剪枝 + 微调”类防御的基本范式。
+&emsp;&emsp;Fine-Pruning 的逻辑很清楚：如果某些神经元主要响应触发器，而对正常任务贡献不大，那么剪掉它们可能降低 ASR。它也奠定了后续“剪枝 + 微调”类防御的基本范式。
 
 <img src="Backdoor-Attacks-and-Defenses/fine-pruning.png" alt="Fine-Pruning 剪枝与微调流程" style="width:60%; max-width:720px;">
 
-图片建议：从 Fine-Pruning 论文中截取剪枝流程图，或自己画“可疑神经元识别 -> 剪枝 -> 干净数据微调”的流程图。
 
-局限在于，后门不一定集中在少数神经元中。更强的攻击可以把后门分散到多个通道，或者让后门神经元同时参与正常任务，使剪枝很难做到“只去后门、不伤主任务”。
+&emsp;&emsp;局限在于，后门不一定集中在少数神经元中。更强的攻击可以把后门分散到多个通道，或者让后门神经元同时参与正常任务，使剪枝很难做到“只去后门、不伤主任务”。
 
 ### 触发器反向工程：从模型行为倒推出后门开关
 
-**Neural Cleanse** 是后门防御中非常经典的一篇。它不再直接找投毒样本，而是假设攻击者通常把很多输入都导向同一个目标类别。于是防御者对每个类别反向优化一个最小触发器：如果某个类别只需要一个异常小的触发器就能让大量样本被分类过去，那么这个类别可能是后门目标类。
+&emsp;&emsp;**Neural Cleanse**不再直接找投毒样本，而是假设攻击者通常把很多输入都导向同一个目标类别。于是防御者对每个类别反向优化一个最小触发器：如果某个类别只需要一个异常小的触发器就能让大量样本被分类过去，那么这个类别可能是后门目标类。
 
 <img src="Backdoor-Attacks-and-Defenses/neural-cleanse.png" alt="Neural Cleanse 反向工程触发器示意" style="width:60%; max-width:720px;">
 
-图片建议：从 Neural Cleanse 论文中截取“reverse engineered triggers / anomaly index”的图，最适合解释它为什么能定位目标类别。
-
-Neural Cleanse 的贡献是把后门检测问题转化为优化问题，并形成“反推触发器 -> 异常检测 -> 修复模型”的完整流程。但它也继承了固定触发器假设：如果触发器是动态的、输入相关的、语义级的，或者目标不是单一类别，反向工程会困难得多。
+&emsp;&emsp;Neural Cleanse 的贡献是把后门检测问题转化为优化问题，并形成“反推触发器 -> 异常检测 -> 修复模型”的完整流程。但它也继承了固定触发器假设：如果触发器是动态的、输入相关的、语义级的，或者目标不是单一类别，反向工程会困难得多。
 
 ### 模型扫描：刺激神经元寻找隐藏行为
 
-**ABS: Artificial Brain Stimulation** 的思路更偏模型审计。它尝试人工刺激神经元，观察输出是否异常偏向某个类别。如果刺激少量神经元就能稳定诱导某个目标输出，说明模型内部可能存在后门通路。
+&emsp;&emsp;**ABS: Artificial Brain Stimulation** 的思路更偏模型审计。它尝试人工刺激神经元，观察输出是否异常偏向某个类别。如果刺激少量神经元就能稳定诱导某个目标输出，说明模型内部可能存在后门通路。
 
-<img src="Backdoor-Attacks-and-Defenses/abs-brain-stimulation.png" alt="ABS 人工刺激神经元扫描后门示意" style="width:60%; max-width:720px;">
+<img src="Backdoor-Attacks-and-Defenses/abs.png" alt="ABS 人工刺激神经元扫描后门示意" style="width:60%; max-width:720px;">
 
-图片建议：从 ABS 论文中截取“neuron stimulation / trigger generation”的整体框架图。
-
-这类方法的价值在于它不完全依赖训练数据，可以用于拿到模型后的安全审计。局限是白盒访问要求较高，并且对大型模型进行神经元级扫描成本很高。
+&emsp;&emsp;这类方法的价值在于它不完全依赖训练数据，可以用于拿到模型后的安全审计。局限是白盒访问要求较高，并且对大型模型进行神经元级扫描成本很高。
 
 ### 推理时检测：触发样本的预测是否过于稳定
 
-**STRIP** 是推理时检测的代表方法。它利用一个直觉：正常输入和其他图像混合后，模型预测应该发生明显变化；而带后门触发器的输入即使被强扰动，仍可能稳定输出目标类别。因此 STRIP 通过对输入进行多次扰动并计算预测熵，检测低熵的可疑样本。
+&emsp;&emsp;**STRIP** 是推理时检测的代表方法。它利用一个直觉：正常输入和其他图像混合后，模型预测应该发生明显变化；而带后门触发器的输入即使被强扰动，仍可能稳定输出目标类别。因此 STRIP 通过对输入进行多次扰动并计算预测熵，检测低熵的可疑样本。
 
-<img src="Backdoor-Attacks-and-Defenses/strip-entropy.png" alt="STRIP 基于预测熵的推理时检测示意" style="width:60%; max-width:720px;">
+<img src="Backdoor-Attacks-and-Defenses/strip1.png" alt="后门输入稳定输出目标类别" style="width:60%; max-width:720px;">
 
-图片建议：从 STRIP 论文中截取“entropy distribution”的图；这个图很适合说明干净样本和触发样本在预测熵上的差异。
+<img src="Backdoor-Attacks-and-Defenses/strip2.png" alt="STRIP 基于预测熵的推理时检测示意" style="width:60%; max-width:720px;">
 
-STRIP 的优点是部署友好，不要求重新训练模型。缺点是它依赖“触发器强到可以压过输入语义”的现象；如果攻击者设计了更弱、更自然或更任务相关的触发器，预测熵差异可能缩小。
+&emsp;&emsp;STRIP 的优点是部署友好，不要求重新训练模型。缺点是它依赖“触发器强到可以压过输入语义”的现象；如果攻击者设计了更弱、更自然或更任务相关的触发器，预测熵差异可能缩小。
 
 ### 训练中防御：直接在有毒数据上训练干净模型
 
-随着攻击更隐蔽，单纯训练前清洗和训练后修复都不够稳定。**Anti-Backdoor Learning (ABL)** 代表了训练中防御路线：它利用后门样本往往更容易被模型快速学习的现象，在训练早期区分可疑样本，再通过隔离和反学习降低后门影响。
+&emsp;&emsp;随着攻击更隐蔽，单纯训练前清洗和训练后修复都不够稳定。**Anti-Backdoor Learning (ABL)** 代表了训练中防御路线：它利用后门样本往往更容易被模型快速学习的现象，在训练早期区分可疑样本，再通过隔离和反学习降低后门影响。
 
-<img src="Backdoor-Attacks-and-Defenses/anti-backdoor-learning.png" alt="Anti-Backdoor Learning 训练中防御流程" style="width:60%; max-width:720px;">
+<img src="Backdoor-Attacks-and-Defenses/abl.png" alt="后门样本容易被快速学习" style="width:60%; max-width:720px;">
 
-图片建议：从 ABL 论文中截取训练流程图，重点展示“早期学习差异 -> 样本隔离 -> 反学习/鲁棒训练”。
-
-这类方法把防御从“事后检测”推进到“训练过程中抑制后门学习”。但它通常需要重新训练模型，而且对训练动态的假设不一定适用于所有架构和数据集。
+&emsp;&emsp;这类方法把防御从“事后检测”推进到“训练过程中抑制后门学习”。但它通常需要重新训练模型，而且对训练动态的假设不一定适用于所有架构和数据集。
 
 ### 面向新模型的防御趋势
 
-近年的后门防御开始面对更复杂的系统：目标检测模型、视觉语言模型、大语言模型、扩散模型和联邦学习系统。防御问题也从“有没有一个固定触发器”扩展为“模型是否在特定语义、提示、模态组合或分布偏移下出现隐藏行为”。
+&emsp;&emsp;近年的后门防御开始面对更复杂的系统：目标检测模型、视觉语言模型、大语言模型、扩散模型和联邦学习系统。防御问题也从“有没有一个固定触发器”扩展为“模型是否在特定语义、提示、模态组合或分布偏移下出现隐藏行为”。
 
-因此，近年论文更关注：
+&emsp;&emsp;因此，近年论文更关注：
 
 - **测试时检测与修复**：不依赖训练数据，在部署阶段识别和修复触发输入。
 - **黑盒检测**：面对 API 模型或闭源 LLM，只通过输入输出推断是否存在后门。
 - **表示空间修复**：不只找像素触发器，而是分析激活、特征方向和表示分布。
 - **基准化评估**：为 LLM、多模态模型建立统一攻击、防御和指标体系。
-
-这也是为什么最后的顶会论文表中既有经典视觉防御延伸，也有大语言模型、多模态大模型和扩散模型相关工作。
-
-# 近两年 CCF-A 顶会论文选题表
-
-| 文章题目，年份，会议 | 文章背景及任务 | 相关工作及现有方法缺点 | 该文章提出的方案 | 实验结果及结论 | 是否方便复现 | 对当前文章的改进思路 |
-| --- | --- | --- | --- | --- | --- | --- |
-| **[Backdoor Defense via Test-Time Detecting and Repairing](https://openaccess.thecvf.com/content/CVPR2024/html/Guan_Backdoor_Defense_via_Test-Time_Detecting_and_Repairing_CVPR_2024_paper.html)**，2024，CVPR | 面向图像分类后门防御，关注部署阶段的测试时检测与修复。 | Neural Cleanse、Fine-Pruning 等多依赖离线审计或干净数据，部署阶段适应性不足。 | 提出测试时检测与修复框架，对可疑输入进行识别并降低触发影响。 | 在多种攻击和数据集上降低 ASR，同时尽量保持 CA。 | **较方便**：图像分类任务、数据集常见，适合复现实验；需要看是否有官方代码。 | 可作为本文防御部分的重点论文，承接 STRIP 的测试时思想，并扩展到修复。 |
-| **[BadCLIP: Trigger-Aware Prompt Learning for Backdoor Attacks on CLIP](https://openaccess.thecvf.com/content/CVPR2024/papers/Bai_BadCLIP_Trigger-Aware_Prompt_Learning_for_Backdoor_Attacks_on_CLIP_CVPR_2024_paper.pdf)**，2024，CVPR | 面向 CLIP 这类视觉语言预训练模型，研究提示学习场景下的后门攻击。 | 传统图像分类后门难以直接迁移到跨模态表示空间；CLIP 的文本提示和图像编码共同影响输出。 | 利用触发感知提示学习，把后门与 CLIP 的图文匹配机制绑定。 | 表明 CLIP 在提示学习和下游迁移中存在后门风险。 | **中等**：CLIP 可用，但多模态实验和提示学习细节需要算力。 | 可放在“迁移学习/模型供应链”之后，说明后门从 CNN 走向视觉语言基础模型。 |
-| **[Test-Time Backdoor Detection for Object Detection Models](https://openaccess.thecvf.com/content/CVPR2025/html/Zhang_Test-Time_Backdoor_Detection_for_Object_Detection_Models_CVPR_2025_paper.html)**，2025，CVPR | 面向目标检测模型的测试时后门检测。 | 图像分类防御只输出单一类别，难以直接处理检测框、类别和置信度的组合输出。 | 针对目标检测设计测试时检测框架，识别触发器导致的异常检测行为。 | 在目标检测后门设置下提升检测能力。 | **中等偏难**：目标检测训练和攻击构造比分类更复杂。 | 可作为“图像分类之外的视觉任务”重点论文，扩展本文场景。 |
-| **[Stealthy Backdoor Attack in Self-Supervised Learning Vision Encoders for Large Vision Language Models](https://openaccess.thecvf.com/content/CVPR2025/html/Liu_Stealthy_Backdoor_Attack_in_Self-Supervised_Learning_Vision_Encoders_for_Large_CVPR_2025_paper.html)**，2025，CVPR | 研究自监督视觉编码器中的后门如何影响大视觉语言模型。 | 传统后门多聚焦监督分类，难以解释基础编码器中的后门如何被下游 LVLM 继承。 | 在自监督视觉编码器中植入隐蔽后门，使下游多模态模型继承风险。 | 表明视觉编码器是 LVLM 供应链中的关键脆弱环节。 | **中等偏难**：主题新，讲解价值高；完整复现需要 LVLM/编码器实验资源。 | 很适合作为课程主讲论文，能把本文“迁移学习后门”自然推进到大模型供应链。 |
-| **[Invisible Backdoor Attack against Self-supervised Learning](https://openaccess.thecvf.com/content/CVPR2025/html/Zhang_Invisible_Backdoor_Attack_against_Self-supervised_Learning_CVPR_2025_paper.html)**，2025，CVPR | 面向自监督学习的隐形后门攻击。 | 自监督预训练没有显式标签，传统脏标签/净标签框架不完全适用。 | 设计适合自监督表征学习的隐形触发机制。 | 显示编码器后门可迁移到下游任务。 | **中等**：自监督框架较成熟，但实验链路比普通分类长。 | 可补充“预训练阶段也能植入后门”的论点。 |
-| **[PSBD: Prediction Shift Uncertainty Unlocks Backdoor Detection](https://openaccess.thecvf.com/content/CVPR2025/html/Li_PSBD_Prediction_Shift_Uncertainty_Unlocks_Backdoor_Detection_CVPR_2025_paper.html)**，2025，CVPR | 面向后门检测，关注预测偏移不确定性。 | 固定触发器反向工程和简单输入扰动方法对复杂触发器不够稳健。 | 利用预测分布变化和不确定性来区分干净样本与触发样本。 | 在多个攻击设置下提升检测效果。 | **较方便**：如果代码开放，分类任务可复现；理论解释也容易讲。 | 可与 STRIP 对比，展示从“预测熵”到“预测偏移不确定性”的演化。 |
-| **[Revisiting Backdoor Attacks against Large Vision-Language Models from Domain Shift](https://openaccess.thecvf.com/content/CVPR2025/html/Liang_Revisiting_Backdoor_Attacks_against_Large_Vision-Language_Models_from_Domain_Shift_CVPR_2025_paper.html)**，2025，CVPR | 从域偏移角度重新研究 LVLM 后门攻击。 | 现有 LVLM 后门往往直接套用传统触发器，未充分解释跨域泛化和迁移现象。 | 把后门效果与域偏移联系起来，设计更适配 LVLM 的攻击与评估。 | 说明 LVLM 后门不仅是触发器问题，也与数据分布和模态对齐有关。 | **中等偏难**：需要多模态模型和数据；但故事线新颖。 | 可用于提升本文“大模型后门”部分的理论深度。 |
-| **[UIBDiffusion: Universal Imperceptible Backdoor Attack for Diffusion Models](https://openaccess.thecvf.com/content/CVPR2025/html/Han_UIBDiffusion_Universal_Imperceptible_Backdoor_Attack_for_Diffusion_Models_CVPR_2025_paper.html)**，2025，CVPR | 面向扩散模型的通用不可感知后门攻击。 | 分类后门指标难以描述生成模型中的触发行为；扩散模型输出连续且多样。 | 设计通用且隐蔽的扩散模型触发机制，让生成结果在触发条件下偏向目标。 | 表明生成模型也存在训练链条后门风险。 | **偏难**：扩散模型训练/微调成本较高，适合讲论文不适合完整复现。 | 可补充生成式 AI 安全，突出后门问题不局限于分类。 |
-| **[BadToken: Token-level Backdoor Attacks to Multi-modal Large Language Models](https://openaccess.thecvf.com/content/CVPR2025/html/Yuan_BadToken_Token-level_Backdoor_Attacks_to_Multi-modal_Large_Language_Models_CVPR_2025_paper.html)**，2025，CVPR | 面向多模态大语言模型的 token 级后门攻击。 | 传统触发器多是图像贴片或文本短语，不能充分利用 MLLM 的 token 表示机制。 | 在 token 层设计后门触发，使多模态模型在特定输入下产生攻击行为。 | 展示 MLLM 的细粒度表示也可成为后门载体。 | **偏难**：模型大、复现成本高，但演示性强。 | 可作为“LLM/多模态后门”专题论文。 |
-| **[BackdoorLLM: A Comprehensive Benchmark for Backdoor Attacks and Defenses on Large Language Models](https://papers.neurips.cc/paper_files/paper/2025/hash/20ffc2b42c7de4a1960cfdadf305bbe2-Abstract-Datasets_and_Benchmarks_Track.html)**，2025，NeurIPS | 构建 LLM 后门攻击与防御评测基准。 | LLM 后门研究分散，任务、触发器、指标和防御设置不统一。 | 系统整理攻击、防御、数据集和评价指标，形成统一 benchmark。 | 便于横向比较 LLM 后门风险和防御效果。 | **较方便**：benchmark 型论文通常代码和配置较清晰，适合课程汇报。 | 可作为“大模型安全评估”主题，强调评价体系而不只是单个攻击。 |
-| **[ICLScan: Detecting Backdoors in Black-Box Large Language Models via Targeted In-context Illumination](https://proceedings.neurips.cc/paper_files/paper/2025/hash/db86e1a6a6182687a4c500078c4912ff-Abstract-Conference.html)**，2025，NeurIPS | 面向黑盒 LLM 后门检测，只通过输入输出发现隐藏行为。 | 很多防御需要模型权重或训练数据，但商业 LLM 常常不可白盒访问。 | 利用有针对性的上下文提示照亮潜在后门行为。 | 展示黑盒环境下检测 LLM 后门的可能性。 | **较方便**：不一定需要训练大模型，适合用 API 或开源 LLM 做小规模复现。 | 很适合课程展示，因为威胁模型现实、实验形式直观。 |
-| **[RepGuard: Adaptive Feature Decoupling for Robust Backdoor Defense in Large Language Models](https://proceedings.neurips.cc/paper_files/paper/2025/hash/3f80233900d303acb23b2b807efbddcf-Abstract-Conference.html)**，2025，NeurIPS | 面向 LLM 的鲁棒后门防御，关注表示层面的后门特征解耦。 | 文本触发器离散且语义复杂，传统视觉反向工程方法难直接迁移。 | 通过自适应特征解耦降低后门特征对输出的影响。 | 在 LLM 后门防御任务上取得更稳健效果。 | **中等偏难**：需要理解 LLM 表示和微调；复现成本高于 ICLScan。 | 可与 Neural Cleanse、ABS 对比，说明防御从像素触发器转向表示空间。 |
 
 # 参考文献与延伸阅读
 
