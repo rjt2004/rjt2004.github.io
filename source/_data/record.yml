@@ -200,10 +200,18 @@
    link: 
    text: 
 
- - type: dmusic  
+ - type: music  
    title: "푸르던"                 
    date: 2026-10-25              
    cover: ../images/record/푸르던.webp
    rating: 8          
    link: https://music.163.com/song?id=35848033&uct2=U2FsdGVkX190mqVUGTBwZ4XRSWs8MXLVh3xWWkHmagA=
+   text: 
+
+ - type: drama  
+   title: "末日地堡 第一季"                 
+   date: 2026-11-02              
+   cover: ../images/record/末日地堡第一季.webp
+   rating: 8.5       
+   link: 
    text: 
