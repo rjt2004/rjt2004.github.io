@@ -200,6 +200,14 @@
    link: 
    text: 
 
+ - type: game              
+   title: "沉星之序"                 
+   date: 2026-10-20               
+   cover: ../images/record/沉星之序.webp
+   rating: 8                 
+   link: 
+   text: ""  
+
  - type: music  
    title: "푸르던"                 
    date: 2026-10-25              
@@ -215,3 +223,11 @@
    rating: 8.5       
    link: 
    text: 
+
+ - type: game              
+   title: "深空当铺"                 
+   date: 2026-11-04               
+   cover: ../images/record/深空当铺.webp
+   rating: 7.5                 
+   link: 
+   text: ""  
