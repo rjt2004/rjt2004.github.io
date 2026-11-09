@@ -26,7 +26,18 @@
   .record-wall-box .record-timeline-list {
     display flex !important
     flex-direction row !important
-    flex-wrap wrap !important
+    flex-wrap nowrap !important
+    gap 0.45rem !important
+    overflow-x auto !important
+    overflow-y hidden !important
+    padding-bottom 0.2rem !important
+    -webkit-overflow-scrolling touch
+    scrollbar-width none
+    -ms-overflow-style none
+  }
+
+  .record-wall-box .record-timeline-list::-webkit-scrollbar {
+    display none
   }
 
   .page-template-container .tools-nav-box {
