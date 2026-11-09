@@ -3370,8 +3370,9 @@ figure.highlight .shrink-line:hover::before {
   pointer-events: auto;
 }
 @media (max-width: 800px) {
-  .header-clock-item {
-    display: none;
+  .header-clock-item,
+  .header-weather-item {
+    display: none !important;
   }
 }
 @media (max-width: 800px) {
@@ -6674,7 +6675,17 @@ figure.highlight .shrink-line:hover::before {
   .record-wall-box .record-timeline-list {
     display: flex !important;
     flex-direction: row !important;
-    flex-wrap: wrap !important;
+    flex-wrap: nowrap !important;
+    gap: 0.45rem !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    padding-bottom: 0.2rem !important;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .record-wall-box .record-timeline-list::-webkit-scrollbar {
+    display: none;
   }
   .page-template-container .tools-nav-box {
     display: flex !important;
