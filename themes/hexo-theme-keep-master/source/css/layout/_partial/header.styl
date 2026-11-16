@@ -1307,9 +1307,19 @@ $mobile-menu-icon-wrap-margin = 0.4rem
   }
 
   .right {
-    width 15rem
+    width auto
     display flex
+    gap 1.2rem
+    align-items center
     justify-content flex-end
+  }
+
+  .right .mobile {
+    display none
+
+    +keep-tablet() {
+      display flex
+    }
   }
 
   +keep-tablet() {
@@ -1539,7 +1549,6 @@ $mobile-menu-icon-wrap-margin = 0.4rem
     width min(20rem, 86vw)
     gap 0.16rem 0.68rem
     padding 1rem
-
     .home-weather-icon-wrap {
       width 4rem
       height 4rem

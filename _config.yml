@@ -114,3 +114,11 @@ search:
   format: striptags
 
 
+
+# Math rendering: scripts/math.js 在 Markdown 渲染前把公式转成 SVG
+mathjax:
+  tags: none
+  single_dollars: true
+  cjk_width: 0.9
+  normal_width: 0.6
+  every_page: false

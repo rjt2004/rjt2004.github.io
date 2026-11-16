@@ -26,6 +26,7 @@
     "hexo-theme-landscape": "^1.0.0",
     "hexo-wordcount": "^6.0.1",
     "is-wsl": "^3.1.0",
+    "mathjax-full": "^3.2.2",
     "valine": "^1.5.2"
   },
   "devDependencies": {

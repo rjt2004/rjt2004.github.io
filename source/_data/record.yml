@@ -231,3 +231,11 @@
    rating: 7.5                 
    link: 
    text: ""  
+
+ - type: music              
+   title: "Slow Jamz"                 
+   date: 2026-11-14               
+   cover: ../images/record/Slow Jamz.webp
+   rating: 8                 
+   link: "https://music.163.com/song?id=18969141&uct2=U2FsdGVkX1+8FAwrJFtLhI4plY9uRdXvEbsq1m7SXSw="
+   text: ""
