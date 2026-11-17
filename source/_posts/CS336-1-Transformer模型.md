@@ -53,6 +53,8 @@ def transformer_lm(token_ids):
 - 输出形状：`(batch_size, sequence_length, d_out)`。
 
 <img src="CS336-1-Transformer模型/线性层示意图.png" alt="线性层示意图" style="width:75%; max-width:720px;">
+&emsp;&emsp;
+
 &emsp;&emsp;初始化使用截断正态分布，均值 0、标准差 `sqrt(2 / (d_in + d_out))`（Xavier/Glorot 的常用形式），并截断到 `[-3σ, 3σ]`。这样做的目的是让每一层输出的方差大致保持不变，避免深层网络中激活值逐层爆炸或衰减；截断则防止极少数离群权重在训练初期造成不稳定。线性层不带 bias：在 Transformer 中 bias 对效果影响很小，省掉可以让参数更少、结构更统一。
 
 &emsp;&emsp;`einsum` 里的 `...` 会自动广播到任意前置维度，所以同一个 `Linear` 既能处理 `(d_in,)` 的单向量，也能处理 `(B, S, d_in)` 的整批序列，不需要为不同输入形状写分支。
@@ -630,19 +632,6 @@ $$
 $$
 3 \cdot d_{\text{model}} \cdot \frac{8}{3}d_{\text{model}} = 8 d_{\text{model}}^2 = 2 \cdot d_{\text{model}} \cdot 4d_{\text{model}}
 $$
-
-&emsp;&emsp;实际取值还会向上对齐到 64 的倍数，让 GPU 的访存和矩阵分块更整齐。代码里的 `d_ff` 由调用方按"是否门控"算好后传入，而不是在 `FFN` 内部按 $8/3$ 硬编码——`gated=False` 是消融版本，去掉 $W_3$ 退回普通 SiLU FFN，此时应当传 $4d_{\text{model}}$，否则"少了门控分支"和"中间层变窄"两个变化会混在一起，结论就不可比。
-
-&emsp;&emsp;形状上是一条"升维 → 逐元素操作 → 降维"的通道：
-
-```text
-x:           (B, S, d_model)
-w1(x):       (B, S, d_ff)          # d_ff ≈ 2.67 * d_model，升维
-⊙ w3(x):     (B, S, d_ff)          # 门控只改变每个通道的幅度
-w2(...):     (B, S, d_model)       # 降回原维度
-```
-
-&emsp;&emsp;`SiLU` 没有单独调库，代码用 `y1 * torch.sigmoid(y1)` 展开写，和 $x\sigma(x)$ 一一对应；用 `torch.sigmoid` 比手写 $1/(1+e^{-x})$ 数值更稳。要注意先算 `y1 * torch.sigmoid(y1)` 再乘 `w3(x)`，顺序不能反——门是加在激活之后的，这正是 GLU 与普通 FFN 的区别。
 
 ```python
 # 问题 8：实现逐位置前馈网络（2 分）
