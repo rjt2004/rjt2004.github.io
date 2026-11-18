@@ -6,5 +6,8 @@ node_modules/
 .deploy*/
 _multiconfig.yml
 source/images/record/_original/
+.obsidian/
+.vscode/
+.idea/
 
 
