@@ -608,7 +608,7 @@ class MultiHeadSelfAttention(nn.Module):
 
 #### 逐位置编码
 
-&emsp;&emsp;FFN 是 Transformer 块里的第二个子层。注意力负责让 token 之间交换信息，FFN 则对每个位置**独立**地做同一次非线性变换——"逐位置"说的就是每个 token 各自过一遍这个 MLP，位置之间不发生任何交互。正因为没有跨 token 依赖，实现时只需要对最后一维做映射，`(B, S, d_model)` 可以整块送进去，不用写循环。
+&emsp;&emsp;FFN 是 Transformer 块里的第二个子层。注意力负责让 token 之间交换信息，FFN 则对每个位置**独立**地做同一次非线性变换。它的作用是把上下文真正"加工"成新特征：注意力的输出只是各位置 $V$ 的加权平均（权重非负、和为 1），本质上还是在搬运已有信息，非线性组合发生在 FFN 里，它也因此占了块里约三分之二的参数。
 
 &emsp;&emsp;原始 Transformer 的 FFN 是"两层线性 + 中间 ReLU"：先升到 $d_{ff}$（通常取 $4d_{\text{model}}$），再降回 $d_{\text{model}}$。现代大模型（LLaMA、Qwen 等）普遍换成 SwiGLU：
 
@@ -681,29 +681,9 @@ $$
 \text{logits} = W_{\text{head}}\,\text{RMSNorm}\left(\text{Block}_L\left(\cdots \text{Block}_1\left(\text{Emb}(t)\right)\cdots\right)\right)
 $$
 
-&emsp;&emsp;前向过程只有三步：查表嵌入、堆叠的块、最终归一化加预测头。形状上除了入口和出口，中间全程保持 `(B, S, d_model)`：
-
-```text
-tokens:      (B, S)                 int64
-embed:       (B, S, d_model)
-block × L:   (B, S, d_model)        每层输入输出形状完全相同
-final_norm:  (B, S, d_model)
-llm_head:    (B, S, vocab_size)     未归一化的 logits
-```
-
 <img src="CS336-1-Transformer模型/TransformerLM数据流.png" alt="TransformerLM 前向数据流" style="width:95%; max-width:1000px;">
 
-&emsp;&emsp;几个容易忽略的点：
-
-1. **最后的 RMSNorm 不能省**。Pre-Norm 的残差主干上没有归一化，第 $L$ 层输出的仍是"原始激活"，尺度会随层数累积；预测头直接拿它做投影，数值容易飘。补一个 final norm，把进入 head 的向量拉回正常范围。
-2. **输出的是 logits，不是概率**。`Linear(d_model, vocab_size)` 之后还差一步 softmax，但训练时不该自己算：`F.cross_entropy` 内部会做 log-softmax，先 softmax 再取 log 反而掉精度。只有生成文本时才需要显式 softmax。
-3. **`nn.Sequential` 只是省事**。块与块之间没有额外操作，所以可以直接把 `num_layers` 个 `TransformerBlock` 塞进 `Sequential`；它内部就是一个 for 循环，等价于手写循环逐个调用。
-
-&emsp;&emsp;`tie_embedding=True` 时，预测头与词嵌入共享同一份权重。两者形状都是 `(vocab_size, d_model)`（`Linear` 存的是 `(out, in)`，正好对得上），共享能省下 `vocab_size × d_model` 个参数。代码用 `self.llm_head.w = self.embed.embed` 让两个模块指向同一个 `nn.Parameter`，所以 `state_dict` 里只存一份、梯度也只累加一次。赋值之后**不能**再对 `llm_head` 做初始化，否则会把共享的张量整个覆盖掉。
-
 &emsp;&emsp;按参数量拆一下，一个块里就是注意力 $4d^2$（`w_qkv` 占 $3d^2$、`w_output` 占 $d^2$）加 FFN $8d^2$，共 $12d^2$。以 `d_model = 768`、`vocab_size = 50257`、12 层为例：块部分 $12 \times 12 \times 768^2 \approx 85\text{M}$，嵌入 $50257 \times 768 \approx 38.6\text{M}$，合计约 124M——正是 GPT-2 small 的量级（不共享权重的话，预测头还要再算 38.6M，总参数会涨到约 162M）。
-
-&emsp;&emsp;那几个消融开关（`use_rmsnorm`、`pre_norm`、`ffn_gated`、`rope_theta <= 0`）在 `TransformerLM.__init__` 里原样透传给每个块，改一处就能对比"有/没有 RMSNorm""Pre/Post-Norm""门控/非门控 FFN""RoPE/NoPE"四组变体。`context_length` 同时决定了 RoPE 的查找表长度，也就是模型能处理的最长序列。
 
 ```python
 # 问题 10：实现 Transformer 语言模型（3 分）
