@@ -1,4 +1,4 @@
-﻿.DS_Store
+.DS_Store
 Thumbs.db
 db.json
 *.log
@@ -6,6 +6,7 @@ node_modules/
 .deploy*/
 _multiconfig.yml
 source/images/record/_original/
+source/images/_original/
 .obsidian/
 .vscode/
 .idea/

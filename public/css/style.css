@@ -2318,6 +2318,7 @@ figure.highlight .shrink-line:hover::before {
   color: var(--text-color-3) !important;
 }
 .page-container .page-main-content .page-main-content-middle {
+  z-index: 1002;
   display: flex;
   justify-content: center;
   width: 100%;
@@ -2361,6 +2362,7 @@ figure.highlight .shrink-line:hover::before {
 .page-container .post-tools {
   position: fixed;
   top: calc(var(--header-height) + var(--component-gap));
+  z-index: 1003;
   box-sizing: border-box;
   opacity: 0;
   transition-delay: 0s, 0s, 0s, 0s, 0s, 0s, 0.2s, 0s;
@@ -2386,6 +2388,7 @@ figure.highlight .shrink-line:hover::before {
   position: fixed;
   right: 0;
   bottom: 1.6rem;
+  z-index: 1003;
   box-sizing: border-box;
   padding-right: 1rem;
 }

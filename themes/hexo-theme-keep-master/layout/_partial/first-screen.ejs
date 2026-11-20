@@ -55,7 +55,7 @@ const avatar = theme?.base_info?.avatar || ''
         <div class="home-profile border-box">
             <div class="home-profile-main border-box">
                 <% if (avatar) { %>
-                    <img class="home-avatar" src="<%- url_for(avatar) %>" alt="<%- theme?.base_info?.author || theme?.base_info?.title || 'avatar' %>">
+                    <img class="home-avatar" src="<%- url_for(avatar) %>" alt="<%- theme?.base_info?.author || theme?.base_info?.title || 'avatar' %>" width="136" height="136" fetchpriority="high" decoding="async">
                 <% } %>
             </div>
 

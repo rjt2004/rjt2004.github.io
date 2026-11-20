@@ -92,6 +92,8 @@ footer:
   total_words: Total words
 post:
   aging: "It has been %s days since the last update of this post. Some contents may be outdated. Please pay attention to screening."
+  word: Words
+  min2read: Mins
   share:
     qq: "Share to QQ"
     wechat: "Share to WeChat"

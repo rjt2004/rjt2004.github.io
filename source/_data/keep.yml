@@ -2,7 +2,7 @@
   primary_color: "#0066cc"
   title: Ton3rr
   author: Ton3rr
-  avatar: /images/avatar.svg
+  avatar: /images/avatar-320.webp
   logo: /images/logo.svg
   favicon: /images/logo.svg
 
@@ -186,7 +186,7 @@ post:
     custom_badge: ["One", "Two", "Three"]
 
   word_count:
-    wordcount: true    # Word count, one article. Option values: true | false
+    word: true    # Word count, one article. Option values: true | false
     min2read: true    # Time to read, one article. Option values: true | false
 
   datetime_format: "YYYY-MM-DD"  # Datetime format. e.g. "YYYY-MM-DD HH:mm:ss"

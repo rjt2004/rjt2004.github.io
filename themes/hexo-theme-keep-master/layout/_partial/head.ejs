@@ -1,9 +1,6 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="keywords" content="<%= page?.keywords || config?.keywords || 'Hexo Theme Keep' %>">
-    <meta name="description" content="<%= page?.description || config?.description || 'Hexo Theme Keep' %>">
-    <meta name="author" content="<%= theme?.base_info?.author || config?.author || 'Keep Team' %>">
     <%
     let title = page.title;
     if (is_archive()) {
@@ -21,13 +18,26 @@
         title = __(page.title);
     }
     %>
-    <title>
-        <% if (title) { %>
-            <%= title %> |
-        <% } %>
-        <%= theme?.base_info?.title || config?.title || 'Keep Theme' %>
-    </title>
-    <link rel="stylesheet" href="<%- url_for('/css/style.css') %>?v=4">
+    <%
+        const meta_description = page?.description || config?.description
+        const meta_keywords = page?.keywords || config?.keywords
+        const site_title = theme?.base_info?.title || config?.title || 'Keep Theme'
+        const ogOptions = { title: title || site_title, site_name: site_title }
+        if (meta_description) ogOptions.description = meta_description
+        const cover = page?.cover || page?.post_cover || page?.page_cover || page?.home_cover
+        if (cover) ogOptions.image = getPostCoverUrl(page, cover)
+    %>
+    <%- open_graph(ogOptions) %>
+    <% if (meta_description) { %>
+        <meta name="description" content="<%= meta_description %>">
+    <% } %>
+    <% if (meta_keywords) { %>
+        <meta name="keywords" content="<%= meta_keywords %>">
+    <% } %>
+    <meta name="author" content="<%= theme?.base_info?.author || config?.author || 'Keep Team' %>">
+    <link rel="canonical" href="<%= full_url_for(page.path) %>">
+    <title><%= title ? title + ' | ' : '' %><%= site_title %></title>
+    <link rel="stylesheet" href="<%- url_for('/css/style.css') %>?v=9">
     <% if (theme?.base_info?.favicon) { %>
         <%- favicon_tag(theme?.base_info?.favicon) %>
     <% } %>
@@ -42,6 +52,18 @@
             <% } %>
         <% }) %>
     <% } %>
+    <script>
+        (function () {
+            try {
+                var stored = localStorage.getItem('KEEP-THEME-STATUS')
+                var isDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+                if (stored) {
+                    var status = JSON.parse(stored)
+                    if (status && !status.isAutoTheme) isDark = status.isDark === true
+                }
+                document.documentElement.classList.add(isDark ? 'dark-mode' : 'light-mode')
+            } catch (e) {}
+        })()
+    </script>
     <%- exportThemeConfig() %>
 </head>
-
