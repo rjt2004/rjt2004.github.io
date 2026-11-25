@@ -247,3 +247,11 @@
    rating: 8    
    link: 
    text: 
+
+ - type: drama  
+   title: "失乐园"                 
+   date: 2026-11-24              
+   cover: ../images/record/失乐园.webp
+   rating: 6.5
+   link: 
+   text: 
